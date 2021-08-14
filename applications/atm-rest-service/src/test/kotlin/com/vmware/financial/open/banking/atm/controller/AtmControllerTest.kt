@@ -10,6 +10,7 @@ import org.mockito.kotlin.any
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
 import org.springframework.http.HttpStatus
+import java.util.*
 
 /**
  * Testing for AtmController
@@ -40,8 +41,15 @@ internal class AtmControllerTest {
 
     @Test
     internal fun getAtm() {
-        whenever(atmService.getAtm(any<String>(),any<String>())).thenReturn(atm)
+        whenever(atmService.getAtm(any<String>(),any<String>())).thenReturn(Optional.of(atm))
         var actual = subject.getAtm(atm.bank_id,atm.id)
         assertEquals(atm,actual.body);
+    }
+
+    @Test
+    internal fun getAtm_notFound_Return404() {
+        whenever(atmService.getAtm(any<String>(),any<String>())).thenReturn(Optional.empty())
+        var actual = subject.getAtm(atm.bank_id,atm.id)
+        assertEquals(HttpStatus.NOT_FOUND,actual.statusCode);
     }
 }

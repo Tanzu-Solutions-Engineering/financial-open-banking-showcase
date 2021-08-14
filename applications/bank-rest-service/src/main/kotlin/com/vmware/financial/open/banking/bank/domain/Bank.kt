@@ -6,7 +6,7 @@ data class Bank(
     var full_name : String = "",
     var logo : String = "",
     var website : String = "",
-    var bank_routings : Array<BankRoute>?
+    var bank_routings : Array<BankRoute>? = null
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

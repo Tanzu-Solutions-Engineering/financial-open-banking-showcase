@@ -15,7 +15,7 @@ import org.springframework.data.gemfire.GemfireTemplate
 import java.util.*
 
 /**
- * Test for BankAccountService
+ * Test for AccountDataService
  * @author Gregory Green
  */
 internal class BankAccountServiceTest{
@@ -23,7 +23,7 @@ internal class BankAccountServiceTest{
     private lateinit var gemFireTemplate: GemfireTemplate
     private lateinit var account: Account
 
-    private lateinit var subject : BankAccountService
+    private lateinit var subject : AccountDataService
 
     @BeforeEach
     internal fun setUp() {
@@ -32,7 +32,7 @@ internal class BankAccountServiceTest{
             on{ get<String,Account>(any()) } doReturn  account
             on{ containsKeyOnServer(any<String>())} doReturn true;
         }
-        subject = BankAccountService(gemFireTemplate)
+        subject = AccountDataService(gemFireTemplate)
     }
     @Test
     internal fun toKey() {
@@ -63,7 +63,7 @@ internal class BankAccountServiceTest{
         gemFireTemplate = mock<GemfireTemplate>(){
             on{ get<String,Account>(any()) } doReturn  null
         }
-        subject = BankAccountService(gemFireTemplate)
+        subject = AccountDataService(gemFireTemplate)
 
         var actual = subject.findAccountById(account.bank_id,account.id)
         assertTrue(actual.isEmpty)
@@ -87,7 +87,7 @@ internal class BankAccountServiceTest{
             on{ get<String,Account>(any()) } doReturn  account
             on{ containsKeyOnServer(any<String>())} doReturn false;
         }
-        subject = BankAccountService(gemFireTemplate)
+        subject = AccountDataService(gemFireTemplate)
 
         var actual = subject.updateAccount(account)
         assertTrue(actual.isEmpty)

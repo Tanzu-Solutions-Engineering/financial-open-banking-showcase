@@ -18,7 +18,11 @@ class AtmController(private val atmService: AtmService) {
 
     @GetMapping("banks/{bankId}/atms/{atmId}")
     fun getAtm(bankId: String, atmId: String): ResponseEntity<Atm> {
-        return ResponseEntity.ok(atmService.getAtm(bankId,atmId));
+        var atm = atmService.getAtm(bankId,atmId)
+        if(atm.isEmpty)
+            return ResponseEntity.notFound().build()
+
+        return ResponseEntity.ok(atm.get());
 
     }
 }

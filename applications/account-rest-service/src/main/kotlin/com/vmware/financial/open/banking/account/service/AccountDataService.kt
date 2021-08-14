@@ -9,7 +9,7 @@ import java.util.*
  * @author Gregory Green
  */
 @Service
-class BankAccountService(private val gemFireTemplate: GemfireTemplate) : AccountService  {
+class AccountDataService(private val gemFireTemplate: GemfireTemplate) : AccountService  {
     fun toKey(bankId: String, accountId: String): String {
         return "$bankId|$accountId"
     }

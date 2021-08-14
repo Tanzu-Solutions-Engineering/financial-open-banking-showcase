@@ -11,22 +11,24 @@ import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import org.springframework.data.gemfire.GemfireTemplate
+import java.util.*
 
-internal class BankAtmServiceTest {
+internal class AtmDataServiceTest {
     private lateinit var gemfireTemplate: GemfireTemplate
-    private lateinit var subject : BankAtmService
+    private lateinit var subject : AtmDataService
     private lateinit var atm : Atm
 
     @BeforeEach
     internal fun setUp() {
         atm = JavaBeanGeneratorCreator.of(Atm::class.java).create()
         gemfireTemplate = mock<GemfireTemplate>()
-        subject = BankAtmService(gemfireTemplate)
+        subject = AtmDataService(gemfireTemplate)
     }
 
     @Test
     fun createAtm() {
         var actual = subject.createAtm(atm.bank_id,atm)
+        assertEquals(atm,actual);
         verify(gemfireTemplate).put(any<String>(),any<Atm>())
     }
 
@@ -34,7 +36,14 @@ internal class BankAtmServiceTest {
     fun getAtm() {
         whenever(gemfireTemplate.get<String,Atm>(any<String>())).thenReturn(atm)
         var actual = subject.getAtm(atm.bank_id,atm.id)
-        assertEquals(atm,actual);
+        assertEquals(atm,actual.get());
 
+    }
+
+    @Test
+    internal fun getAtmNotFound() {
+        whenever(gemfireTemplate.get<String,Atm>(any<String>())).thenReturn(null)
+        var actual = subject.getAtm(atm.bank_id,atm.id)
+        assertEquals(Optional.empty<Atm?>(),actual);
     }
 }
