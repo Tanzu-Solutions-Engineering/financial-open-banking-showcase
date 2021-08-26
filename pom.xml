@@ -14,6 +14,7 @@
          <module>applications/account-rest-service</module>
         <module>applications/atm-rest-service</module>
         <module>applications/bank-rest-service</module>
+        <module>applications/database-sor-migration</module>
     </modules>
     <build>
         <pluginManagement>
