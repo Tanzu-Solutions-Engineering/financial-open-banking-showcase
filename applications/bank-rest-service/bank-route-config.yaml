@@ -1,0 +1,23 @@
+apiVersion: "tanzu.vmware.com/v1"
+kind: SpringCloudGatewayRouteConfig
+metadata:
+  name: obp-bank-route-config
+spec:
+  service:
+    name: obp-bank-service
+    ssoEnabled: true
+  routes:
+    - predicates:
+        - Path=/api/obp/v4.0.0/banks
+        - Method=GET
+      tags:
+        - bank
+      title: "Retrieve List of Banks"
+      description: "Retrieves all of the banks available on this Open Banking API instance."
+    - predicates:
+        - Path=/api/obp/v4.0.0/banks/{bankId}
+        - Method=GET
+      tags:
+        - bank
+      title: "Retrieve Bank Information"
+      description: "Retrieves information about a specific Bank."
