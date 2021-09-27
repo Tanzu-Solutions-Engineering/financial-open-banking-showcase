@@ -1,0 +1,9 @@
+apiVersion: "tanzu.vmware.com/v1"
+kind: SpringCloudGatewayMapping
+metadata:
+  name: obp-bank-routes
+spec:
+  gatewayRef:
+    name: obp-gateway
+  routeConfigRef:
+    name: obp-bank-route-config
