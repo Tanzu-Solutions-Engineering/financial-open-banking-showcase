@@ -32,9 +32,9 @@ spec:
             - name: cdc.source.rabbit.streamName
               value: "Account.AccountCdc"
             - name: cdc.source.schedule.cron
-              value: "*/10 * * * * *"
+              value: "*/3 * * * * *"
             - name: cdc.source.jdbc.sqlSelectWithFrom
-              value: "SELECT  concat( acct_id,'|',bank_id) as key,acct_id,  acct_id id, bank_id, acct_label as label, acct_number number, acct_product_cd product_code, acct_routings, acct_views_basic views_basic, acct_balance balance, update_ts FROM bank_accounts"
+              value: "SELECT  concat( bank_id,'|',acct_id) as key,acct_id,  acct_id id, bank_id, acct_label as label, acct_number number, acct_product_cd product_code, acct_routings, acct_views_basic views_basic, acct_balance balance, update_ts FROM bank_accounts"
             - name: cdc.source.jdbc.sqlSqlWhereClause
               value: "where ACCT_ID > ? or UPDATE_TS > ?"
             - name: rabbitmq.streaming.uris

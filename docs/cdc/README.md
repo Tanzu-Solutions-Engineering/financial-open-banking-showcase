@@ -105,6 +105,10 @@ kubectl exec -it postgres-0 -- psql -c "INSERT INTO bank_accounts (acct_id, bank
 ```
 
 ```shell
+kubectl exec -it postgres-0 -- psql -c "INSERT INTO bank_accounts (acct_id, bank_id, acct_label, acct_number, acct_product_cd, acct_balance, update_ts) VALUES('2', '1',  'account_label', 'account_nm', 'product_cd', 2000000000020.23, CURRENT_TIMESTAMP);"
+```
+
+```shell
 kubectl exec -it postgres-0 -- psql -c "delete from bank_accounts "
 ```
 
@@ -114,31 +118,13 @@ kubectl exec -it postgres-0 -- psql -c "UPDATE bank_accounts set ACCT_BALANCE = 
 ```
 kubectl exec -it postgres-0 -- psql -c "SELECT  concat( acct_id,'|',bank_id) as key,acct_id,  acct_id id, bank_id, acct_label as label, acct_number number, acct_product_cd product_code, acct_routings, acct_views_basic views_basic, concat('{\"amount\":',acct_balance,'}') balance, update_ts FROM bank_accounts"
 
+Update all
+```shell
+kubectl exec -it postgres-0 -- psql -c "UPDATE bank_accounts set update_ts = CURRENT_TIMESTAMP"
+```
 
 ```postgres-sql
 CREATE TABLE BANK_ACCOUNTS ( ACCT_ID  TEXT  NOT NULL, BANK_ID  TEXT  NOT NULL, ACCT_LABEL  TEXT NOT NULL, ACCT_NUMBER TEXT NOT NULL, ACCT_PRODUCT_CD TEXT NOT NULL, ACCT_ROUTINGS TEXT NOT NULL, ACCT_VIEWS_BASIC  TEXT, ACCT_BALANCE NUMERIC DEFAULT 0, UPDATE_TS TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY(ACCT_ID, BANK_ID));
 ```
 
-```postgres-sql
-INSERT INTO bank_accounts
-(acct_id, bank_id, acct_label, acct_number, acct_product_cd, acct_routings, 
-acct_views_basic, acct_balance, update_ts)
-VALUES('1', '1',  'account_label', 'account_nm', 'product_cd', 'acct_routings', 
-'acct_views_basic', 10, CURRENT_TIMESTAMP);
-```
 
-```postgres-sql
-INSERT INTO pivotalmarkets.bank_accounts
-(acct_id, bank_id, acct_label, acct_number, acct_product_cd, acct_routings, 
-acct_views_basic, acct_balance, update_ts)
-VALUES('2', '2',  'account_label', 'account_nm', 'product_cd', 'acct_routings', 
-'acct_views_basic', 10, CURRENT_TIMESTAMP);
-```
-
-```postgres-sql
-INSERT INTO pivotalmarkets.bank_accounts
-(acct_id, bank_id, acct_label, acct_number, acct_product_cd, acct_routings, 
-acct_views_basic, acct_balance, update_ts)
-VALUES('3', '3',  'account_label', 'account_nm', 'product_cd', 'acct_routings', 
-'acct_views_basic', 10, CURRENT_TIMESTAMP);
-```
