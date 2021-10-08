@@ -15,7 +15,7 @@ kubectl exec -it postgres-0 -- psql -c "drop TABLE BANK_ACCOUNTS"
 
 
 ```shell
-kubectl exec -it postgres-0 -- psql -c "CREATE TABLE BANK_ACCOUNTS ( ACCT_ID  TEXT  NOT NULL, BANK_ID  TEXT  NOT NULL, ACCT_LABEL  TEXT NOT NULL, ACCT_NUMBER TEXT NOT NULL, ACCT_PRODUCT_CD TEXT NOT NULL, ACCT_ROUTINGS TEXT, ACCT_VIEWS_BASIC  TEXT, ACCT_BALANCE NUMERIC DEFAULT 0, UPDATE_TS TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY(ACCT_ID, BANK_ID));"
+kubectl exec -it postgres-0 -- psql -c "CREATE TABLE BANK_ACCOUNTS ( ACCT_ID  TEXT  NOT NULL, BANK_ID  TEXT  NOT NULL, ACCT_LABEL  TEXT NOT NULL, ACCT_NUMBER TEXT NOT NULL, ACCT_PRODUCT_CD TEXT NOT NULL, ACCT_ROUTINGS TEXT, ACCT_VIEWS_BASIC  TEXT, ACCT_BALANCE NUMERIC(30,2) DEFAULT 0, UPDATE_TS TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY(ACCT_ID, BANK_ID));"
 ```
 
 ---------------
@@ -112,7 +112,7 @@ kubectl exec -it postgres-0 -- psql -c "delete from bank_accounts "
 ```shell
 kubectl exec -it postgres-0 -- psql -c "UPDATE bank_accounts set ACCT_BALANCE = 20.50, update_ts = CURRENT_TIMESTAMP where acct_id = '1' and bank_id = '1'"
 ```
-kubectl exec -it postgres-0 -- psql -c "SELECT  concat( acct_id,'|',bank_id) as key,acct_id,  acct_id id, bank_id, acct_label as label, acct_number number, acct_product_cd product_code, acct_routings, acct_views_basic views_basic, acct_balance, update_ts FROM bank_accounts"
+kubectl exec -it postgres-0 -- psql -c "SELECT  concat( acct_id,'|',bank_id) as key,acct_id,  acct_id id, bank_id, acct_label as label, acct_number number, acct_product_cd product_code, acct_routings, acct_views_basic views_basic, concat('{\"amount\":',acct_balance,'}') balance, update_ts FROM bank_accounts"
 
 
 ```postgres-sql

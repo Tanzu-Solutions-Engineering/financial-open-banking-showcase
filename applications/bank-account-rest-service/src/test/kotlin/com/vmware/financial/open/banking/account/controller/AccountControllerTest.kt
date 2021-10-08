@@ -37,28 +37,6 @@ internal class AccountControllerTest {
     }
 
 
-    @Test
-    internal fun accountOverload() {
-        val expectedAccountRoutings = "expectedAccountRoutings"
-        val expectedViewsBasic = "expectedViewsBasic"
-
-
-        account.account_routings = arrayOf(AccountRouting(scheme = expectedAccountRoutings))
-        account.views_basic = arrayOf(expectedViewsBasic)
-
-        var otherAccount = Account(id = account.id,
-        bank_id= account.bank_id,
-        label = account.label,
-        number = account.number,
-        product_code = account.product_code,
-        balance  = account.balance,
-        account_routings  = account.account_routings!![0].scheme,
-        views_basic = account.views_basic!![0],
-        key  = account.key)
-
-        assertEquals(account,otherAccount);
-
-    }
 
     @Test
     fun create() {

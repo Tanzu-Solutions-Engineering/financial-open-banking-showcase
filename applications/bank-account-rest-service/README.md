@@ -11,7 +11,9 @@ kubectl exec gemfire1-locator-0 -- gfsh -e "connect" -e "create region --name=Ac
 
 
 ```shell
-mvn -pl applications/bank-account-rest-service -am spring-boot:build-image
+mvn -pl applications/bank-account-rest-service -am clean spring-boot:build-image
+docker tag bank-account-rest-service:0.0.1-SNAPSHOT cloudnativedata/bank-account-rest-service:0.0.1-SNAPSHOT 
+docker push cloudnativedata/bank-account-rest-service:0.0.1-SNAPSHOT
 ```
 
 
@@ -32,7 +34,7 @@ k port-forward deployments/bank-account-rest-service 4001:4001
 ```
 
 
-docker tag bank-account-rest-service:0.0.1-SNAPSHOT cloudnativedata/bank-account-rest-service:0.0.1-SNAPSHOT 
 
 
-docker push cloudnativedata/bank-account-rest-service:0.0.1-SNAPSHOT
+
+
