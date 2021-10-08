@@ -1,0 +1,10 @@
+apiVersion: gemfire.tanzu.vmware.com/v1
+kind: GemFireCluster
+metadata:
+  name: gemfire1
+spec:
+  image: registry.pivotal.io/tanzu-gemfire-for-kubernetes/gemfire-k8s:1.0.1
+  locators:
+    replicas: 1
+  servers:
+    replicas: 1

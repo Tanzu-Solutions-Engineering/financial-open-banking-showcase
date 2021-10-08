@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run:  apache-geode-sink
+  name:  apache-geode-sink
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name:  apache-geode-sink
+  template:
+    metadata:
+      labels:
+        name:  apache-geode-sink
+    spec:
+      containers:
+        - env:
+            - name: spring.cloud.stream.bindings.geodeSink-in-0.destination
+              value: Account
+            - name: spring.cloud.stream.bindings.geodeSink-in-0.group
+              value: AccountCdc
+            - name: valuePdxClassName
+              value: "com.vmware.financial.open.banking.account.domain.Account"
+            - name: keyFieldExpression
+              value: key
+            - name: regionName
+              value: Account
+            - name: spring.rabbitmq.stream.host
+              value: rabbitmq
+            - name: LOCATORS
+              valueFrom:
+                configMapKeyRef:
+                  name: gemfire1-config
+                  key: locators
+            - name: spring.rabbitmq.host
+              value: rabbitmq
+            - name: spring_rabbitmq_username
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitmq-default-user
+                  key: username
+            - name: spring.rabbitmq.password
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitmq-default-user
+                  key: password
+          image: cloudnativedata/apache-geode-sink:0.0.1-SNAPSHOT
+          name: apache-geode-sink
+          imagePullPolicy: Always
