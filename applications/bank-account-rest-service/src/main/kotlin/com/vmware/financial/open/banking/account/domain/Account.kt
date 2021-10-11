@@ -7,7 +7,7 @@ data class Account(var id : String = "",
                    var product_code : String = "",
                    var balance : Balance = Balance(),
                    var account_routings : Array<AccountRouting>? = null,
-                   var views_basic : Array<String>? = null,
+                   var views_basic : Array<String?>? = null,
                    var key : String  =""
 ) {
     constructor(
@@ -17,11 +17,18 @@ data class Account(var id : String = "",
         number: String,
         product_code: String,
         balance: Balance,
-        account_routings: String,
-        views_basic: String,
+        account_routings: Array<String>,
+        views_basic: Array<String?>?,
         key: String
     ) : this(id = id, bank_id = bank_id, label = label, number = number,product_code=product_code,balance=balance, account_routings = arrayOf(AccountRouting(account_routings)),
-        views_basic = arrayOf(views_basic), key = key)
+        views_basic = views_basic, key = key)
+
+    constructor(id: String, bank_id: String, label: String, number: String, product_code: String, balance: Balance, account_routings: Array<String>, views_basic: String?, key: String)
+            : this(id = id, bank_id = bank_id, label = label, number = number, product_code = product_code, balance = balance, account_routings = arrayOf(AccountRouting(account_routings)) , views_basic = arrayOf(views_basic), key = key)
+
+    constructor(id: String, bank_id: String, label: String, number: String, product_code: String, balance: Balance, account_routings: String, views_basic: String?, key: String)
+            : this(id = id, bank_id = bank_id, label = label, number = number, product_code = product_code, balance = balance, account_routings = arrayOf(AccountRouting(account_routings)) , views_basic = arrayOf(views_basic), key = key)
+
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

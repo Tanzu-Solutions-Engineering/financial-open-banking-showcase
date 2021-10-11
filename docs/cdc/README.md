@@ -33,7 +33,7 @@ kubectl exec gemfire1-locator-0 -- gfsh -e "connect" -e "create region --name=Cd
 ```
 
 ```shell
-kubectl exec gemfire1-locator-0 -- gfsh -e "connect" -e "query --query='select key,balance,views_basic from /Account'"
+kubectl exec gemfire1-locator-0 -- gfsh -e "connect" -e "query --query='select key,balance,account_routings,views_basic from /Account'"
 ```
 
 ```shell
@@ -45,11 +45,17 @@ kubectl exec gemfire1-locator-0 -- gfsh -e "connect" -e "remove --region=/Accoun
 ./cloud/k8/data-services/rabbitmq/rabbit-k8-setup.sh
 ```
 
+```shell
 kubectl exec rabbitmq-server-0 -- rabbitmqctl add_user cdc cdc
+```
 
+```shell
 kubectl exec rabbitmq-server-0 -- rabbitmqctl set_permissions  -p / cdc ".*" ".*" ".*"
+```
 
+```shell
 kubectl exec rabbitmq-server-0 -- rabbitmqctl set_user_tags cdc monitoring
+```
 
 -----
 
@@ -100,8 +106,10 @@ docker push cloudnativedata/jdbc-cdc-rabbitmq-source:0.0.1-SNAPSHOT
 ```shell
 k port-forward service/rabbitmq 15673:15672
 ```
+
+
 ```shell
-kubectl exec -it postgres-0 -- psql -c "INSERT INTO bank_accounts (acct_id, bank_id, acct_label, acct_number, acct_product_cd, acct_balance, update_ts) VALUES('1', '1',  'account_label', 'account_nm', 'product_cd', 10, CURRENT_TIMESTAMP);"
+kubectl exec -it postgres-0 -- psql -c "INSERT INTO bank_accounts (acct_id, bank_id, acct_label, acct_number, acct_product_cd, acct_balance,acct_routings,acct_views_basic, update_ts) VALUES('1', '1',  'account_label', 'account_nm', 'product_cd', 10, 'acct_routings','acct_views_basic', CURRENT_TIMESTAMP);"
 ```
 
 ```shell

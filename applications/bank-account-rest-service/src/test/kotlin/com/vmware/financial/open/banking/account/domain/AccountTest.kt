@@ -17,10 +17,9 @@ internal class AccountTest{
     internal fun accountOverload() {
         val expectedAccountRoutings = "expectedAccountRoutings"
         val expectedViewsBasic = "expectedViewsBasic"
-
-
-        subject.account_routings = arrayOf(AccountRouting(scheme = expectedAccountRoutings))
+        subject.account_routings = arrayOf(AccountRouting(address = expectedAccountRoutings))
         subject.views_basic = arrayOf(expectedViewsBasic)
+
 
         var otherAccount = Account(id = subject.id,
             bank_id= subject.bank_id,
@@ -28,7 +27,29 @@ internal class AccountTest{
             number = subject.number,
             product_code = subject.product_code,
             balance  = subject.balance,
-            account_routings  = subject.account_routings!![0].scheme,
+            account_routings  = arrayOf(subject.account_routings!![0].address!!),
+            views_basic = subject.views_basic!!,
+            key  = subject.key)
+
+        assertEquals(subject,otherAccount);
+
+    }
+
+    @Test
+    internal fun accountOverload_Strings() {
+        val expectedAccountRoutings = "expectedAccountRoutings"
+        val expectedViewsBasic = "expectedViewsBasic"
+        subject.account_routings = arrayOf(AccountRouting(address = expectedAccountRoutings))
+        subject.views_basic = arrayOf(expectedViewsBasic)
+
+
+        var otherAccount = Account(id = subject.id,
+            bank_id= subject.bank_id,
+            label = subject.label,
+            number = subject.number,
+            product_code = subject.product_code,
+            balance  = subject.balance,
+            account_routings  = subject.account_routings!![0].address!!,
             views_basic = subject.views_basic!![0],
             key  = subject.key)
 

@@ -18,9 +18,9 @@ kubectl create secret docker-registry image-pull-secret --docker-server=registry
 
 
 # Install Postgres
-cd ~/dataServices/postgres/postgres-for-kubernetes-v1.2.0
-docker load -i ./images/postgres-instance
-docker load -i ./images/postgres-operator
+
+docker load -i ~/dataServices/postgres/postgres-for-kubernetes-v1.2.0/images/postgres-instance
+docker load -i ~/dataServices/postgres/postgres-for-kubernetes-v1.2.0/images/postgres-operator
 docker images "postgres-*"
 export HELM_EXPERIMENTAL_OCI=1
 helm registry login registry.pivotal.io --username=$HARBOR_USER --password=$HARBOR_PASSWORD
@@ -36,7 +36,7 @@ helm install --wait postgres-operator /tmp/postgres-operator/
 sleep 1m
 
 kubectl apply -f cloud/k8/data-services/postgres
-sleep 2m
+sleep 3m
 kubectl exec -it postgres-0 -- psql -c "ALTER USER postgres PASSWORD 'CHANGEME'"
 
 ### SCDF
