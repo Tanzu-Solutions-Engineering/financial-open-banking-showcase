@@ -1,0 +1,40 @@
+apiVersion: "tanzu.vmware.com/v1"
+kind: SpringCloudGateway
+metadata:
+  name: obp-gateway
+spec:
+  api:
+    serverUrl: http://obp-gateway.my.domain.io
+    title: "Open Banking API"
+    description: "Sample application for exposing Open Banking APIs."
+    documentation: "https://apiexplorersandbox.openbankproject.com/?version=4.0.0"
+    version: "4.0.0-SNAPSHOT"
+    cors:
+      allowedOrigins:
+      - "http://api-portal.34.136.254.141.nip.io"
+      allowedMethods:
+      - "*"
+      allowCredentials: true
+  count: 2
+  sso:
+    secret: obp-sso
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: obp-gateway-ingress
+  labels:
+    app: obp-gateway
+spec:
+  rules:
+  - host: obp-gateway.my.domain.io
+    http:
+      paths:
+      - backend:
+          service:
+            name: obp-gateway
+            port:
+              number: 80
+        pathType: ImplementationSpecific

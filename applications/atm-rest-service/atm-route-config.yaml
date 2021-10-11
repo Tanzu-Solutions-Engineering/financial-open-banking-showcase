@@ -1,0 +1,23 @@
+apiVersion: "tanzu.vmware.com/v1"
+kind: SpringCloudGatewayRouteConfig
+metadata:
+  name: obp-atm-route-config
+spec:
+  service:
+    name: obp-atm-service
+    ssoEnabled: true
+  routes:
+    - predicates:
+        - Path=/api/obp/v4.0.0/banks/{bankId}/atms/{atmId}
+        - Method=GET
+      tags:
+        - atm
+      title: "Get ATM by ID"
+      description: "Retrieves information about a specific bank's ATM."
+    - predicates:
+        - Path=/api/obp/v4.0.0/banks/{bankId}/atms
+        - Method=POST
+      tags:
+        - atm
+      title: "Create an ATM"
+      description: "Add an ATM for a specified bank."

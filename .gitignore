@@ -1,4 +1,6 @@
 .gradle
+.project
+.settings
 /build/
 .mvn/
 
