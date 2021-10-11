@@ -54,7 +54,7 @@ kubectl exec rabbitmq-server-0 -- rabbitmqctl set_permissions  -p / cdc ".*" ".*
 ```
 
 ```shell
-kubectl exec rabbitmq-server-0 -- rabbitmqctl set_user_tags cdc monitoring
+kubectl exec rabbitmq-server-0 -- rabbitmqctl set_user_tags cdc administrator
 ```
 
 -----

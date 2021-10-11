@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.vmware</groupId>
-    <artifactId>atm</artifactId>
+    <artifactId>atm-rest-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>atm</name>
-    <description>atm</description>
+    <name>atm-rest-service</name>
+    <description>atm-rest-service</description>
     <properties>
 		<geode.version>1.13.1</geode.version>
         <java.version>11</java.version>
