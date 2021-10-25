@@ -59,19 +59,19 @@ kubectl exec rabbitmq-server-0 -- rabbitmqctl set_user_tags cdc administrator
 
 -----
 
-# Deploy Applications
+# Deploy Applications Bank Account
 
 
 CDC Source
 
 ```shell
-k apply -f cloud/k8/apps/cdc/jdbc-cdc-rabbitmq-source/jdbc-cdc-rabbitmq-source.yml
+k apply -f cloud/k8/apps/cdc/bank-account/jdbc-cdc-rabbitmq-source
 ```
 
 Geode/GemFire Sink
 
 ```shell
-k apply -f cloud/k8/apps/cdc/apache-geode-sink/apache-geode-sink.yml
+k apply -f cloud/k8/apps/cdc/bank-account/apache-geode-sink/apache-geode-sink.yml
 ```
 
 
@@ -85,21 +85,9 @@ k apply -f cloud/k8/apps/bank-account-rest-service/bank-account-rest-service.yml
 k port-forward deployment/bank-account-rest-service 4001:4001
 ```
 
-## Building Docker
-
 ```shell
-mvn install
-cd  applications/jdbc-cdc-rabbitmq-source
-mvn spring-boot:build-image
-cd ..
+open http://localhost:4001
 ```
-
-
-```shell
-docker tag jdbc-cdc-rabbitmq-source:0.0.1-SNAPSHOT cloudnativedata/jdbc-cdc-rabbitmq-source:0.0.1-SNAPSHOT
-docker push cloudnativedata/jdbc-cdc-rabbitmq-source:0.0.1-SNAPSHOT
-```
-
 --------------------
 # Testing 
 
@@ -113,7 +101,18 @@ kubectl exec -it postgres-0 -- psql -c "INSERT INTO bank_accounts (acct_id, bank
 ```
 
 ```shell
+curl -X 'GET' \
+  'http://localhost:4001/banks/1/accounts/1' \
+  -H 'accept: */*';echo
+```
+
+```shell
 kubectl exec -it postgres-0 -- psql -c "INSERT INTO bank_accounts (acct_id, bank_id, acct_label, acct_number, acct_product_cd, acct_balance, update_ts) VALUES('2', '1',  'account_label', 'account_nm', 'product_cd', 2000000000020.23, CURRENT_TIMESTAMP);"
+```
+
+```shell
+curl -X 'GET' 'http://localhost:4001/banks/1/accounts/2' \
+-H 'accept: */*';echo
 ```
 
 ```shell
@@ -122,7 +121,7 @@ kubectl exec -it postgres-0 -- psql -c "delete from bank_accounts "
 
 
 ```shell
-kubectl exec -it postgres-0 -- psql -c "UPDATE bank_accounts set ACCT_BALANCE = 20.50, update_ts = CURRENT_TIMESTAMP where acct_id = '1' and bank_id = '1'"
+kubectl exec -it postgres-0 -- psql -c "UPDATE bank_accounts set ACCT_BALANCE = 30.50, update_ts = CURRENT_TIMESTAMP where acct_id = '1' and bank_id = '1'"
 ```
 kubectl exec -it postgres-0 -- psql -c "SELECT  concat( acct_id,'|',bank_id) as key,acct_id,  acct_id id, bank_id, acct_label as label, acct_number number, acct_product_cd product_code, acct_routings, acct_views_basic views_basic, concat('{\"amount\":',acct_balance,'}') balance, update_ts FROM bank_accounts"
 

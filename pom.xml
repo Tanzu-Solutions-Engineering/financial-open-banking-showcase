@@ -11,6 +11,9 @@
     <name>financial-open-banking-showcase-parent</name>
 
     <modules>
+        <module>components/bank-domain</module>
+        <module>components/bank-service</module>
+        <module>applications/bank-geode-sink</module>
          <module>applications/bank-account-rest-service</module>
         <module>applications/atm-rest-service</module>
         <module>applications/bank-rest-service</module>

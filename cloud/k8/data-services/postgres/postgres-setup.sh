@@ -5,6 +5,7 @@ set -x #echo on
 # Set GemFire Pre-Requisite
 
 kubectl create namespace cert-manager
+kubectl create namespace gemfire-system
 
 helm repo add jetstack https://charts.jetstack.io
 
@@ -36,38 +37,6 @@ helm install --wait postgres-operator /tmp/postgres-operator/
 sleep 1m
 
 kubectl apply -f cloud/k8/data-services/postgres
-sleep 3m
+sleep 5m
 kubectl exec -it postgres-0 -- psql -c "ALTER USER postgres PASSWORD 'CHANGEME'"
 
-### SCDF
-#cd ~/dataServices/scdf
-#wget https://github.com/mikefarah/yq/releases/download/3.3.0/yq_linux_386 | sudo mv yq_linux_386 /usr/bin/yq
-#
-#curl -OL https://github.com/vmware-tanzu/carvel-kbld/releases/download/v0.30.0/kbld-linux-amd64
-#sudo mv kbld-linux-amd64 /usr/bin/kbld
-#sudo chmod +x /usr/bin/kbld
-#
-#curl -OL https://github.com/vmware-tanzu/carvel-kapp/releases/download/v0.39.0/kapp-linux-amd64
-#sudo mv kapp-linux-amd64 /usr/bin/kapp
-#
-#
-#kubectl create secret docker-registry scdf-image-regcred --docker-server=registry.pivotal.io --docker-username=$HARBOR_USER --docker-password=$HARBOR_PASSWORD
-#curl -sL https://github.com/operator-framework/operator-lifecycle-manager/releases/download/v0.18.3/install.sh | bash -s v0.18.3
-#kubectl create -f https://operatorhub.io/install/prometheus.yaml
-#kubectl get csv -n operators
-#cd ~/dataServices/scdf
-#kubectl apply -f ./services/dev/monitoring
-#
-#
-#kubectl apply -f ./services/dev/postgresql/secret.yaml
-#kubectl apply -f ./services/dev/rabbitmq/config.yaml
-#kubectl apply -f ./services/dev/rabbitmq/secret.yaml
-#
-#kubectl apply -f ./services/dev/skipper.yaml
-#kubectl wait pod -l=app=skipper --for=condition=Ready
-#
-#sleep 1m
-#
-#kubectl apply -f ./services/dev/data-flow.yaml
-#sleep 2m
-#kubectl apply -f ./services/dev/monitoring-proxy

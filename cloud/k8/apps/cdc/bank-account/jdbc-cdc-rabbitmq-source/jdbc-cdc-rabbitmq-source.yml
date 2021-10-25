@@ -2,22 +2,22 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    run:  jdbc-cdc-rabbitmq-source
-  name:  jdbc-cdc-rabbitmq-source
+    run:  bank-acct-cdc-source
+  name:  bank-acct-cdc-source
 spec:
   replicas: 1
   selector:
     matchLabels:
-      name:  jdbc-cdc-rabbitmq-source
+      name:  bank-acct-cdc-source
   template:
     metadata:
       labels:
-        name:  jdbc-cdc-rabbitmq-source
+        name:  bank-acct-cdc-source
     spec:
       containers:
         - env:
             - name: spring.application.name
-              value: "jdbc-cdc-rabbitmq-source"
+              value: "bank-acct-cdc-source"
             - name: spring.data.gemfire.pool.locators
               valueFrom:
                 configMapKeyRef:

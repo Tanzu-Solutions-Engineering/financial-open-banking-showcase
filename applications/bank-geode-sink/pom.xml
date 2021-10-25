@@ -5,30 +5,46 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.5.3</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <version>2.6.0-M2</version>
+        <relativePath/>
     </parent>
     <groupId>com.vmware</groupId>
-    <artifactId>bank-rest-service</artifactId>
+    <artifactId>bank-geode-sink</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>bank-rest-service</name>
-    <description>bank-rest-service</description>
+    <name>bank-geode-sink</name>
+    <description>bank-geode-sink</description>
     <properties>
 		<geode.version>1.13.1</geode.version>
         <java.version>11</java.version>
+        <spring-cloud.version>2021.0.0-M1</spring-cloud.version>
         <kotlin.version>1.5.21</kotlin.version>
         <spring-geode.version>1.5.3</spring-geode.version>
     </properties>
     <dependencies>
         <dependency>
-            <groupId>com.vmware</groupId>
-            <artifactId>bank-domain</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <groupId>org.springframework.amqp</groupId>
+            <artifactId>spring-rabbit-stream</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
-            <version>1.5.9</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-stream</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-stream-binder-rabbit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.analytics</groupId>
+            <artifactId>spring-analytics</artifactId>
+            <version>2.0.0.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.amqp</groupId>
+            <artifactId>spring-rabbit-stream</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.geode</groupId>
@@ -39,12 +55,6 @@
                     <artifactId>*</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito.kotlin</groupId>
-            <artifactId>mockito-kotlin</artifactId>
-            <version>3.2.0</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.github.nyla-solutions</groupId>
@@ -100,16 +110,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.geode</groupId>
-			<artifactId>geode-management</artifactId>
-			<version>${geode.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.geode</groupId>
-			<artifactId>geode-management</artifactId>
-			<version>${geode.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.geode</groupId>
 			<artifactId>geode-logging</artifactId>
 			<version>${geode.version}</version>
 		</dependency>
@@ -128,16 +128,40 @@
 			<artifactId>geode-serialization</artifactId>
 			<version>${geode.version}</version>
 		</dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+            <scope>runtime</scope>
+        </dependency>
 		<dependency>
 			<groupId>org.apache.geode</groupId>
 			<artifactId>geode-tcp-server</artifactId>
 			<version>${geode.version}</version>
 		</dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito.kotlin</groupId>
+            <artifactId>mockito-kotlin</artifactId>
+            <version>3.2.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.vmware</groupId>
+            <artifactId>bank-domain</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.vmware</groupId>
@@ -147,6 +171,13 @@
     </dependencies>
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <dependency>
                 <groupId>org.springframework.geode</groupId>
                 <artifactId>spring-geode-bom</artifactId>
@@ -186,5 +217,24 @@
             </plugin>
         </plugins>
     </build>
-
+    <repositories>
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
 </project>
