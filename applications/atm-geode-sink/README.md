@@ -66,3 +66,4 @@ contentType: application/json
   "has_deposit_capability": "false"
 }
 ```
+
