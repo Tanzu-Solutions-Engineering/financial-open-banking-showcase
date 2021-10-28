@@ -67,3 +67,39 @@ contentType: application/json
 }
 ```
 
+
+# Build Docker
+
+
+```shell
+mvn install 
+cd applications/atm-geode-sink
+mvn spring-boot:build-image
+docker tag atm-geode-sink:0.0.1-SNAPSHOT cloudnativedata/atm-geode-sink:0.0.1-SNAPSHOT
+docker push cloudnativedata/atm-geode-sink:0.0.1-SNAPSHOT
+```
+
+
+Optional on Kind
+
+```shell
+kind load docker-image atm-geode-sink:0.0.1-SNAPSHOT
+```
+
+
+```shell
+k apply -f cloud/k8/apps/atm-geode-sink
+k delete -f cloud/k8/apps/atm-geode-sink
+```
+
+```shell
+k port-forward deployments/atm-geode-sink 4001:4001
+```
+
+
+
+
+
+
+
+

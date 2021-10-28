@@ -1,0 +1,30 @@
+server:
+  port: 0
+spring:
+  application:
+    name: atm-geode-sink
+  data:
+    gemfire:
+      pool:
+        locators:
+          cloud: localhost[10334]
+  cloud:
+    function.definition: atmConsumer
+    stream:
+      bindings:
+        atmConsumer-in-0:
+          destination: banking.atm
+          group: atmBankStream
+          consumer:
+            concurrency: 1
+            container-type: stream
+      rabbit:
+        bindings:
+          atmConsumer-in-0:
+            consumer:
+              container-type: stream
+  rabbitmq:
+    listener:
+      type: stream
+    stream:
+      host: localhost

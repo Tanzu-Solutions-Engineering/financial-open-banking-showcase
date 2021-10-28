@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: "bank-account-rest-service"
+server:
+  port: 4001

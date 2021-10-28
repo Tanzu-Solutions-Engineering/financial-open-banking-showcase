@@ -1,7 +1,10 @@
 
 # Financial Open Banking Showcase
 
-test
+
+
+![](docs/img/ob-arch.jpg)
+
 
 Example application on open banking and how the Tanzu portfolio helps. 
 

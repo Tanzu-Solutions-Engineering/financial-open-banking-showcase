@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run:  bank-atm-cdc-source
+  name:  bank-atm-cdc-source
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name:  bank-atm-cdc-source
+  template:
+    metadata:
+      labels:
+        name:  bank-atm-cdc-source
+    spec:
+      containers:
+        - env:
+            - name: spring.application.name
+              value: "bank-atm-cdc-source"
+            - name: spring.data.gemfire.pool.locators
+              valueFrom:
+                configMapKeyRef:
+                  name: gemfire1-config
+                  key: locators
+            - name: spring.datasource.url
+              value: "jdbc:postgresql://postgres/postgres"
+            - name: spring.datasource.username
+              value: "postgres"
+            - name: spring.datasource.password
+              value: "CHANGEME"
+            - name: cdc.source.rabbit.streamName
+              value: "banking.atm.atmBankStream"
+            - name: cdc.source.schedule.cron
+              value: "*/3 * * * * *"
+            - name: cdc.source.jdbc.sqlSelectWithFrom
+              value: |+
+                SELECT atm_id, update_ts, atm_id as id, bank_id, atm_name as name, concat(address_line_1,',', address_city,',',address_state,',',address_postcode,',',address_country_code) as address, concat(monday_opening_time,'-',monday_closing_time) as monday , concat(tuesday_opening_time,'-',tuesday_closing_time) as tuesday , concat(wednesday_opening_time,'-',wednesday_closing_time) as wednesday , concat(thursday_opening_time,'-',thursday_closing_time) as thursday , concat(friday_opening_time,'-',friday_closing_time) as friday , concat(saturday_opening_time,'-',saturday_closing_time) as saturday , concat(sunday_opening_time,'-',sunday_closing_time) as sunday ,is_accessible, located_at, more_info, has_deposit_capability FROM bank_atms
+            - name: cdc.source.jdbc.sqlSqlWhereClause
+              value: "where atm_id > ? or update_ts > ?"
+            - name: rabbitmq.streaming.uris
+              value: "rabbitmq-stream://cdc:cdc@rabbitmq:5552/%2f"
+            - name: cdc.source.jdbc.lastRowIdWherePosition
+              value: "1"
+            - name: cdc.source.jdbc.lastTimestampWherePosition
+              value: "2"
+            - name: cdc.source.jdbc.lastRowIdSelectColumnName
+              value: "atm_id"
+            - name: cdc.source.jdbc.cdcId
+              value: "Atm"
+            - name: cdc.source.jdbc.lastTimestampSelectColumnName
+              value: "update_ts"
+            - name: spring.rabbitmq.stream.host
+              value: "rabbitmq"
+            - name: rabbitmq.streaming.stream.maxAgeHours
+              value: "7"
+            - name: rabbitmq.streaming.stream.maxLengthGb
+              value: "1"
+            - name: rabbitmq.streaming.stream.maxSegmentSizeMb
+              value: "500"
+            - name: spring.rabbitmq.host
+              value: "rabbitmq"
+            - name: spring_rabbitmq_username
+              value: "cdc"
+            - name: spring.rabbitmq.password
+              value: "cdc"
+            - name: cdc.source.rabbit.contentType
+              value: "application/json"
+          image: cloudnativedata/jdbc-cdc-rabbitmq-source:0.0.1-SNAPSHOT
+          name: jdbc-cdc-rabbitmq-source
+          imagePullPolicy: Always
