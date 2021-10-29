@@ -2,17 +2,17 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    run:  apache-geode-sink
-  name:  apache-geode-sink
+    run:  account-apache-geode-sink
+  name:  account-apache-geode-sink
 spec:
   replicas: 1
   selector:
     matchLabels:
-      name:  apache-geode-sink
+      name:  account-apache-geode-sink
   template:
     metadata:
       labels:
-        name:  apache-geode-sink
+        name:  account-apache-geode-sink
     spec:
       containers:
         - env:
@@ -46,5 +46,5 @@ spec:
                   name: rabbitmq-default-user
                   key: password
           image: cloudnativedata/apache-geode-sink:0.0.1-SNAPSHOT
-          name: apache-geode-sink
+          name: account-apache-geode-sink
           imagePullPolicy: Always

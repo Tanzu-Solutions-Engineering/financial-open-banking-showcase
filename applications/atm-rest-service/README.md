@@ -10,8 +10,11 @@ kubectl exec gemfire1-locator-0 -- gfsh -e "connect" -e "create region --name=At
 
 
 ```shell
-mvn -pl applications/atm-rest-service -am clean spring-boot:build-image
-docker tag atm-rest-service:0.0.1-SNAPSHOT cloudnativedata/atm-rest-service:0.0.1-SNAPSHOT
+mvn install
+cd applications/atm-rest-service
+mvn spring-boot:build-image
+
+
 docker push cloudnativedata/atm-rest-service:0.0.1-SNAPSHOT
 ```
 

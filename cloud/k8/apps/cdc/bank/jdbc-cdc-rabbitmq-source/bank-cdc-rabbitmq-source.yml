@@ -2,22 +2,22 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    run:  bank-acct-cdc-source
-  name:  bank-acct-cdc-source
+    run:  bank-cdc-source
+  name:  bank-cdc-source
 spec:
   replicas: 1
   selector:
     matchLabels:
-      name:  bank-acct-cdc-source
+      name:  bank-cdc-source
   template:
     metadata:
       labels:
-        name:  bank-acct-cdc-source
+        name:  bank-cdc-source
     spec:
       containers:
         - env:
             - name: spring.application.name
-              value: "bank-acct-cdc-source"
+              value: "bank-cdc-source"
             - name: spring.data.gemfire.pool.locators
               valueFrom:
                 configMapKeyRef:
@@ -30,13 +30,16 @@ spec:
             - name: spring.datasource.password
               value: "CHANGEME"
             - name: cdc.source.rabbit.streamName
-              value: "Account.AccountCdc"
+              value: "banking.bank.bankingBankStream"
             - name: cdc.source.schedule.cron
               value: "*/3 * * * * *"
             - name: cdc.source.jdbc.sqlSelectWithFrom
-              value: "SELECT  concat( bank_id,'|',acct_id) as key,acct_id,  acct_id id, bank_id, acct_label as label, acct_number number, acct_product_cd product_code, acct_routings, acct_balance balance, update_ts FROM bank_accounts"
+              value: |+
+                select bank_id as id, bank_id, short_name,full_name,
+                logo, website, bank_routings, update_ts
+                from banks
             - name: cdc.source.jdbc.sqlSqlWhereClause
-              value: "where ACCT_ID > ? or UPDATE_TS > ?"
+              value: "where bank_id > ? or update_ts > ?"
             - name: rabbitmq.streaming.uris
               value: "rabbitmq-stream://cdc:cdc@rabbitmq:5552/%2f"
             - name: cdc.source.jdbc.lastRowIdWherePosition
@@ -44,11 +47,11 @@ spec:
             - name: cdc.source.jdbc.lastTimestampWherePosition
               value: "2"
             - name: cdc.source.jdbc.lastRowIdSelectColumnName
-              value: "ACCT_ID"
+              value: "atm_id"
             - name: cdc.source.jdbc.cdcId
-              value: "Account"
+              value: "Atm"
             - name: cdc.source.jdbc.lastTimestampSelectColumnName
-              value: "UPDATE_TS"
+              value: "update_ts"
             - name: spring.rabbitmq.stream.host
               value: "rabbitmq"
             - name: rabbitmq.streaming.stream.maxAgeHours
@@ -63,6 +66,8 @@ spec:
               value: "cdc"
             - name: spring.rabbitmq.password
               value: "cdc"
+            - name: cdc.source.rabbit.contentType
+              value: "application/json"
           image: cloudnativedata/jdbc-cdc-rabbitmq-source:0.0.1-SNAPSHOT
-          name: jdbc-cdc-rabbitmq-source
+          name: bank-cdc-source
           imagePullPolicy: Always

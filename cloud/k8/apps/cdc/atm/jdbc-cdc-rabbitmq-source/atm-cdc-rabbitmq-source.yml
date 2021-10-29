@@ -2,22 +2,22 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    run:  bank-atm-cdc-source
-  name:  bank-atm-cdc-source
+    run:  atm-cdc-source
+  name:  atm-cdc-source
 spec:
   replicas: 1
   selector:
     matchLabels:
-      name:  bank-atm-cdc-source
+      name:  atm-cdc-source
   template:
     metadata:
       labels:
-        name:  bank-atm-cdc-source
+        name:  atm-cdc-source
     spec:
       containers:
         - env:
             - name: spring.application.name
-              value: "bank-atm-cdc-source"
+              value: "atm-cdc-source"
             - name: spring.data.gemfire.pool.locators
               valueFrom:
                 configMapKeyRef:

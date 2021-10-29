@@ -17,7 +17,7 @@ class AtmController(private val atmService: AtmService) {
     }
 
     @GetMapping("banks/{bankId}/atms/{atmId}")
-    fun getAtm(bankId: String, atmId: String): ResponseEntity<Atm> {
+    fun getAtm(@PathVariable bankId: String, @PathVariable atmId: String): ResponseEntity<Atm> {
         var atm = atmService.getAtm(bankId,atmId)
         if(atm.isEmpty)
             return ResponseEntity.notFound().build()

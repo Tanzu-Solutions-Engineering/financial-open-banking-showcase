@@ -25,12 +25,12 @@ kind load docker-image bank-account-rest-service:0.0.1-SNAPSHOT
 
 
 ```shell
-k apply -f cloud/k8/apps/bank-account-rest-service/bank-account-rest-service.yml
-k delete -f cloud/k8/apps/bank-account-rest-service/bank-account-rest-service.yml
+k apply -f cloud/k8/apps/account-rest-service
+k delete -f cloud/k8/apps/account-rest-service
 ```
 
 ```shell
-k port-forward deployments/bank-account-rest-service 4001:4001
+k port-forward deployments/account-rest-service 4001:4001
 ```
 
 
