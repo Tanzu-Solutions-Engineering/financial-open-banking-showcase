@@ -34,10 +34,11 @@ kubectl create secret docker-registry regsecret \
 --docker-password=$HARBOR_PASSWORD
 
 helm install --wait postgres-operator /tmp/postgres-operator/
-sleep 1m
+
+kubectl wait pod -l=app=postgres-operator --for=condition=Ready --timeout=60s
 
 kubectl apply -f cloud/k8/data-services/postgres
-sleep 60
+kubectl wait pod -l=app=postgres --for=condition=Ready --timeout=360s
 kubectl exec -it postgres-0 -- psql -c "ALTER USER postgres PASSWORD 'CHANGEME'"
 
 # ---------------

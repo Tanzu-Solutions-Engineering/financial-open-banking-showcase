@@ -28,5 +28,7 @@ kubectl create rolebinding psp-gemfire --clusterrole=psp:vmware-system-privilege
 sleep 40
 helm install gemfire-operator ~/dataServices/gemfire/gemfire-operator-1.0.2.tgz --namespace gemfire-system
 
-sleep 30s
+kubectl wait pod -l=control-plane=controller-manager --for=condition=Ready --timeout=160s --namespace=gemfire-system
 kubectl apply -f cloud/k8/data-services/geode/gemfire.yml
+
+kubectl wait pod -l=app=gemfire1-server --for=condition=Ready --timeout=160s
