@@ -1,7 +1,24 @@
 # atm-geode-sink
 
+## Start GemFire
 
-Create region in Gfsh
+Start GemFire Gfsh
+```shell
+ ./gfsh
+```
+
+Start Locator
+```shell
+start locator --name=locator1
+```
+
+start cache server
+
+```shell
+start server --name=server1
+```
+
+
 
 ```shell
 create region --name=/Atm --type=PARTITION
