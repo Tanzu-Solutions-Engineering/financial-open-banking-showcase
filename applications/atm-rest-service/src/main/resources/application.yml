@@ -1,2 +1,23 @@
 server:
   port: 4002
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    export:
+      wavefront:
+        api-token: 7fa9942d-a4b7-4cbe-97b0-796d2b2fc074
+        uri: https://demo.wavefront.com
+
+spring:
+  application:
+    name: banking-tanzu
+wavefront:
+  application:
+    name: atm-rest-service

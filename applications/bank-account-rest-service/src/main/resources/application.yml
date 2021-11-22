@@ -3,3 +3,23 @@ spring:
     name: "bank-account-rest-service"
 server:
   port: 4001
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    export:
+      wavefront:
+        api-token: 7fa9942d-a4b7-4cbe-97b0-796d2b2fc074
+        uri: https://demo.wavefront.com
+
+
+wavefront:
+  application:
+    name: banking-account

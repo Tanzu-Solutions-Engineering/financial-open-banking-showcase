@@ -21,6 +21,8 @@ spec:
                 configMapKeyRef:
                   name: gemfire1-config
                   key: locators
-          image: cloudnativedata/bank-rest-service:0.0.1-SNAPSHOT
+          image: harbor.arullab.com/tbs/bank-rest-service:0.0.1-SNAPSHOT
           name: bank-rest-service
           imagePullPolicy: Always
+      imagePullSecrets:
+      - name: harbor-regcred

@@ -31,6 +31,8 @@ spec:
               configMapKeyRef:
                 name: gemfire1-config
                 key: locators
-          image: cloudnativedata/atm-geode-sink:0.0.1-SNAPSHOT
+          image: harbor.arullab.com/tbs/atm-geode-sink:0.0.1-SNAPSHOT
           name: atm-geode-sink
           imagePullPolicy: Always
+      imagePullSecrets:
+      - name: harbor-regcred

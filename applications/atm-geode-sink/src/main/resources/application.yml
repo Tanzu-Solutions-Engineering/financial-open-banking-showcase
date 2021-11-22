@@ -1,8 +1,16 @@
+logging:
+  level:
+    root: warn
+    org:
+      springframework:
+        web: debug
+        hibernate: error
+
 server:
   port: 0
 spring:
   application:
-    name: atm-geode-sink
+    name: banking-atm-geode-sink
   data:
     gemfire:
       pool:
@@ -28,3 +36,21 @@ spring:
       type: stream
     stream:
       host: localhost
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    export:
+      wavefront:
+        api-token: 7fa9942d-a4b7-4cbe-97b0-796d2b2fc074
+        uri: https://demo.wavefront.com
+
+wavefront:
+  application:
+    name: banking
