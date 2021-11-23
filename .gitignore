@@ -2,7 +2,9 @@
 .project
 .settings
 /build/
+target/
 .mvn/
+.idea/
 
 # Ignore Gradle GUI config
 gradle-app.setting
@@ -15,3 +17,47 @@ gradle-app.setting
 
 # # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
 # gradle/wrapper/gradle-wrapper.properties
+HELP.md
+.idea/
+target/
+.mvn/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**
+!**/src/test/**
+.DS_Store
+postgres-local.properties
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+application.properties
+application.yml
+**-local.properties
+**-local.yml
+postgres-local.properties
+!applications/jdbc-upsert/src/test/resources/postgres-local.properties
+runtime/
+
+
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+
+### VS Code ###
+.vscode/

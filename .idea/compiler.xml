@@ -2,12 +2,14 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="bank-geode-sink" />
         <module name="bank-account-rest-service" />
+        <module name="config-server" />
         <module name="bank-rest-service" />
         <module name="bank-domain" />
         <module name="atm-domain" />
@@ -30,6 +32,7 @@
       <module name="bank-geode-sink" options="-parameters" />
       <module name="bank-rest-service" options="-parameters" />
       <module name="bank-service" options="-parameters" />
+      <module name="config-server" options="-parameters" />
       <module name="database-sor-migration" options="-parameters" />
     </option>
   </component>
