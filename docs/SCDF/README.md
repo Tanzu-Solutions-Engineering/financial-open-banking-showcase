@@ -1,73 +1,60 @@
 # Spring SCDF
 
-
-# Build stream-account-generator-source Docker Images
-
 --------------
 
 ## Open SCDF Dashboard
 
-## step 1 - add stream-account-generator-source
+## step 1 - add jdbc-cdc-rabbitmq-source
 
 ```shell
 k port-forward deployment/scdf-server 9393:8080
 ```
 
-open [http://localhost:9393/dashboard](http://localhost:9393/dashboard)
 
-Click Add Application -> Register application
+Start Shell
 
-name: jdbc-cdc-rabbitmq-source
-type: source
-URI: docker:cloudnativedata/jdbc-cdc-rabbitmq-source:0.0.1-SNAPSHOT
+```shell
+java -jar cloud/k8/data-services/scdf/lib/spring-cloud-dataflow-shell-2.8.1.jar 
+```
 
-Click -< Import Application
+Register application
 
-## step 2 - add stream-account-generator-source
+In SCDF Shell
 
-open [http://localhost:9393/dashboard](http://localhost:9393/dashboard])
+```shell
+app register --name jdbc-cdc-rabbitmq-source --type source --uri docker:cloudnativedata/jdbc-cdc-rabbitmq-source:0.0.1-SNAPSHOT
+```
 
-Click Add Application -> Register application
+```shell
+app register --name stream-account-geode-sink --type sink --uri docker:cloudnativedata/apache-geode-sink:0.0.1-SNAPSHOT
+```
 
-name: stream-account-geode-sink
-type: sink
-URI: docker:cloudnativedata/apache-geode-sink:0.0.1-SNAPSHOT
 
-Click -< Import Application
-
-## step create account pipeline with
-
-open [http://localhost:9393/dashboard](http://localhost:9393/dashboard)
-
-Click Streams -> Streams -> Create Streams
 
 
 ```definition
-stream-account-generator-source --server.port=8080 | stream-account-geode-sink --server.port=8080 --spring.profiles.active=stream --spring.application.name=scf-account-sink-stream --spring.rabbitmq.stream.host=rabbitmq --spring.data.gemfire.pool.locators=gemfire1-locator-0.gemfire1-locator[10334]
-```
-
-Click Create Stream
-
-Name: scf-acct
-
-In Terminal
-
-```shell
-mkdir -p ~/dataServices/scdf
-cd ~/dataServices/scdf
-curl -OL https://cloud-native-data.s3.amazonaws.com/spring-cloud-dataflow-shell-2.8.1.jar
-java -jar spring-cloud-dataflow-shell-2.8.1.jar
-
+jdbc-cdc-rabbitmq-source --server.port=8080 | stream-account-geode-sink --server.port=8080 --spring.profiles.active=stream --spring.application.name=scf-account-sink-stream --spring.rabbitmq.stream.host=rabbitmq --spring.data.gemfire.pool.locators=gemfire1-locator-0.gemfire1-locator[10334]
 ```
 
 ```shell
-stream deploy --name scf-acct --properties "deployer.stream-account-generator-source.kubernetes.requests.memory=1Gi, deployer.stream-account-geode-sink.kubernetes.requests.memory=1Gi, deployer.stream-account-generator-source.kubernetes.limits.memory=1Gi, deployer.stream-account-geode-sink.kubernetes.limits.memory=1Gi"
+stream create --name --spring.cloud.stream.bindings.geodeSink-in-0.destination=Account --spring.cloud.stream.bindings.geodeSink-in-0.group=AccountCdc --valuePdxClassName=com.vmware.financial.open.banking.account.domain.Account --keyFieldExpression=key --regionName=Account --spring.rabbitmq.stream.host=rabbitmq --spring.rabbitmq.host=rabbitmq --LOCATORS=gemfire1-locator-0.gemfire1-locator[10334]  
 ```
 
+deployer.<appName>.kubernetes.<deployerPropertyName>
+
+```shell
+stream deploy --name scf-acct --properties "deployer.jdbc-cdc-rabbitmq-source.kubernetes.requests.memory=1Gi, deployer.stream-account-geode-sink.kubernetes.requests.memory=1Gi, deployer.jdbc-cdc-rabbitmq-source.kubernetes.limits.memory=1Gi, deployer.stream-account-geode-sink.kubernetes.limits.memory=1Gi"
+```
+
+deployer.jdbc-cdc-rabbitmq-source.kubernetes.configMapKeyRefs.dataKey=locators,deployer.jdbc-cdc-rabbitmq-source.kubernetes.configMapKeyRefs.configMapName=gemfire1-config,deployer.jdbc-cdc-rabbitmq-source.kubernetes.configMapKeyRefs.envVarName=spring.data.gemfire.pool.locators
 
 ```shell
 stream list
 ```
+
+
+
+Open [http://localhost:9393/dashboard](http://localhost:9393/dashboard])
 
 
 
@@ -110,11 +97,11 @@ stream destroy --name scf-acct
 See argument --rabbitmq.streaming.replay=true
 
 ```shell
-stream create --name scdf-account-stream-replay --definition "stream-account-generator-source --server.port=8080 | stream-account-geode-sink --rabbitmq.streaming.replay=true --server.port=8080 --spring.profiles.active=stream --spring.application.name=scf-account-sink-stream --spring.rabbitmq.stream.host=rabbitmq --spring.data.gemfire.pool.locators=gemfire1-locator-0.gemfire1-locator[10334]"
+stream create --name scdf-account-stream-replay --definition "jdbc-cdc-rabbitmq-source --server.port=8080 | stream-account-geode-sink --rabbitmq.streaming.replay=true --server.port=8080 --spring.profiles.active=stream --spring.application.name=scf-account-sink-stream --spring.rabbitmq.stream.host=rabbitmq --spring.data.gemfire.pool.locators=gemfire1-locator-0.gemfire1-locator[10334]"
 ```
 
 ```shell
-stream deploy --name scdf-account-stream-replay --properties "deployer.stream-account-generator-source.kubernetes.requests.memory=1Gi, deployer.stream-account-geode-sink.kubernetes.requests.memory=1Gi, deployer.stream-account-generator-source.kubernetes.limits.memory=1Gi, deployer.stream-account-geode-sink.kubernetes.limits.memory=1Gi"
+stream deploy --name scdf-account-stream-replay --properties "deployer.jdbc-cdc-rabbitmq-source.kubernetes.requests.memory=1Gi, deployer.stream-account-geode-sink.kubernetes.requests.memory=1Gi, deployer.jdbc-cdc-rabbitmq-source.kubernetes.limits.memory=1Gi, deployer.stream-account-geode-sink.kubernetes.limits.memory=1Gi"
 ```
 
 ```shell
