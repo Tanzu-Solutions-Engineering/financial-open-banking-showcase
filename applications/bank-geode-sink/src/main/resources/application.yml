@@ -1,6 +1,8 @@
 server:
   port: 8081
 spring:
+  config:
+    import: optional:configserver:http://localhost:8888/
   application:
     name: bank-geode-sink
   data:

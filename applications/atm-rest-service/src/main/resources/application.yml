@@ -1,2 +1,6 @@
+spring:
+  config:
+    import: optional:configserver:http://localhost:8888
+  application.name: atm-rest-service
 server:
   port: 4002
