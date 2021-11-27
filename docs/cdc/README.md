@@ -84,6 +84,12 @@ k apply -f cloud/k8/apps/atm-rest-service/atm-rest-service.yml
 k port-forward deployments/atm-rest-service 4002:4002
 ```
 
+
+```shell
+curl -X 'GET' \
+  'http://localhost:4002/banks/bank1/atms/atm1' \
+  -H 'accept: */*'
+```
 ## ATM Testing
 
 
@@ -135,6 +141,19 @@ INSERT INTO banks (bank_id, short_name, full_name, logo, website, bank_routings)
 
 ```shell
 kubectl exec -it postgres-0 -- psql -c "INSERT INTO banks (bank_id, short_name, full_name, logo, website, bank_routings) VALUES('bank1', 'bank1', 'bank1', 'logo', 'website', null);"
+
+kubectl exec -it postgres-0 -- psql -c "update banks set update_ts = CURRENT_TIMESTAMP"
+
+
+kubectl port-forward deployment/bank-rest-service 4003:4003
+
+```
+
+
+```shell
+curl -X 'GET' \
+  'http://localhost:4003/banks/bank1' \
+  -H 'accept: */*';echo
 ```
 
 -----------------------

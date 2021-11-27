@@ -1,0 +1,90 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run:  apache-geode-config-server
+  name:  apache-geode-config-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name:  apache-geode-config-server
+  template:
+    metadata:
+      labels:
+        name:  apache-geode-config-server
+    spec:
+      containers:
+        - env:
+          - name: environment.json.array
+            value: |
+              [
+                  {
+                    "name": "atm-rest-service",
+                    "propertySources": [
+                      {"name" :  "application.properties",
+                        "source" : {
+                          "server.port" : 4002,
+                          "spring.data.gemfire.pool.locators" : "gemfire1-locator-0.gemfire1-locator[10334]"
+                        }
+                      }
+                    ],
+                    "profiles": ["default"]
+                  },
+                  {
+                    "name": "bank-account-cdc-source",
+                    "propertySources": [
+                      {"name" :  "application.properties",
+                        "source" : {
+                          "spring.data.gemfire.pool.locators" : "gemfire1-locator-0.gemfire1-locator[10334]",
+                          "spring.datasource.url" : "jdbc:postgresql://postgres/postgres",
+                          "spring.datasource.username" : "postgres",
+                          "spring.datasource.password" : "CHANGEME",
+                          "cdc.source.rabbit.streamName" : "Account.AccountCdc",
+                          "cdc.source.schedule.cron" : "*/3 * * * * *",
+                          "cdc.source.jdbc.sqlSelectWithFrom" : "SELECT  concat( bank_id,'|',acct_id) as key,acct_id,  acct_id id, bank_id, acct_label as label, acct_number number, acct_product_cd product_code, acct_routings, acct_balance balance, update_ts FROM bank_accounts",
+                          "cdc.source.jdbc.sqlSqlWhereClause" : "where ACCT_ID > ? or UPDATE_TS > ?",
+                          "cdc.source.jdbc.lastRowIdWherePosition" : "1",
+                          "cdc.source.jdbc.lastTimestampWherePosition" : "2",
+                          "cdc.source.jdbc.lastRowIdSelectColumnName" : "ACCT_ID",
+                          "cdc.source.jdbc.cdcId" : "Account",
+                          "cdc.source.jdbc.lastTimestampSelectColumnName" : "UPDATE_TS",
+                          "spring.rabbitmq.username" : "cdc",
+                          "spring.rabbitmq.password" : "cdc",
+                          "spring.rabbitmq.host" : "rabbitmq",
+                          "spring.rabbitmq.stream.host" : "rabbitmq",
+                          "rabbitmq.streaming.uris" : "rabbitmq-stream://cdc:cdc@rabbitmq:5552/%2f",
+                          "rabbitmq.streaming.stream.maxAgeHours" : "7",
+                          "rabbitmq.streaming.stream.maxLengthGb" : "1",
+                          "rabbitmq.streaming.stream.maxSegmentSizeMb" : "500"
+                        }
+                      }
+                    ],
+                    "profiles": ["default"]
+                  },
+                  {
+                    "name": "atm-geode-sink",
+                    "propertySources": [
+                      {"name" :  "application.properties",
+                        "source" : {
+                          "server.port" : 0,
+                          "spring.data.gemfire.pool.locators" : "gemfire1-locator-0.gemfire1-locator[10334]",
+                          "spring.rabbitmq.stream.host" : "rabbitmq",
+                          "spring.rabbitmq.host" : "rabbitmq",
+                          "spring.rabbitmq.username" : "oba",
+                          "spring.rabbitmq.password" : "oba",
+                          "spring.cloud.stream.bindings.atmConsumer-in-0.consumer.declareExchange" : "false"
+                        }
+                      }
+                    ],
+                    "profiles": ["default"]
+                  }
+                  ]
+          - name: spring.data.gemfire.pool.locators
+            valueFrom:
+              configMapKeyRef:
+                name: gemfire1-config
+                key: locators
+          image: cloudnativedata/apache-geode-config-server:0.0.1-SNAPSHOT
+          name: apache-geode-config-server
+          imagePullPolicy: Always

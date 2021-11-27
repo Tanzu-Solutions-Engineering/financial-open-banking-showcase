@@ -2,22 +2,22 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    run:  bank-cdc-source
-  name:  bank-cdc-source
+    run:  bank-account-cdc-source
+  name:  bank-account-cdc-source
 spec:
   replicas: 1
   selector:
     matchLabels:
-      name:  bank-cdc-source
+      name:  bank-account-cdc-source
   template:
     metadata:
       labels:
-        name:  bank-cdc-source
+        name:  bank-account-cdc-source
     spec:
       containers:
         - env:
             - name: spring.application.name
-              value: "bank-cdc-source"
+              value: "bank-account-cdc-source"
             - name: spring.data.gemfire.pool.locators
               valueFrom:
                 configMapKeyRef:
@@ -69,5 +69,5 @@ spec:
             - name: cdc.source.rabbit.contentType
               value: "application/json"
           image: cloudnativedata/jdbc-cdc-rabbitmq-source:0.0.1-SNAPSHOT
-          name: bank-cdc-source
+          name: bank-account-cdc-source
           imagePullPolicy: Always

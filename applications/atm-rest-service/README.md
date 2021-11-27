@@ -14,7 +14,7 @@ mvn install
 cd applications/atm-rest-service
 mvn spring-boot:build-image
 
-
+docker tag atm-rest-service:0.0.1-SNAPSHOT cloudnativedata/atm-rest-service:0.0.1-SNAPSHOT
 docker push cloudnativedata/atm-rest-service:0.0.1-SNAPSHOT
 ```
 

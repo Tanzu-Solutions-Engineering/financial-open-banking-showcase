@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run:  bank-account-cdc-source
+  name:  bank-account-cdc-source
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name:  bank-account-cdc-source
+  template:
+    metadata:
+      labels:
+        name:  bank-account-cdc-source
+    spec:
+      containers:
+        - env:
+            - name: spring.application.name
+              value: "bank-account-cdc-source"
+            - name: spring.config.import
+              value: configserver:http://apache-geode-config-server-service:8888
+          image: cloudnativedata/jdbc-cdc-rabbitmq-source:0.0.1-SNAPSHOT
+          name: jdbc-cdc-rabbitmq-source
+          imagePullPolicy: Always

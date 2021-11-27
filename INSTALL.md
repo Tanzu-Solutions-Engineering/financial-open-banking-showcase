@@ -1,5 +1,0 @@
-
-
-```shell
-brew install kustomize
-```

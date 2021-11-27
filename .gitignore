@@ -3,6 +3,7 @@
 .settings
 /build/
 .mvn/
+set-env.sh
 
 # Ignore Gradle GUI config
 gradle-app.setting

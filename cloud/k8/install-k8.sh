@@ -60,7 +60,6 @@ set -x #echo on
 
 # Install GemFire
 ./cloud/k8/data-services/geode/gf-k8-setup.sh
-./cloud/k8/data-services/geode/gf-app-setup.sh
 
 
 # Install Postgres
@@ -70,6 +69,10 @@ set -x #echo on
 ./cloud/k8/data-services/rabbitmq/rabbit-k8-setup.sh
 
 #-----------------------------------------
+
+sleep 30
+
+./cloud/k8/data-services/geode/gf-app-setup.sh
 
 kubectl apply -f cloud/k8/apps/account-rest-service
 
@@ -87,3 +90,6 @@ kubectl apply -f cloud/k8/apps/cdc/account/jdbc-cdc-rabbitmq-source
 kubectl apply -f cloud/k8/apps/cdc/atm/jdbc-cdc-rabbitmq-source
 
 kubectl apply -f cloud/k8/apps/cdc/bank/jdbc-cdc-rabbitmq-source
+
+k apply -f cloud/k8/apps/config-service
+k apply -f cloud/k8/apps/cdc/account/jdbc-cdc-rabbitmq-source
