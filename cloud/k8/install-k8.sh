@@ -74,22 +74,23 @@ sleep 30
 
 ./cloud/k8/data-services/geode/gf-app-setup.sh
 
+# Install Config Service
+kubectl apply -f cloud/k8/config-service
+kubectl wait pod -l=name=apache-geode-config-server --for=condition=Ready --timeout=360s
+sleep 15
+
+# Account services
+kubectl apply -f cloud/k8/apps/cdc/account/jdbc-cdc-rabbitmq-source
 kubectl apply -f cloud/k8/apps/account-rest-service
+kubectl apply -f cloud/k8/apps/cdc/account/apache-geode-sink
 
 
+# Atm services
 kubectl apply -f cloud/k8/apps/atm-geode-sink
 kubectl apply -f cloud/k8/apps/atm-rest-service
-
-kubectl apply -f cloud/k8/apps/bank-geode-sink
-kubectl apply -f cloud/k8/apps/bank-rest-service
-
-
-kubectl apply -f cloud/k8/apps/cdc/account/apache-geode-sink
-kubectl apply -f cloud/k8/apps/cdc/account/jdbc-cdc-rabbitmq-source
-
 kubectl apply -f cloud/k8/apps/cdc/atm/jdbc-cdc-rabbitmq-source
 
+# Bank services
+kubectl apply -f cloud/k8/apps/bank-geode-sink
+kubectl apply -f cloud/k8/apps/bank-rest-service
 kubectl apply -f cloud/k8/apps/cdc/bank/jdbc-cdc-rabbitmq-source
-
-k apply -f cloud/k8/apps/config-service
-k apply -f cloud/k8/apps/cdc/account/jdbc-cdc-rabbitmq-source
