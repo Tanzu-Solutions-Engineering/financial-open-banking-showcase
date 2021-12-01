@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.*
 /**
  * @author Gregory Green
  */
-@RestController("/obp/v4.0.0/")
+@RestController
+@RequestMapping("/obp/v4.0.0/")
 class BankController(private val bankService: BankService) {
     @PostMapping("banks")
     fun createBank(@RequestBody bank: Bank): ResponseEntity<Bank> {

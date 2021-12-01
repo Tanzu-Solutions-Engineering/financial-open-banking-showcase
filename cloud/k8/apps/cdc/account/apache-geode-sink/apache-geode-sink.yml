@@ -17,15 +17,15 @@ spec:
       containers:
         - env:
             - name: spring.cloud.stream.bindings.geodeSink-in-0.destination
-              value: Account
+              value: BankAccount
             - name: spring.cloud.stream.bindings.geodeSink-in-0.group
-              value: AccountCdc
+              value: BankAccountCdc
             - name: valuePdxClassName
               value: "com.vmware.financial.open.banking.account.domain.Account"
             - name: keyFieldExpression
               value: key
             - name: regionName
-              value: Account
+              value: BankAccount
             - name: spring.rabbitmq.stream.host
               value: rabbitmq
             - name: LOCATORS

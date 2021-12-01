@@ -1,11 +1,14 @@
 package com.vmware.financial.open.banking.account.service
 
-import com.vmware.financial.open.banking.account.domain.Account
+import com.vmware.financial.open.banking.account.domain.BankAccount
+import com.vmware.financial.open.banking.account.domain.BankAccountCreateDto
 import java.util.*
 
 interface AccountService {
-    fun createAccount(account: Account) : Account
-    fun findAccountById(bankId: String, accountId: String): Optional<Account>
-    fun updateAccount(account: Account): Optional<Account>
+
+    fun createAccount(bankId: String, account: BankAccountCreateDto) : BankAccountCreateDto
+    fun createAccount(account: BankAccount) : BankAccount
+    fun findAccountById(bankId: String, accountId: String): Optional<BankAccount>
+    fun updateAccount(account: BankAccount): Optional<BankAccount>
 
 }

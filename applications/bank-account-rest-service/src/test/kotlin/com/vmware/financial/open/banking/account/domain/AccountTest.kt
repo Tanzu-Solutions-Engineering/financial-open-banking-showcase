@@ -7,11 +7,11 @@ import org.junit.jupiter.api.Test
 
 internal class AccountTest{
 
-    private lateinit var subject: Account
+    private lateinit var subject: BankAccount
 
     @BeforeEach
     internal fun setUp() {
-        subject = JavaBeanGeneratorCreator.of(Account::class.java).create()
+        subject = JavaBeanGeneratorCreator.of(BankAccount::class.java).create()
     }
     @Test
     internal fun accountOverload() {
@@ -21,7 +21,7 @@ internal class AccountTest{
         subject.views_basic = arrayOf(expectedViewsBasic)
 
 
-        var otherAccount = Account(id = subject.id,
+        var otherAccount = BankAccount(id = subject.id,
             bank_id= subject.bank_id,
             label = subject.label,
             number = subject.number,
@@ -43,7 +43,7 @@ internal class AccountTest{
         subject.views_basic = arrayOf(expectedViewsBasic)
 
 
-        var otherAccount = Account(id = subject.id,
+        var otherAccount = BankAccount(id = subject.id,
             bank_id= subject.bank_id,
             label = subject.label,
             number = subject.number,

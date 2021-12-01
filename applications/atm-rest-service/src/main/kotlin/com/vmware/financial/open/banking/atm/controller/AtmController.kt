@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.*
 /**
  * @author Gregory Green
  */
-@RestController("/obp/v4.0.0/")
+@RestController
+@RequestMapping("/obp/v4.0.0/")
 class AtmController(private val atmService: AtmService) {
     @PostMapping("banks/{bankId}/atms")
     fun createAtm(@PathVariable bankId : String, @RequestBody atm : Atm) : ResponseEntity<Atm>

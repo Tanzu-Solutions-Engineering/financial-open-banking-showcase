@@ -1,14 +1,14 @@
 package com.vmware.financial.open.banking.account.domain
 
-data class Account(var id : String = "",
-                   var bank_id: String = "",
-                   var label : String = "",
-                   var number : String = "",
-                   var product_code : String = "",
-                   var balance : Balance = Balance(),
-                   var account_routings : Array<AccountRouting>? = null,
-                   var views_basic : Array<String?>? = null,
-                   var key : String  =""
+data class BankAccount(var id : String = "",
+                       var bank_id: String = "",
+                       var label : String = "",
+                       var number : String = "",
+                       var product_code : String = "",
+                       var balance : Balance = Balance(),
+                       var account_routings : Array<AccountRouting>? = null,
+                       var views_basic : Array<String?>? = null,
+                       var key : String  =""
 ) {
     constructor(
         id: String,
@@ -34,7 +34,7 @@ data class Account(var id : String = "",
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as Account
+        other as BankAccount
 
         if (id != other.id) return false
         if (bank_id != other.bank_id) return false

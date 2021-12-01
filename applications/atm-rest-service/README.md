@@ -1,16 +1,29 @@
+# ATM Rest Services
+
+This [Spring Boot](https://spring.io/projects/spring-boot) service implements
+basic read/write operations from the Open Bank Project [ATM Service interface](https://psd2-apiexplorer.openbankproject.com/?version=OBPv4.0.0&operation_id=OBPv3_0_0-createAtm&currentTag=ATM&api-collection-id=&bank_id=at02-0182--01&account_id=&view_id=&counterparty_id=&transaction_id=#OBPv3_0_0-createAtm).
+
+See [GitHub project](https://github.com/Tanzu-Solutions-Engineering/financial-open-banking-showcase.git)
+
 # Setup
 
-## k8
+## Local
+
+Gfsh 
 
 ```shell
-kubectl exec gemfire1-locator-0 -- gfsh -e "connect" -e "create region --name=Atm --type=PARTITION"
+create region --name=Atm --type=PARTITION
 ```
 
-# Build Docker
+# Docker
+
+See [Docker Hub](https://hub.docker.com/r/cloudnativedata/atm-rest-service) image
+
+## Build
 
 
 ```shell
-mvn install
+mvn clean install
 cd applications/atm-rest-service
 mvn spring-boot:build-image
 
@@ -19,12 +32,15 @@ docker push cloudnativedata/atm-rest-service:0.0.1-SNAPSHOT
 ```
 
 
-Optional on Kind
+# Kubernetes Deployment
+
+## K8 Setup
+
+Install and Deploy a [GemFire cluster](https://tanzu.vmware.com/developer/data/tanzu-gemfire/guides/get-started-tgf4k8s-sbdg/)
 
 ```shell
-kind load docker-image atm-rest-service:0.0.1-SNAPSHOT
+kubectl exec gemfire1-locator-0 -- gfsh -e "connect" -e "create region --name=Atm --type=PARTITION"
 ```
-
 
 ```shell
 k apply -f cloud/k8/apps/atm-rest-service/atm-rest-service.yml
@@ -34,6 +50,42 @@ k delete -f cloud/k8/apps/atm-rest-service/atm-rest-service.yml
 ```shell
 k port-forward deployments/atm-rest-service 4002:4002
 ```
+
+
+
+-------------------
+# Testing
+
+
+## Create ATM
+
+```shell
+curl -X 'POST' \
+  'http://localhost:4002/obp/v4.0.0/banks/gh.29.uk/atms' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -d '{  "id":"atm-id-1x23",  
+    "bank_id":"gh.29.uk",  
+  "name":"Atm by the Lake",  
+  "address":{    "line_1":"No 1 the Road",    "line_2":"The Place",    "line_3":"The Hill",    "city":"Berlin",    "county":"",    "state":"Brandenburg",    "postcode":"13359",    "country_code":"DE"  },  
+  "location":{    "latitude":11.45,    "longitude":11.45  },  
+  "meta":{    "license":{      "id":"5",      "name":"TESOBE"    }  },  "monday":{    "opening_time":"10:00",    "closing_time":"18:00"  },  "tuesday":{    "opening_time":"10:00",    "closing_time":"18:00"  },  "wednesday":{    "opening_time":"10:00",    "closing_time":"18:00"  },  "thursday":{    "opening_time":"10:00",    "closing_time":"18:00"  },  "friday":{    "opening_time":"10:00",    "closing_time":"18:00"  },  "saturday":{    "opening_time":"10:00",    "closing_time":"18:00"  },  "sunday":{    "opening_time":"10:00",    "closing_time":"18:00"  },  
+  "is_accessible":"true",  "located_at":"Full service store",  "more_info":"short walk to the lake from here",  "has_deposit_capability":"true"}';echo
+```
+
+## Get ATM
+
+```shell
+curl -X 'GET' \
+  'http://localhost:4002/obp/v4.0.0/banks/gh.29.uk/atms/atm-id-1x23' \
+  -H 'accept: */*';echo
+```
+
+
+----
+
+# Change Data Capture Testing
+
 
 ```sqlite-sql
 

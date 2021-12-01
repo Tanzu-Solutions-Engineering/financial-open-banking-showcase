@@ -13,19 +13,19 @@ import org.springframework.stereotype.Component
         private var log = LogManager.getLogger(PremiumAccountCqListener::class.java)
 
         @ContinuousQuery(name="AccountCq",
-            query = "select * from /Account where balance.amount > 100000 "+
+            query = "select * from /BankAccount where balance.amount > 100000 "+
                     "and (bank_id = 'VMware' or bank_id = 'SPRINGONE')")
         fun handle(cqEvent: CqEvent) {
             var eventOperation = cqEvent.baseOperation
             var key = cqEvent.key
 
             if(eventOperation.isDestroy) {
-                log.warn("Premium Balance Account $key DELETED!!!")
+                log.warn("Premium Balance BankAccount $key DELETED!!!")
                 return
             }
 
             var newValue = cqEvent.newValue
-            log.info("Premium Account $key operation ${eventOperation} executed resulting in $newValue")
+            log.info("Premium BankAccount $key operation ${eventOperation} executed resulting in $newValue")
 
         }
     }

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: bank-rest-service
+spec:
+  selector:
+    name: bank-rest-service
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 4003
+  type: LoadBalancer

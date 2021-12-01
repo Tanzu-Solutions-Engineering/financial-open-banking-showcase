@@ -1,6 +1,6 @@
 package com.vmware.financial.open.banking.account.service
 
-import com.vmware.financial.open.banking.account.domain.Account
+import com.vmware.financial.open.banking.account.domain.BankAccount
 import nyla.solutions.core.patterns.creational.generator.JavaBeanGeneratorCreator
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -21,15 +21,15 @@ import java.util.*
 internal class BankAccountServiceTest{
 
     private lateinit var gemFireTemplate: GemfireTemplate
-    private lateinit var account: Account
+    private lateinit var account: BankAccount
 
     private lateinit var subject : AccountDataService
 
     @BeforeEach
     internal fun setUp() {
-        account = JavaBeanGeneratorCreator.of(Account::class.java).create()
+        account = JavaBeanGeneratorCreator.of(BankAccount::class.java).create()
         gemFireTemplate = mock<GemfireTemplate>(){
-            on{ get<String,Account>(any()) } doReturn  account
+            on{ get<String,BankAccount>(any()) } doReturn  account
             on{ containsKeyOnServer(any<String>())} doReturn true;
         }
         subject = AccountDataService(gemFireTemplate)
@@ -47,7 +47,7 @@ internal class BankAccountServiceTest{
     internal fun createAccount() {
         var actual = subject.createAccount(account)
         assertEquals(account,actual)
-        verify(gemFireTemplate).put(anyString(),any<Account>())
+        verify(gemFireTemplate).put(anyString(),any<BankAccount>())
     }
 
 
@@ -61,7 +61,7 @@ internal class BankAccountServiceTest{
     @Test
     internal fun findAccountByIdNotFound() {
         gemFireTemplate = mock<GemfireTemplate>(){
-            on{ get<String,Account>(any()) } doReturn  null
+            on{ get<String,BankAccount>(any()) } doReturn  null
         }
         subject = AccountDataService(gemFireTemplate)
 
@@ -77,14 +77,14 @@ internal class BankAccountServiceTest{
         assertEquals(account,actual.get())
 
         verify(gemFireTemplate).containsKeyOnServer(any())
-        gemFireTemplate.put(any<String>(),any<Account>())
+        gemFireTemplate.put(any<String>(),any<BankAccount>())
     }
 
     @Test
     internal fun updateAccount_returnEmpty_when_Key_notFound() {
 
         gemFireTemplate = mock<GemfireTemplate>(){
-            on{ get<String,Account>(any()) } doReturn  account
+            on{ get<String,BankAccount>(any()) } doReturn  account
             on{ containsKeyOnServer(any<String>())} doReturn false;
         }
         subject = AccountDataService(gemFireTemplate)
