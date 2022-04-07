@@ -32,7 +32,7 @@ Service                                                                     |   
 
 ## Database 
 
-See the following for a Change Data Capture ([CDC](docs/cdc)) example to integrate existing account information from a 
+See the following for a Change Data Capture ([CDC](docs/k8)) example to integrate existing account information from a 
 relational database (such as Postgres) 
 using [RabbitMQ](https://tanzu.vmware.com/rabbitmq), a data cache [GemFire](https://tanzu.vmware.com/gemfire)
 and [Spring Cloud Stream](https://spring.io/projects/spring-cloud-stream).

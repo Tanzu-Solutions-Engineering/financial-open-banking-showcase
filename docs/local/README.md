@@ -1,5 +1,5 @@
 ```shell
-cd /Users/devtools/repositories/IMDG/geode/apache-geode-1.13.1
+cd /Users/devtools/repositories/IMDG/geode/apache-geode-1.13.7
 ```
 
 
@@ -34,9 +34,9 @@ cd /Users/Projects/VMware/Tanzu/Vertical-Industries/VMware-Financial/dev/financi
 ```
 
 ```shell
-java -jar applications/atm-rest-service/target/atm-rest-service-0.0.1-SNAPSHOT.jar
+java -jar applications/atm-rest-service/target/atm-rest-service-0.0.1-SNAPSHOT.jar --server.port=9000
 ```
 
 ```shell
-open http://localhost:4002
+open http://localhost:9000
 ```

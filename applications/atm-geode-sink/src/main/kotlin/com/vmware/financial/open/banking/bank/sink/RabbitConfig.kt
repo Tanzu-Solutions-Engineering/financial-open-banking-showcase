@@ -1,5 +1,8 @@
 package com.vmware.financial.open.banking.account
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.rabbitmq.stream.ConsumerBuilder
 import com.rabbitmq.stream.OffsetSpecification
 import org.springframework.amqp.rabbit.connection.ConnectionFactory
@@ -14,6 +17,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.cloud.stream.config.ListenerContainerCustomizer
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Primary
 import org.springframework.context.annotation.Profile
 import org.springframework.rabbit.stream.listener.StreamListenerContainer
 
@@ -54,7 +58,17 @@ class RabbitConfig {
     @Bean
     fun convert() : MessageConverter
     {
-        return Jackson2JsonMessageConverter();
+        return Jackson2JsonMessageConverter()
+
+    }
+
+
+    @Bean
+    @Primary
+    fun objectMapper() : ObjectMapper{
+        return jacksonObjectMapper()
+            .registerModule(KotlinModule.Builder().build())
+
     }
 
 

@@ -61,6 +61,56 @@
             </exclusions>
         </dependency>
         <dependency>
+            <groupId>org.apache.geode</groupId>
+            <artifactId>geode-core</artifactId>
+            <version>${geode.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geode</groupId>
+            <artifactId>geode-cq</artifactId>
+            <version>${geode.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geode</groupId>
+            <artifactId>geode-lucene</artifactId>
+            <version>${geode.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geode</groupId>
+            <artifactId>geode-wan</artifactId>
+            <version>${geode.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geode</groupId>
+            <artifactId>geode-common</artifactId>
+            <version>${geode.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geode</groupId>
+            <artifactId>geode-management</artifactId>
+            <version>${geode.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geode</groupId>
+            <artifactId>geode-logging</artifactId>
+            <version>${geode.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geode</groupId>
+            <artifactId>geode-membership</artifactId>
+            <version>${geode.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geode</groupId>
+            <artifactId>geode-unsafe</artifactId>
+            <version>${geode.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geode</groupId>
+            <artifactId>geode-serialization</artifactId>
+            <version>${geode.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.github.nyla-solutions</groupId>
             <artifactId>nyla.solutions.core</artifactId>
             <version>1.4.3</version>
@@ -82,56 +132,7 @@
             <artifactId>kotlin-stdlib-jdk8</artifactId>
         </dependency>
 
-		<dependency>
-			<groupId>org.apache.geode</groupId>
-			<artifactId>geode-core</artifactId>
-			<version>${geode.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.geode</groupId>
-			<artifactId>geode-cq</artifactId>
-			<version>${geode.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.geode</groupId>
-			<artifactId>geode-lucene</artifactId>
-			<version>${geode.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.geode</groupId>
-			<artifactId>geode-wan</artifactId>
-			<version>${geode.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.geode</groupId>
-			<artifactId>geode-common</artifactId>
-			<version>${geode.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.geode</groupId>
-			<artifactId>geode-management</artifactId>
-			<version>${geode.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.geode</groupId>
-			<artifactId>geode-logging</artifactId>
-			<version>${geode.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.geode</groupId>
-			<artifactId>geode-membership</artifactId>
-			<version>${geode.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.geode</groupId>
-			<artifactId>geode-unsafe</artifactId>
-			<version>${geode.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.geode</groupId>
-			<artifactId>geode-serialization</artifactId>
-			<version>${geode.version}</version>
-		</dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
