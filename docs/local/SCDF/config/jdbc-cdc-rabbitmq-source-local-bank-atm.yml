@@ -1,0 +1,52 @@
+cdc:
+  source:
+    rabbit:
+      streamName: banking.atm.atmBankStream
+    jdbc:
+      lastRowIdWherePosition: 1
+      lastTimestampWherePosition: 2
+      jsonColumnNamePosition: 3
+      sqlSqlWhereClause: "where atm_id > ? or UPDATE_TS > ?"
+      lastRowIdSelectColumnName: "atm_id"
+      lastTimestampSelectColumnName:  "UPDATE_TS"
+      cdcId: "Atm"
+      sqlSelectWithFrom: >
+        SELECT atm_id, update_ts, json_build_object('key', concat(bank_id,'|',atm_id),'id',atm_id, 'update_ts', update_ts, 'atm_id',atm_id,'bank_id',bank_id, 'name', atm_name, 'address',json_build_object('line_1',address_line_1,'line_2',address_line_2,'line_3',address_line_3,'city',address_city,'county',address_county,'state',address_state,'postcode',address_postcode,'country_code',address_country_code),
+        'monday',json_build_object('opening_time',monday_opening_time,'closing_time',monday_closing_time),
+        'tuesday',json_build_object('opening_time',tuesday_opening_time,'closing_time',tuesday_closing_time),
+        'wednesday',json_build_object('opening_time',wednesday_opening_time,'closing_time',wednesday_closing_time),
+        'thursday',json_build_object('opening_time',thursday_opening_time,'closing_time',thursday_closing_time),
+        'friday',json_build_object('opening_time',friday_opening_time,'closing_time',friday_closing_time ),
+        'saturday',json_build_object('opening_time',saturday_opening_time,'closing_time',saturday_closing_time),
+        'sunday',json_build_object('opening_time',sunday_opening_time,'closing_time',sunday_closing_time),
+        'meta', json_build_object('license',json_build_object('id','beta','name','v001'))
+        ) as JSON FROM pivotalmarkets.bank_atms
+    #    SELECT atm_id, update_ts, json_build_object('atm_id',atm_id, 'update_ts', update_ts, 'atm_id',atm_id,'bank_id',bank_id, 'name', atm_name,'address',json_build_object('line_1',address_line_1)) as JSON FROM pivotalmarkets.bank_atms
+    schedule:
+      cron: "*/10 * * * * *"
+# SELECT
+# SELECT atm_id, update_ts, atm_id as id, bank_id, atm_name as name, concat('{"line_1":"', address_line_1,'",','"line_2": "',address_line_2,'"',', "line_3": "',address_line_3,'"',', "city": "',address_city,'"',', "county": "',address_county,'"',', "state": "',address_state,'"',', "postcode": "',address_postcode,'"',', "country_code": "',address_country_code,'"') as address, is_accessible, located_at, more_info, has_deposit_capability FROM pivotalmarkets.bank_atms
+# SELECT atm_id, update_ts, atm_id as id, bank_id, atm_name as name, concat(address_line_1,',',address_city,',',address_state,',',address_postcode,',',address_country_code) as address, is_accessible, located_at, more_info, has_deposit_capability FROM pivotalmarkets.bank_atms
+# concat(monday_opening_time,'-',monday_closing_time) as monday , concat(tuesday_opening_time,'-',tuesday_closing_time) as tuesday , concat(wednesday_opening_time,'-',wednesday_closing_time) as wednesday , concat(thursday_opening_time,'-',thursday_closing_time) as thursday , concat(friday_opening_time,'-',friday_closing_time) as friday , concat(saturday_opening_time,'-',saturday_closing_time) as saturday , concat(sunday_opening_time,'-',sunday_closing_time) as sunday ,
+#cdc.source.rabbit.contentType: text/plain
+cdc.source.rabbit.contentType: application/json
+server:
+  port: -1
+spring:
+  data:
+    gemfire:
+      pool:
+        locators: localhost[10334]
+  application:
+    name:  jdbc-cdc-rabbitmq-source
+  datasource:
+    url: "jdbc:postgresql://localhost/postgres"
+    username: "postgres"
+    password: "security"
+rabbitmq:
+  streaming:
+    uris: "rabbitmq-stream://guest:guest@localhost:5552/%2f"
+    stream:
+      maxAgeHours: 7
+      maxLengthGb: 1
+      maxSegmentSizeMb: 500
