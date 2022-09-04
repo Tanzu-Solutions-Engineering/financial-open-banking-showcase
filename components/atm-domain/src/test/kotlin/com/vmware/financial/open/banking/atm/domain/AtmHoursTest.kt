@@ -1,6 +1,6 @@
 package com.vmware.financial.open.banking.atm.domain
 
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 internal class AtmHoursTest{
@@ -23,4 +23,5 @@ internal class AtmHoursTest{
 
         assertEquals(expected,subject.opening_time);
     }
+
 }

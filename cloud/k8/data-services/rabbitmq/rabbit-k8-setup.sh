@@ -7,6 +7,9 @@ kubectl apply -f cloud/k8/data-services/rabbitmq/rabbitmq.yml
 
 sleep 30
 
+kubectl  create secret docker-registry rabbitmq --docker-server=registry.pivotal.io  --docker-username=$HARBOR_USER \
+--docker-password=$HARBOR_PASSWORD
+
 kubectl wait pod -l=statefulset.kubernetes.io/pod-name=rabbitmq-server-0 --for=condition=Ready --timeout=360s
 
 kubectl exec rabbitmq-server-0 -- rabbitmqctl add_user cdc cdc

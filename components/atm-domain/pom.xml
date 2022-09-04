@@ -14,7 +14,7 @@
     <name>atm-domain</name>
     <description>atm-domain</description>
     <properties>
-		<geode.version>1.13.1</geode.version>
+		<geode.version>1.15.0</geode.version>
         <java.version>11</java.version>
         <kotlin.version>1.5.21</kotlin.version>
         <spring-geode.version>1.5.3</spring-geode.version>
@@ -37,6 +37,11 @@
             <groupId>org.mockito.kotlin</groupId>
             <artifactId>mockito-kotlin</artifactId>
             <version>3.2.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

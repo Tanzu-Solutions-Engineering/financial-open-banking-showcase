@@ -14,6 +14,19 @@ open http://localhost:8888/jdbc-cdc-rabbitmq-source/local-bank-atm
 
 # Postgres cleanup
 
+## Start Postgres
+
+```shell
+brew services start postgresql&
+```
+
+
+## Start PSQL 
+
+
+```shell
+psql -d postgres -U postgres
+```
 
 ```shell
 delete from bank_atms;
@@ -21,7 +34,7 @@ delete from bank_atms;
 
 # Gemfire
 ```shell
-cd /Users/devtools/repositories/IMDG/geode/apache-geode-1.13.7/bin
+cd /Users/devtools/repositories/IMDG/gemfire/vmware-gemfire-9.15.0/bin
 ```
 
 
@@ -41,7 +54,7 @@ configure pdx --read-serialized=true --disk-store
 
 Start Server
 ```shell
-start server --name=server1 --start-rest-api=true --http-service-bind-address=localhost --http-service-port=7071
+start server --name=server1 --start-rest-api=true --http-service-bind-address=localhost --http-service-port=7071 --locators=localhost[10334] --server-port=40404 --J=-Dgemfire-for-redis-enabled=true --J=-Dgemfire-for-redis-port=6379 --classpath=Users/devtools/repositories/IMDG/gemfire/gemfire-for-redis-apps-1.0.0/lib/* 
 ```
 
 ```shell
@@ -54,16 +67,18 @@ create region --name=Bank --type=PARTITION_PERSISTENT
 ```
 
 ```shell
-deploy --jar=/Users/Projects/VMware/Tanzu/TanzuData/TanzuGemFire/dev/apache-geode-extensions/components/apache-geode-extensions-core/build/libs/apache-geode-extensions-core-2.5.1-SNAPSHOT.jar
+create region --name=CdcRecord --type=PARTITION
+```
+
+```shell
+deploy --dir=/Users/Projects/VMware/Tanzu/Use-Cases/Vertical-Industries/VMware-Financial/dev/financial-open-banking-showcase/services/lib
 ```
 
 
 
 ```shell
-open http://localhost:7080/geode/swagger-ui.html
+open http://localhost:7071/geode/swagger-ui.html
 ```
-
-
 
 Create region in Gfsh
 
@@ -76,14 +91,33 @@ Setup Regions
 
 ```shell
 
-deploy --jar=/Users/Projects/VMware/Tanzu/Vertical-Industries/VMware-Financial/dev/financial-open-banking-showcase/components/atm-domain/target/atm-domain-0.0.1-SNAPSHOT.jar
+deploy --jar=/Users/Projects/VMware/Tanzu/Use-Cases/Vertical-Industries/VMware-Financial/dev/financial-open-banking-showcase/components/atm-domain/target/atm-domain-0.0.1-SNAPSHOT.jar
 create region --name=BankAccount --type=PARTITION
-
 create region --name=Atm --type=PARTITION --key-constraint=java.lang.String --value-constraint=com.vmware.financial.open.banking.atm.domain.Atm
 
 ```
 
 ## SCDF SETUP
+
+Start Services
+
+```shell
+cd /Users/devtools/integration/scdf
+./startSkipper.sh
+```
+
+
+```shell
+cd /Users/devtools/integration/scdf
+./startSCDF.sh
+```
+
+Shell
+
+```shell
+cd /Users/devtools/integration/scdf
+./shell.sh
+```
 
 
 ```shell
@@ -92,23 +126,24 @@ app register --name jdbc-cdc-rabbitmq-source --type source --uri file:///Users/P
 
 
 ```shell
-app register --name atm-geode-sink --type sink --uri file:///Users/Projects/VMware/Tanzu/Vertical-Industries/VMware-Financial/dev/financial-open-banking-showcase/applications/atm-geode-sink/target/atm-geode-sink-0.0.2-SNAPSHOT.jar
+app register --name atm-geode-sink --type sink --uri file:///Users/Projects/VMware/Tanzu/Use-Cases/Vertical-Industries/VMware-Financial/dev/financial-open-banking-showcase/applications/atm-geode-sink/target/atm-geode-sink-0.0.2-SNAPSHOT.jar
 ```
 
 
 ```shell
-app register --name apache-geode-sink --type sink --uri file:///Users/Projects/VMware/Tanzu/SCDF/dev/scdf-extensions/applications/apache-geode-sink/target/apache-geode-sink-0.0.1-SNAPSHOT.jar
+app register --name apache-geode-sink --type sink --uri file:///Users/Projects/VMware/Tanzu/SCDF/dev/scdf-extensions/applications/apache-geode-sink/target/apache-geode-sink-0.0.2-SNAPSHOT.jar
+
 ```
 
 ```shell
-app register --name bank-geode-sink --type sink --uri file:///Users/Projects/VMware/Tanzu/Vertical-Industries/VMware-Financial/dev/financial-open-banking-showcase/applications/bank-geode-sink/target/bank-geode-sink-0.0.1-SNAPSHOT.jar
+app register --name bank-geode-sink --type sink --uri file:///Users/Projects/VMware/Tanzu/Use-Cases/Vertical-Industries/VMware-Financial/dev/financial-open-banking-showcase/applications/bank-geode-sink/target/bank-geode-sink-0.0.1-SNAPSHOT.jar
 ```
 
 
 ## Start ATM Rest
 
 ```shell
-cd /Users/Projects/VMware/Tanzu/Vertical-Industries/VMware-Financial/dev/financial-open-banking-showcase
+cd /Users/Projects/VMware/Tanzu/Use-Cases/Vertical-Industries/VMware-Financial/dev/financial-open-banking-showcase
 ```
 
 ```shell
@@ -170,15 +205,20 @@ CURRENT_TIMESTAMP);
 
 ```shell
 curl -X 'GET' \
-  'http://localhost:4002/obp/v4.0.0/banks/bank1/atms/atm1' \
-  -H 'accept: */*'
+  'http://localhost:9000/obp/v4.0.0/banks/bank1/atms/atm1' \
+  -H 'accept: */*';echo
 ```
 
-
+```shell
+curl -X 'GET' \
+  'http://localhost:9000/obp/v4.0.0/banks/bank1/atms/atm2' \
+  -H 'accept: */*'
+```
 
 ## Start Bank Account service
 
 ```shell
+cd /Users/Projects/VMware/Tanzu/Use-Cases/Vertical-Industries/VMware-Financial/dev/financial-open-banking-showcase
 java -jar applications/bank-account-rest-service/target/bank-account-rest-service-0.0.1-SNAPSHOT.jar --server.port=4002
 ```
 
@@ -186,7 +226,7 @@ java -jar applications/bank-account-rest-service/target/bank-account-rest-servic
 open http://localhost:4002
 ```
 
-Create Account
+Create Account: bank1
 
 ```json
 {
@@ -212,7 +252,7 @@ Create Account
 http://localhost:7071/geode/swagger-ui.html
 
 ```sqlite-sql
-select * from /BankAccount where balance.amount > 10
+select * from /BankAccount where balance.amount > 999999
 ```
 
 ```shell
@@ -224,6 +264,7 @@ open http://localhost:15672/
 ## Bank
 
 ```shell
+cd /Users/Projects/VMware/Tanzu/Use-Cases/Vertical-Industries/VMware-Financial/dev/financial-open-banking-showcase
 java -jar applications/bank-rest-service/target/bank-rest-service-0.0.1-SNAPSHOT.jar  --server.port=4003
 ```
 
