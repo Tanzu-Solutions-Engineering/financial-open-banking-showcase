@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.6.6</version>
+        <version>3.1.2</version>
         <relativePath/>
     </parent>
     <groupId>com.vmware</groupId>
@@ -14,13 +14,23 @@
     <name>atm-geode-sink</name>
     <description>atm-geode-sink</description>
     <properties>
-		<geode.version>1.15.0</geode.version>
-        <java.version>11</java.version>
-        <spring-cloud.version>2021.0.1</spring-cloud.version>
-        <kotlin.version>1.6.10</kotlin.version>
-        <spring-geode.version>1.5.3</spring-geode.version>
+        <java.version>17</java.version>
+        <spring-cloud.version>2022.0.4</spring-cloud.version>
+        <kotlin.version>1.8.22</kotlin.version>
+        <springDataForGemFire.version>1.0.0</springDataForGemFire.version>
+        <vmwareGemFire.version>10.0.0</vmwareGemFire.version>
     </properties>
     <dependencies>
+        <dependency>
+            <groupId>com.vmware.gemfire</groupId>
+            <artifactId>spring-data-3.1-gemfire-10.0</artifactId>
+            <version>${springDataForGemFire.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vmware.gemfire</groupId>
+            <artifactId>gemfire-core</artifactId>
+            <version>10.0.0</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-config</artifactId>
@@ -42,23 +52,8 @@
             <artifactId>spring-cloud-stream-binder-rabbit</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.analytics</groupId>
-            <artifactId>spring-analytics</artifactId>
-            <version>2.0.0.RELEASE</version>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.amqp</groupId>
             <artifactId>spring-rabbit-stream</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.geode</groupId>
-            <artifactId>spring-geode-starter</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.geode</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.github.nyla-solutions</groupId>
@@ -82,56 +77,6 @@
             <artifactId>kotlin-stdlib-jdk8</artifactId>
         </dependency>
 
-		<dependency>
-			<groupId>org.apache.geode</groupId>
-			<artifactId>geode-core</artifactId>
-			<version>${geode.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.geode</groupId>
-			<artifactId>geode-cq</artifactId>
-			<version>${geode.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.geode</groupId>
-			<artifactId>geode-lucene</artifactId>
-			<version>${geode.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.geode</groupId>
-			<artifactId>geode-wan</artifactId>
-			<version>${geode.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.geode</groupId>
-			<artifactId>geode-common</artifactId>
-			<version>${geode.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.geode</groupId>
-			<artifactId>geode-management</artifactId>
-			<version>${geode.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.geode</groupId>
-			<artifactId>geode-logging</artifactId>
-			<version>${geode.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.geode</groupId>
-			<artifactId>geode-membership</artifactId>
-			<version>${geode.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.geode</groupId>
-			<artifactId>geode-unsafe</artifactId>
-			<version>${geode.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.geode</groupId>
-			<artifactId>geode-serialization</artifactId>
-			<version>${geode.version}</version>
-		</dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
@@ -142,11 +87,6 @@
             <artifactId>micrometer-registry-prometheus</artifactId>
             <scope>runtime</scope>
         </dependency>
-		<dependency>
-			<groupId>org.apache.geode</groupId>
-			<artifactId>geode-tcp-server</artifactId>
-			<version>${geode.version}</version>
-		</dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -186,13 +126,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <dependency>
-                <groupId>org.springframework.geode</groupId>
-                <artifactId>spring-geode-bom</artifactId>
-                <version>${spring-geode.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -227,22 +160,9 @@
     </build>
     <repositories>
         <repository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/milestone</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
+            <id>gemfire-release-repo</id>
+            <name>Pivotal GemFire Release Repository</name>
+            <url>https://commercial-repo.pivotal.io/data3/gemfire-release-repo/gemfire</url>
         </repository>
     </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/milestone</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
 </project>

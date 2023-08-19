@@ -28,6 +28,12 @@ Service                                                                     |   
 [bank-account-rest-service](applications/bank-account-rest-service)         | Account REST API
 [bank-rest-service](applications/bank-rest-service)                         | Bank REST API
 
+
+# VMware GemFire Building
+
+This repository uses GemFire. GemFire is free to use for local development.
+In order to build Please following the instruction [here to setup your credentials in your .m2/settings.xml file to access the dependencies in the GemFire maven repository](https://docs.vmware.com/en/VMware-GemFire/10.0/gf/getting_started-installation-obtain_gemfire_maven.html).
+
 # Brown-Field Integration
 
 ## Database 

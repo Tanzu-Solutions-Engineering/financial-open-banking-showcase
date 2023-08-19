@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.6.0</version>
+        <version>3.1.2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.vmware</groupId>
@@ -14,31 +14,36 @@
     <name>atm-rest-service</name>
     <description>atm-rest-service</description>
     <properties>
-		<geode.version>1.15.0</geode.version>
-        <java.version>11</java.version>
-        <kotlin.version>1.5.21</kotlin.version>
-        <spring-cloud.version>2021.0.0-RC1</spring-cloud.version>
-        <spring-geode.version>1.5.3</spring-geode.version>
+        <java.version>17</java.version>
+        <kotlin.version>1.8.22</kotlin.version>
+        <spring-cloud.version>2022.0.4</spring-cloud.version>
+        <springDataForGemFire.version>1.0.0</springDataForGemFire.version>
+        <vmwareGemFire.version>10.0.0</vmwareGemFire.version>
     </properties>
     <dependencies>
+        <dependency>
+            <groupId>com.vmware.gemfire</groupId>
+            <artifactId>spring-data-3.1-gemfire-10.0</artifactId>
+            <version>${springDataForGemFire.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vmware.gemfire</groupId>
+            <artifactId>gemfire-core</artifactId>
+            <version>10.0.0</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-config</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
-            <version>1.5.9</version>
+            <artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
+            <version>2.1.0</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework.geode</groupId>
-            <artifactId>spring-geode-starter</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.geode</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.1.0</version>
         </dependency>
         <dependency>
             <groupId>com.github.nyla-solutions</groupId>
@@ -61,72 +66,6 @@
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib-jdk8</artifactId>
         </dependency>
-
-		<dependency>
-			<groupId>org.apache.geode</groupId>
-			<artifactId>geode-core</artifactId>
-			<version>${geode.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.geode</groupId>
-			<artifactId>geode-cq</artifactId>
-			<version>${geode.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.geode</groupId>
-			<artifactId>geode-lucene</artifactId>
-			<version>${geode.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.geode</groupId>
-			<artifactId>geode-wan</artifactId>
-			<version>${geode.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.geode</groupId>
-			<artifactId>geode-common</artifactId>
-			<version>${geode.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.geode</groupId>
-			<artifactId>geode-management</artifactId>
-			<version>${geode.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.geode</groupId>
-			<artifactId>geode-management</artifactId>
-			<version>${geode.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.geode</groupId>
-			<artifactId>geode-management</artifactId>
-			<version>${geode.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.geode</groupId>
-			<artifactId>geode-logging</artifactId>
-			<version>${geode.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.geode</groupId>
-			<artifactId>geode-membership</artifactId>
-			<version>${geode.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.geode</groupId>
-			<artifactId>geode-unsafe</artifactId>
-			<version>${geode.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.geode</groupId>
-			<artifactId>geode-serialization</artifactId>
-			<version>${geode.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.geode</groupId>
-			<artifactId>geode-tcp-server</artifactId>
-			<version>${geode.version}</version>
-		</dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -152,13 +91,6 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.springframework.geode</groupId>
-                <artifactId>spring-geode-bom</artifactId>
-                <version>${spring-geode.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>${spring-cloud.version}</version>
@@ -167,7 +99,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
     <build>
         <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
         <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
@@ -199,12 +130,9 @@
     </build>
     <repositories>
         <repository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/milestone</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
+            <id>gemfire-release-repo</id>
+            <name>Pivotal GemFire Release Repository</name>
+            <url>https://commercial-repo.pivotal.io/data3/gemfire-release-repo/gemfire</url>
         </repository>
     </repositories>
 </project>
