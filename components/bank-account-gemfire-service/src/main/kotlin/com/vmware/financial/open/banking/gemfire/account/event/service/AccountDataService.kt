@@ -1,9 +1,11 @@
-package com.vmware.financial.open.banking.account.service
+package com.vmware.financial.open.banking.gemfire.account.event.service
 
+import com.vmware.financial.open.banking.account.service.AccountService
 import com.vmware.financial.open.banking.domain.account.BankAccount
 import com.vmware.financial.open.banking.domain.account.BankAccountCreateDto
 import nyla.solutions.core.util.Text
 import org.apache.geode.pdx.PdxInstance
+import org.springframework.context.annotation.Profile
 import org.springframework.data.gemfire.GemfireTemplate
 import org.springframework.stereotype.Service
 import java.util.*
@@ -11,19 +13,9 @@ import java.util.*
 /**
  * @author Gregory Green
  */
+@Profile("gemfire")
 @Service
-class AccountDataService(private val gemFireTemplate: GemfireTemplate) : AccountService  {
-    fun toKey(bankId: String, accountId: String): String {
-        return "$bankId|$accountId"
-    }
-
-    /**
-     * Convert account to id
-     */
-     fun toKey(account: BankAccount): String
-     {
-         return toKey(account.bank_id,account.id)
-     }
+class AccountDataService(private val gemFireTemplate: GemfireTemplate) : AccountService {
 
     /**
      * Create an account
@@ -41,22 +33,6 @@ class AccountDataService(private val gemFireTemplate: GemfireTemplate) : Account
         return accountDto
     }
 
-    /**
-     * Convert DTO to account
-     * @param accountDto the account data transfer object
-     * @return the converted account
-     */
-    internal fun toAccount(bankId: String, accountDto: BankAccountCreateDto): BankAccount {
-        return BankAccount(
-            id = accountDto.account_id,
-            label = accountDto.label,
-            product_code = accountDto.product_code,
-            balance = accountDto.balance,
-            account_routings = accountDto.account_routings,
-            bank_id = bankId
-
-        )
-    }
 
     override fun createAccount(account: BankAccount): BankAccount {
         gemFireTemplate.put(toKey(account),account)

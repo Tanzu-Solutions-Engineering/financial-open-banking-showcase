@@ -1,7 +1,7 @@
 spring:
-  config:
-    import: optional:configserver:http://localhost:8888/
   application:
     name: "bank-account-rest-service"
+  config:
+    import: optional:configserver:http://localhost:8888/
 server:
   port: 4001

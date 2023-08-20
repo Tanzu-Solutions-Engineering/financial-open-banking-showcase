@@ -1,16 +1,19 @@
 package com.vmware.financial.open.banking.account.service
 
+import com.vmware.financial.open.banking.account.service.redis.AccountDataService
 import com.vmware.financial.open.banking.domain.account.BankAccount
 import com.vmware.financial.open.banking.domain.account.BankAccountCreateDto
-import com.vmware.financial.open.banking.gemfire.account.event.service.AccountDataService
 import nyla.solutions.core.patterns.creational.generator.JavaBeanGeneratorCreator
-import org.apache.geode.pdx.PdxInstance
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.kotlin.*
-import org.springframework.data.gemfire.GemfireTemplate
+import org.mockito.kotlin.any
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.verify
+import org.mockito.kotlin.whenever
+import org.springframework.data.redis.core.RedisTemplate
+import org.springframework.data.redis.core.ValueOperations
 import java.util.*
 
 /**
@@ -20,8 +23,9 @@ import java.util.*
 internal class AccountDataServiceTest {
 
     private val bankId = "unitTestBank"
+    private lateinit var opsValue: ValueOperations<String,BankAccount>
     private lateinit var account: BankAccount
-    private lateinit var gemFireTemplate: GemfireTemplate
+    private lateinit var template: RedisTemplate<String,BankAccount>
     private lateinit var subject : AccountDataService;
     private lateinit var accountDto : BankAccountCreateDto
 
@@ -29,8 +33,10 @@ internal class AccountDataServiceTest {
     internal fun setUp() {
         accountDto = JavaBeanGeneratorCreator.of(BankAccountCreateDto::class.java).create()
         account = JavaBeanGeneratorCreator.of(BankAccount::class.java).create()
-        gemFireTemplate = mock<GemfireTemplate>()
-        subject = AccountDataService(gemFireTemplate)
+        template = mock<RedisTemplate<String,BankAccount>>()
+        opsValue = mock<ValueOperations<String,BankAccount>>()
+        whenever(template.opsForValue()).thenReturn(opsValue)
+        subject = AccountDataService(template)
     }
 
     @Test
@@ -43,7 +49,7 @@ internal class AccountDataServiceTest {
     @Test
     fun createAccount() {
         assertEquals(account,subject.createAccount(account));
-        verify(gemFireTemplate).put(any<String>(),any<BankAccount>())
+        verify(template).opsForValue()[any()] = any()
     }
 
     @Test
@@ -62,7 +68,7 @@ internal class AccountDataServiceTest {
 
         var actual = subject.createAccount(bankId,accountDto);
         assertTrue(actual.account_id.isNotEmpty())
-        verify(gemFireTemplate).put(any<String>(),any<BankAccount>())
+        verify(template).opsForValue()[any<String>()] = any<BankAccount>()
     }
 
     @Test
@@ -72,29 +78,27 @@ internal class AccountDataServiceTest {
         assertTrue(accountDto.account_id.isEmpty())
         var actual = subject.createAccount(bankId,accountDto);
         assertTrue(actual.account_id.isNotEmpty())
-        verify(gemFireTemplate).put(any<String>(),any<BankAccount>())
+        verify(template).opsForValue()[any<String>()] = any<BankAccount>()
     }
 
     @Test
     fun findAccountById() {
-        whenever(gemFireTemplate.get<Any,Any>(any())).thenReturn(account)
+
+        whenever(template.opsForValue()[any<String>()]).thenReturn(account)
         assertEquals(Optional.of(account),subject.findAccountById(account.bank_id,account.id));
     }
 
     @Test
     fun updateAccount_whenDoesNotExist_ThenReturnsEmpty() {
         assertEquals(Optional.empty<BankAccount>(),subject.updateAccount(account))
-        verify(gemFireTemplate).containsKeyOnServer(any<String>())
+        verify(opsValue)[any()]
     }
 
     @Test
     internal fun findAccount_WhenPdx_Then_ReturnAccount() {
 
-        var accountPdx = mock<PdxInstance>()
-        {
-            on { `object` } doReturn account
-        }
-        whenever(gemFireTemplate.get<Any,Any>(any())).thenReturn(accountPdx)
+
+        whenever(opsValue[any()]).thenReturn(account)
         assertEquals(Optional.of(account),subject.findAccountById(account.bank_id,account.id));
 
     }

@@ -1,5 +1,6 @@
 package com.vmware.financial.open.banking.account.event
 
+import com.vmware.financial.open.banking.gemfire.account.event.PremiumAccountCqListener
 import org.apache.geode.cache.Operation
 import org.apache.geode.cache.query.CqEvent
 import org.junit.jupiter.api.Test

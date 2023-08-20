@@ -24,6 +24,7 @@
         <module>components/account-domain</module>
         <module>components/bank-account-service</module>
         <module>components/bank-account-gemfire-service</module>
+        <module>components/bank-account-redis-service</module>
         <module>applications/bank-account-rest-service</module>
         <module>applications/database-sor-migration</module>
     </modules>

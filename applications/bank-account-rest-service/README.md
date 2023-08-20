@@ -7,13 +7,23 @@ See [GitHub project](https://github.com/Tanzu-Solutions-Engineering/financial-op
 
 # Setup
 
-## Local 
+## Local GemFire
 
 Install and deploy a [VMware GemFire](https://docs.vmware.com/en/VMware-GemFire/10.0/gf/getting_started-installation-install_intro.html) cluster
 
 In Gfsh
 ```shell
 create region --name=BankAccount --type=PARTITION
+```
+
+## GemFire for Redis
+
+```shell
+start server --name=redisServer1 --locators=localhost[10334] --server-port=40404 --classpath=/Users/devtools/repositories/IMDG/gemfire/vmware-gemfire-for-redis-apps-1.1.0/lib/* --J=-Dgemfire-for-redis-enabled=true
+```
+
+```shell
+gfsh> start server --name=redisServer2 --locators=localhost[10334] --server-port=40405 --classpath=/Users/devtools/repositories/IMDG/gemfire/vmware-gemfire-for-redis-apps-1.1.0/lib/* --J=-Dgemfire-for-redis-port=6380 --J=-Dgemfire-for-redis-enabled=true
 ```
 
 # Docker

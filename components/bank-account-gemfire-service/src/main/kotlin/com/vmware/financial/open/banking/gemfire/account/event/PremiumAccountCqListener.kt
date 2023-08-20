@@ -1,16 +1,17 @@
-package com.vmware.financial.open.banking.account.event
+package com.vmware.financial.open.banking.gemfire.account.event
 
 import org.apache.geode.cache.query.CqEvent
 import org.apache.logging.log4j.LogManager
 import org.springframework.context.annotation.DependsOn
+import org.springframework.context.annotation.Profile
 import org.springframework.data.gemfire.listener.annotation.ContinuousQuery
 import org.springframework.stereotype.Component
 
 /**
  * @author Gregory Green
  */
-@Component
-@DependsOn(value = ["bankAccountRegion"])
+//@Component
+//@Profile("gemfire")
 class PremiumAccountCqListener {
     private var log = LogManager.getLogger(PremiumAccountCqListener::class.java)
 
