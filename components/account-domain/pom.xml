@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.vmware</groupId>
-    <artifactId>atm-domain</artifactId>
+    <artifactId>account-domain</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>atm-domain</name>
-    <description>atm-domain</description>
+    <name>account-domain</name>
+    <description>account-domain</description>
     <properties>
         <java.version>17</java.version>
         <kotlin.version>1.8.22</kotlin.version>
@@ -40,6 +40,12 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.vmware</groupId>
+            <artifactId>atm-domain</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

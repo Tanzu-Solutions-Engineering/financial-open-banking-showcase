@@ -13,14 +13,17 @@
     <modules>
         <module>components/atm-domain</module>
         <module>components/atm-service</module>
-        <module>applications/atm-geode-sink</module>
+        <module>applications/atm-sink</module>
         <module>applications/atm-rest-service</module>
 
         <module>components/bank-domain</module>
         <module>components/bank-service</module>
-        <module>applications/bank-geode-sink</module>
+        <module>applications/bank-sink</module>
         <module>applications/bank-rest-service</module>
 
+        <module>components/account-domain</module>
+        <module>components/bank-account-service</module>
+        <module>components/bank-account-gemfire-service</module>
         <module>applications/bank-account-rest-service</module>
         <module>applications/database-sor-migration</module>
     </modules>
@@ -31,8 +34,8 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <configuration>
-                        <source>11</source>
-                        <target>11</target>
+                        <source>17</source>
+                        <target>17</target>
                     </configuration>
                 </plugin>
             </plugins>

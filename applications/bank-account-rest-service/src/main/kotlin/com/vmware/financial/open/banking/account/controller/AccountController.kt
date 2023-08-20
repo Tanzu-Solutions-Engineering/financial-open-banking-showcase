@@ -1,8 +1,8 @@
 package com.vmware.financial.open.banking.account.controller
 
-import com.vmware.financial.open.banking.account.domain.BankAccount
-import com.vmware.financial.open.banking.account.domain.BankAccountCreateDto
 import com.vmware.financial.open.banking.account.service.AccountService
+import com.vmware.financial.open.banking.domain.account.BankAccount
+import com.vmware.financial.open.banking.domain.account.BankAccountCreateDto
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 

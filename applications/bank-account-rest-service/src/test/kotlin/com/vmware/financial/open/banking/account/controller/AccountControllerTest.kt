@@ -1,8 +1,8 @@
 package com.vmware.financial.open.banking.account.controller
 
-import com.vmware.financial.open.banking.account.domain.BankAccount
-import com.vmware.financial.open.banking.account.domain.BankAccountCreateDto
 import com.vmware.financial.open.banking.account.service.AccountService
+import com.vmware.financial.open.banking.domain.account.BankAccount
+import com.vmware.financial.open.banking.domain.account.BankAccountCreateDto
 import nyla.solutions.core.patterns.creational.generator.JavaBeanGeneratorCreator
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
