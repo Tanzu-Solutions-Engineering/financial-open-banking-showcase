@@ -9,8 +9,13 @@ See [GitHub project](https://github.com/Tanzu-Solutions-Engineering/financial-op
 
 ## Local
 
-Gfsh 
+Install and deploy a [VMware GemFire](https://docs.vmware.com/en/VMware-GemFire/10.0/gf/getting_started-installation-install_intro.html) cluster
 
+In [Gfsh](https://docs.vmware.com/en/VMware-GemFire/10.0/gf/tools_modules-gfsh-starting_gfsh.html)
+
+```shell
+create region --name=BankAccount --type=PARTITION
+```
 ```shell
 create region --name=Atm --type=PARTITION
 ```

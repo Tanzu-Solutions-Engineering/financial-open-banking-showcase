@@ -26,8 +26,18 @@ Install and Deploy a [GemFire cluster](https://tanzu.vmware.com/developer/data/t
 
 ## Region Setup
 
+
+In Kubernetes
+
 ```shell
 kubectl exec gemfire1-locator-0 -- gfsh -e "connect" -e "create region --name=Bank --type=PARTITION"
+```
+
+
+Local Gsh
+
+```shell
+create region --name=Bank --type=PARTITION
 ```
 
 
