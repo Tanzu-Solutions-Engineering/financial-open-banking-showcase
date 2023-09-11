@@ -1,0 +1,17 @@
+server:
+  port: 0
+spring:
+  application:
+    name: "spring-gf-redis-server"
+  data:
+    gemfire:
+      locator:
+        port: 10100
+        name: gf1-loc1
+gemfire:
+  distributed-system-id: 1
+  remote-locators: localhost[10200]
+  jmx-manager-port: 1090
+  tcp-port: 11001
+  membership-port-range: "10901-10910"
+  http-service-port: 18080

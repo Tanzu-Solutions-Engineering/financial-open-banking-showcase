@@ -1,6 +1,11 @@
 .gradle
 .project
+*.dat
+ConfigDiskDir*/
+*.if
+*.pid
 .settings
+*.lk
 /build/
 .mvn/
 set-env.sh

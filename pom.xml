@@ -26,7 +26,10 @@
         <module>components/bank-account-gemfire-service</module>
         <module>components/bank-account-redis-service</module>
         <module>applications/bank-account-rest-service</module>
+        <module>applications/bank-account-sink</module>
         <module>applications/database-sor-migration</module>
+        <module>applications/spring-gf-locator</module>
+        <module>applications/spring-gf-redis-server</module>
     </modules>
     <build>
         <pluginManagement>
