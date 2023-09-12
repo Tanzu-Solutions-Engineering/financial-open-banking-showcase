@@ -48,8 +48,9 @@ internal class AccountDataServiceTest {
 
     @Test
     fun createAccount() {
-        assertEquals(account,subject.createAccount(account));
-        verify(template).opsForValue()[any()] = any()
+        assertEquals(account,subject.createAccount(account))
+
+        verify(opsValue)[any<String>()] = any<BankAccount>()
     }
 
     @Test
@@ -68,7 +69,8 @@ internal class AccountDataServiceTest {
 
         var actual = subject.createAccount(bankId,accountDto);
         assertTrue(actual.account_id.isNotEmpty())
-        verify(template).opsForValue()[any<String>()] = any<BankAccount>()
+
+        verify(opsValue)[any<String>()] = any<BankAccount>()
     }
 
     @Test
@@ -78,7 +80,8 @@ internal class AccountDataServiceTest {
         assertTrue(accountDto.account_id.isEmpty())
         var actual = subject.createAccount(bankId,accountDto);
         assertTrue(actual.account_id.isNotEmpty())
-        verify(template).opsForValue()[any<String>()] = any<BankAccount>()
+
+        verify(opsValue)[any<String>()] = any<BankAccount>()
     }
 
     @Test
@@ -91,7 +94,7 @@ internal class AccountDataServiceTest {
     @Test
     fun updateAccount_whenDoesNotExist_ThenReturnsEmpty() {
         assertEquals(Optional.empty<BankAccount>(),subject.updateAccount(account))
-        verify(opsValue)[any()]
+        verify(opsValue).setIfAbsent(any(),any())
     }
 
     @Test

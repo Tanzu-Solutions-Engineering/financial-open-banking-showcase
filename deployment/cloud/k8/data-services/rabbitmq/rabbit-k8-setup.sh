@@ -3,7 +3,7 @@ kubectl apply -f "https://github.com/rabbitmq/cluster-operator/releases/latest/d
 
 kubectl wait pod -l=app.kubernetes.io/name=rabbitmq-cluster-operator --for=condition=Ready --timeout=60s --namespace=rabbitmq-system
 
-kubectl apply -f cloud/k8/data-services/rabbitmq/rabbitmq.yml
+kubectl apply -f cloud/k8/data-services/rabbitmq/rabbitmq.yaml
 
 sleep 30
 

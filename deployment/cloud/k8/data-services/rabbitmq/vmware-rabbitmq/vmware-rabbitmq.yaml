@@ -1,0 +1,18 @@
+apiVersion: rabbitmq.com/v1beta1
+kind: RabbitmqCluster
+metadata:
+  name: rabbitmq
+spec:
+  service:
+    type: LoadBalancer
+  rabbitmq:
+    additionalPlugins:
+      - rabbitmq_mqtt
+      - rabbitmq_management
+      - rabbitmq_federation_management
+      - rabbitmq_prometheus
+      - rabbitmq_shovel_management
+      - rabbitmq_stream
+      - rabbitmq_stream_management
+  imagePullSecrets:
+    - name: image-pull-secret
