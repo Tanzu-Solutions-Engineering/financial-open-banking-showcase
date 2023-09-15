@@ -9,7 +9,7 @@ import java.util.function.Consumer
  * @author Gregory Green
  */
 @Service
-class BankAccountConsumer(private val service: AccountService) : Consumer<BankAccount> {
+ class BankAccountConsumer(private val service: AccountService) : Consumer<BankAccount> {
 
     override fun accept(bankAccount: BankAccount) {
         service.createAccount(bankAccount)

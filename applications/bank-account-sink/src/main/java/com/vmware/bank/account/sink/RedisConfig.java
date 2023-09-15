@@ -1,0 +1,51 @@
+package com.vmware.bank.account.sink;
+
+
+import com.vmware.financial.open.banking.account.repository.AccountRepository;
+import com.vmware.financial.open.banking.domain.account.BankAccount;
+import nyla.solutions.core.util.Text;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
+import com.vmware.financial.open.banking.account.service.redis.AccountDataService;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializer;
+
+import java.util.Calendar;
+
+@Configuration
+@ComponentScan(basePackageClasses = AccountDataService.class)
+@EnableRedisRepositories(basePackageClasses = AccountRepository.class)
+public class RedisConfig {
+
+    @Value("${spring.application.name}")
+    private String applicationName;
+
+    @Bean
+    RedisTemplate<String, BankAccount> template(LettuceConnectionFactory factory,
+                                                RedisSerializer<Object> serializer) {
+        var template = new RedisTemplate<String, BankAccount>();
+
+        template.setDefaultSerializer(serializer);
+        template.setConnectionFactory(factory);
+
+        return template;
+    }
+
+    @Bean
+    RedisSerializer<?> redisSerializer() {
+        return new GenericJackson2JsonRedisSerializer();
+    }
+
+    @Bean
+    ApplicationContextAware listener(RedisTemplate<String, String> redisTemplate) {
+        return context ->
+                redisTemplate.opsForValue().set(applicationName,
+                        Text.formatDate(Calendar.getInstance().getTime()));
+    }
+}

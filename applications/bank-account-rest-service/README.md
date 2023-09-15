@@ -33,9 +33,11 @@ See [Docker Hub Image](https://hub.docker.com/r/cloudnativedata/bank-account-res
 ## Builder Docker
 
 ```shell
-mvn -pl applications/bank-account-rest-service -am clean spring-boot:build-image
-docker tag bank-account-rest-service:0.0.1-SNAPSHOT cloudnativedata/bank-account-rest-service:0.0.1-SNAPSHOT 
-docker push cloudnativedata/bank-account-rest-service:0.0.1-SNAPSHOT
+mvn install
+cd applications/bank-account-rest-service 
+mvn spring-boot:build-image
+docker tag bank-account-rest-service:0.0.2-SNAPSHOT cloudnativedata/bank-account-rest-service:0.0.2-SNAPSHOT 
+docker push cloudnativedata/bank-account-rest-service:0.0.2-SNAPSHOT
 ```
 
 ## Kubernetes

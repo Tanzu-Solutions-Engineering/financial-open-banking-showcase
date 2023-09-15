@@ -1,0 +1,54 @@
+---
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: GatewayClass
+metadata:
+  name: gf-contour-gateway-class
+spec:
+  controllerName: projectcontour.io/gateway-controller
+---
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: Gateway
+metadata:
+  name: gf-gateway
+spec:
+  gatewayClassName: gf-contour-gateway-class
+  listeners:
+    - name: gf-gateway-listener
+      protocol: TLS
+      port: 9000
+      tls:
+        mode: Passthrough
+---
+apiVersion: gemfire.vmware.com/v1
+kind: GemFireCluster
+metadata:
+  name: gf-redis
+spec:
+  ingress:
+    gatewayName: gf-gateway
+#  image: registry.tanzu.vmware.com/pivotal-gemfire/vmware-gemfire:10.0.0
+  image: gemfire/gemfire:10.0
+  antiAffinityPolicy: None
+  security:
+    tls: {}
+  metrics:
+    emission: Default
+  locators:
+    replicas: 1
+    resources:
+      requests:
+        memory: 1Gi
+  servers:
+    replicas: 1
+    resources:
+      requests:
+        memory: 1Gi
+    libraries:
+      - name: gemfire-for-redis-apps
+        container:
+          image: registry.tanzu.vmware.com/tanzu-gemfire-for-redis-apps/gemfire-for-redis-apps:1.1.0
+          path: "/gemfire-for-redis-apps/*"
+          imagePullSecretRef:
+            name: image-pull-secret
+    overrides:
+      jvmOptions: ["-Dgemfire-for-redis-enabled=true","-Dgemfire-for-redis-region-name=GF_REDIS_WAN"]

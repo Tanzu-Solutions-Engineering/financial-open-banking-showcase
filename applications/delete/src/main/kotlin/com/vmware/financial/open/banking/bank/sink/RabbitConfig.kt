@@ -27,7 +27,7 @@ import org.springframework.rabbit.stream.listener.StreamListenerContainer
  * @author Gregory Green
  */
 @Configuration
-class RabbitConfig {
+class RabbitConf ig {
 
     @Value("\${spring.rabbitmq.username:guest}")
     private var username: String = "guest";

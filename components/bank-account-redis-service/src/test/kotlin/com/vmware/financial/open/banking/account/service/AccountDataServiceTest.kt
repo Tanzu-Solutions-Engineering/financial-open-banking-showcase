@@ -97,6 +97,20 @@ internal class AccountDataServiceTest {
         verify(opsValue).setIfAbsent(any(),any())
     }
 
+
+    @Test
+    fun updateAccount_ThenAccounts() {
+        assertEquals(Optional.empty<BankAccount>(),subject.updateAccount(account))
+        verify(opsValue).setIfAbsent(any(),any())
+    }
+
+
+    @Test
+    fun saveAccount_ThenAccounts() {
+        assertEquals(account,subject.saveAccount(account))
+        verify(opsValue).set(any(),any())
+    }
+
     @Test
     internal fun findAccount_WhenPdx_Then_ReturnAccount() {
 

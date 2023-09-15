@@ -40,4 +40,9 @@ class AccountDataService(private val template: RedisTemplate<String,BankAccount>
 
         return Optional.of(account)
     }
+
+    override fun saveAccount(account: BankAccount): BankAccount {
+        opsForValue[toKey(account)] = account
+        return account
+    }
 }

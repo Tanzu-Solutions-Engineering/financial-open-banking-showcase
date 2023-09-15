@@ -18,15 +18,6 @@ spring.data.gemfire.manager.port=1199
 ```
 Register 
 
-```shell
-mvn install:install-file \
--Dfile=/Users/devtools/repositories/IMDG/gemfire/gemfire-for-redis-apps-1.0.1/lib/gemfire-for-redis-apps-1.0.1.jar \
--DgroupId=com.vmware.gemfire \
--DartifactId=gemfire-for-redis-apps \
--Dversion=1.0.1 \
--Dpackaging=jar \
--DgeneratePom=true
-```
 
 ## WAN
 
@@ -36,15 +27,15 @@ mvn install:install-file \
 Docker
 
 ```shell
-cd applications/spring-gf-redis-server
+cd applications/spring-gf-locator
 mvn spring-boot:build-image
 
 ```
 
 
 ```shell script
-docker tag spring-gf-redis-server:0.0.1-SNAPSHOT cloudnativedata/spring-gf-redis-server:0.0.1-SNAPSHOT 
+docker tag spring-gf-locator:0.1.1-SNAPSHOT cloudnativedata/spring-gf-locator:0.1.1-SNAPSHOT 
 docker login
-docker push cloudnativedata/spring-gf-redis-server:0.0.1-SNAPSHOT
+docker push cloudnativedata/spring-gf-locator:0.1.1-SNAPSHOT
 
 ```

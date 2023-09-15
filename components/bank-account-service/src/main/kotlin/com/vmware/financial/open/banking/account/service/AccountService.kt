@@ -56,5 +56,5 @@ interface AccountService {
     fun createAccount(account: BankAccount) : BankAccount
     fun findAccountById(bankId: String, accountId: String): Optional<BankAccount>
     fun updateAccount(account: BankAccount): Optional<BankAccount>
-
+    fun saveAccount(account: BankAccount): BankAccount
 }

@@ -1,0 +1,55 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: gf1-redis-spring-gf-locator
+  labels:
+    app: gf1-redis-spring-gf-locator
+spec:
+  ports:
+    - port: 10334
+      name: locator
+  clusterIP: None
+  selector:
+    app: gf1-redis-spring-gf-locator
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: gf1-redis-spring-gf-locator
+spec:
+  selector:
+    matchLabels:
+      app: gf1-redis-spring-gf-locator # has to match .spec.template.metadata.labels
+  serviceName: "spring-gf-locator"
+  replicas: 1 # by default is 1
+  minReadySeconds: 10 # by default is 0
+  template:
+    metadata:
+      labels:
+        app: gf1-redis-spring-gf-locator # has to match .spec.selector.matchLabels
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: gf1-redis-spring-gf-locator
+          image: cloudnativedata/spring-gf-locator:0.1.1-SNAPSHOT
+          ports:
+            - containerPort: 10334
+              name: locator
+          env:
+            - name: gemfire.distributed-system-id
+              value: "1"
+            - name: gemfire.remote-locators
+              value: "gf2-redis-spring-gf-locator-0"
+            - name: spring.data.gemfire.locator.name
+              value: "gf1-redis-spring-gf-locator-0"
+            - name: spring.data.gemfire.locator.port
+              value: "10334"
+  volumeClaimTemplates:
+    - metadata:
+        name: local
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: "standard"
+        resources:
+          requests:
+            storage: 5Gi

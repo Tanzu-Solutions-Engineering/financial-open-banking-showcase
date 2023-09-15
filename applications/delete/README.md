@@ -1,5 +1,17 @@
 # bank-account-sink
 
+
+
+# Using GemFire
+
+Create region in Gfsh
+
+```shell
+create region --name=/BankAccount --type=PARTITION
+```
+
+
+
 # Build Docker
 
 
@@ -7,14 +19,13 @@
 mvn install 
 cd applications/bank-account-sink
 mvn spring-boot:build-image
-docker tag bank-account-sink:0.0.1-SNAPSHOT cloudnativedata/bank-account-sink:0.0.1-SNAPSHOT
-docker push cloudnativedata/bank-account-sink:0.0.1-SNAPSHOT
-```
+docker tag bank-account-sink:0.0.3-SNAPSHOT
+
 
 Optional on Kind
 
 ```shell
-kind load docker-image bank-account-sink:0.0.1-SNAPSHOT
+kind load docker-image bank-account-sink:0.0.3-SNAPSHOT
 
 
 ```shell

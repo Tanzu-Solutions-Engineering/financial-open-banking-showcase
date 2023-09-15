@@ -19,6 +19,7 @@ public class GfRedisServer {
      * --J=-Dgemfire-for-redis-port=6379  --J=-Dgemfire-for-redis-enabled=true
      */
     public static void main(String[] args) {
+        System.setProperty("gemfire-for-redis-enabled","true");
         SpringApplication.run(GfRedisServer.class,args);
     }
 }

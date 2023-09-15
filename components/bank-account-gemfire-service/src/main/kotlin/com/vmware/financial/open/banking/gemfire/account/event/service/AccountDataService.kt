@@ -67,4 +67,9 @@ class AccountDataService(private val gemFireTemplate: GemfireTemplate) : Account
         gemFireTemplate.put(key,account)
         return Optional.of(account)
     }
+
+    override fun saveAccount(account: BankAccount): BankAccount {
+        gemFireTemplate.put(toKey(account),account)
+        return account
+    }
 }

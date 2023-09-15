@@ -1,0 +1,18 @@
+apiVersion: sql.tanzu.vmware.com/v1
+kind: Postgres
+metadata:
+  name: postgres-db
+spec:
+  imagePullSecret:
+    name: regsecret
+  storageClassName: standard
+  storageSize: 800M
+#  serviceType: LoadBalancer
+  resources:
+    data:
+      requests:
+        cpu: 1000m
+        memory: 800Mi
+  # readOnlyServiceType: ClusterIP
+  highAvailability:
+    enabled: false

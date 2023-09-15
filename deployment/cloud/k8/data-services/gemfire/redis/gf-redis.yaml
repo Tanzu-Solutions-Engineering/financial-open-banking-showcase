@@ -1,0 +1,31 @@
+apiVersion: gemfire.vmware.com/v1
+kind: GemFireCluster
+metadata:
+  name: gf-redis
+spec:
+#  image: registry.tanzu.vmware.com/pivotal-gemfire/vmware-gemfire:10.0.0
+  image: gemfire/gemfire:10.0
+  antiAffinityPolicy: None
+  security:
+    tls: {}
+  metrics:
+    emission: Default
+  locators:
+    replicas: 1
+    resources:
+      requests:
+        memory: 1Gi
+  servers:
+    replicas: 1
+    resources:
+      requests:
+        memory: 1Gi
+    libraries:
+      - name: gemfire-for-redis-apps
+        container:
+          image: registry.tanzu.vmware.com/tanzu-gemfire-for-redis-apps/gemfire-for-redis-apps:1.1.0
+          path: "/gemfire-for-redis-apps/*"
+          imagePullSecretRef:
+            name: image-pull-secret
+    overrides:
+      jvmOptions: ["-Dgemfire-for-redis-enabled=true","-Dgemfire-for-redis-region-name=GF_REDIS_WAN"]

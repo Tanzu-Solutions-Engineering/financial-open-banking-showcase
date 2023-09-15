@@ -8,6 +8,7 @@ import org.apache.geode.pdx.PdxInstance
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.*
 import org.springframework.data.gemfire.GemfireTemplate
@@ -97,5 +98,12 @@ internal class AccountDataServiceTest {
         whenever(gemFireTemplate.get<Any,Any>(any())).thenReturn(accountPdx)
         assertEquals(Optional.of(account),subject.findAccountById(account.bank_id,account.id));
 
+    }
+
+    @DisplayName("WHEN save account THEN save and return account")
+    @Test
+    fun saveAccount() {
+        assertEquals(account,subject.saveAccount(account))
+        verify(gemFireTemplate).put(any<String>(),any<BankAccount>());
     }
 }
