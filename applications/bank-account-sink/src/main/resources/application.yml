@@ -1,4 +1,9 @@
 spring:
+  data:
+      redis:
+        cluster:
+          nodes: localhost:6379
+#        client-type: JEDIS
   config:
     import: optional:configserver:http://localhost:8888/
   application:
@@ -15,9 +20,11 @@ spring:
         bankAccountConsumer-in-0:
           destination: banking-account
           group: ${spring.application.name}
+          contentType: application/json
           consumer:
             concurrency: 1
             container-type: stream
+            maxAttempts: 2147483647
       rabbit:
         bindings:
           bankAccountConsumer-in-0:

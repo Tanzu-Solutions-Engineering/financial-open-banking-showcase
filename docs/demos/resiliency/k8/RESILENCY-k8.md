@@ -59,7 +59,7 @@ kubectl apply -f deployment/cloud/k8/apps/http-amqp-source/http-amqp-source.yaml
 ```
 
 
-Sink applicat
+Sink application
 
 ```shell
 kubectl apply -f deployment/cloud/k8/apps/bank-account-sink/bank-account-redis-sink.yaml
@@ -93,12 +93,12 @@ Post though source
 
 ```shell
 curl -X 'POST' \
-  'http://localhost:8095/amqp/?exchange=banking' \
+  'http://localhost:8095/amqp/?exchange=banking-acount' \
   -H 'accept: application/hal+json' \
   -H 'rabbitContentType: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
-  "account_id": "001",
+  "id": "001",
   "bank_id" :  "FLT",
   "user_id": "imani",
   "label": "imani-001",
@@ -116,3 +116,4 @@ curl -X 'POST' \
   "branch_id": "BRANCH-BROOK"
 }'
 ```
+

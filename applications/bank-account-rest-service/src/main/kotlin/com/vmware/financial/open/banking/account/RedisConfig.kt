@@ -10,7 +10,9 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Profile
-import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory
+import org.springframework.data.redis.connection.RedisClusterConfiguration
+import org.springframework.data.redis.connection.RedisConnectionFactory
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer
@@ -26,8 +28,19 @@ class RedisConfig {
     @Value("\${spring.application.name}")
     private lateinit var applicationName: String
 
+    @Value("\${spring.data.redis.cluster.nodes}")
+    private val nodes: List<String>? = null
+
     @Bean
-    fun template(factory : LettuceConnectionFactory,
+    fun redisConnectionFactory(): RedisConnectionFactory {
+        val config = RedisClusterConfiguration(
+            nodes!!
+        )
+        return JedisConnectionFactory(config)
+    }
+
+    @Bean
+    fun template(factory : RedisConnectionFactory,
                  serializer : RedisSerializer<Object>
     ) : RedisTemplate<String,BankAccount>
     {

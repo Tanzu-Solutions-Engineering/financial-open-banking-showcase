@@ -38,5 +38,5 @@ spec:
             value: redis
           image: cloudnativedata/bank-account-sink:0.0.1-SNAPSHOT
           name: bank-account-redis-sink
-          imagePullPolicy: IfNotPresent
-#          imagePullPolicy: Always
+#          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always

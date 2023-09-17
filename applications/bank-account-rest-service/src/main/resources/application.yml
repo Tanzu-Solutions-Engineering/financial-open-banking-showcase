@@ -3,5 +3,9 @@ spring:
     name: "bank-account-rest-service"
   config:
     import: optional:configserver:http://localhost:8888/
+  data:
+    redis:
+      cluster:
+        nodes: localhost:6379
 server:
   port: 4001

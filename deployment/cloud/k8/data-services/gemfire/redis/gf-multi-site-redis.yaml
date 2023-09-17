@@ -26,8 +26,9 @@ metadata:
 spec:
   ingress:
     gatewayName: gf-gateway
+
 #  image: registry.tanzu.vmware.com/pivotal-gemfire/vmware-gemfire:10.0.0
-  image: gemfire/gemfire:10.0
+  image: gemfire/gemfire:10.0.1
   antiAffinityPolicy: None
   security:
     tls: {}
