@@ -12,38 +12,10 @@ kubectl config set-context --current --namespace=accounting
 ```
 
 - RabbitMQ Operator
-- Postgres
-```shell
-./deployment/cloud/k8/data-services/postgres/postgres-setup.sh
-```
-
-------------------
-
-# install
-
 
 GemFire
-
 ```shell
 kubectl apply -f deployment/cloud/k8/data-services/gemfire/redis/gf-multi-site-redis.yaml
-```
-
-
-Postgres
-```shell 
- kubectl  create secret generic postgres-db-app-user-db-secret \
-    --from-literal=username=appaccounting \
-    --from-literal=password=appaccounting
- 
- kubectl  create secret generic postgres-db-read-only-user-db-secret \
-    --from-literal=username=accounting-ro \
-    --from-literal=password=accounting
- 
- kubectl  create secret generic postgres-db-read-write-user-db-secret \
-    --from-literal=username=accounting \
-    --from-literal=password=accounting
-    
-kubectl apply -f deployment/cloud/k8/data-services/postgres/ha/postgres-db.yaml
 ```
 
 RabbitMQ
@@ -71,22 +43,40 @@ Rest service
 ```shell
 kubectl apply -f deployment/cloud/k8/apps/account-rest-service/account-rest-redis-service.yaml
 ```
-
+-------------------
+```shell
+kubectl create namespace accounting-dc2
+kubectl config set-context --current --namespace=accounting-dc2
+```
+- Postgres
 
 ```shell
-k port-forward service/bank-account-rest-service 8090:80
+./deployment/cloud/k8/data-services/postgres/postgres-setup.sh
+```
+
+Postgres
+```shell 
+kubectl apply -f deployment/cloud/k8/data-services/postgres/ha/postgres-db.yaml
+```
+
+------------------
+
+Port forwards
+
+```shell
+k port-forward service/bank-account-rest-service 8090:80 -n accounting
 ```
 
 ```shell
-k port-forward service/http-amqp-source-service 8095:80
+k port-forward service/http-amqp-source-service 8095:80 -n accounting
 ```
 
 ```shell
-k port-forward service/rabbitmq 35672:15672
+k port-forward service/rabbitmq 35672:15672 -n accounting
 ```
 
 ```shell
-k port-forward pod/gf-redis-server-0 6379:6379
+k port-forward pod/gf-redis-server-0 6379:6379 -n accounting
 ```
 
 Post though source
@@ -139,3 +129,9 @@ rabbitmq-streams add_replica  banking-account.bank-account-redis-sink rabbit@rab
 - Delete GemFire Redis Server
 - Get from Service (found)
 
+------------
+
+Takes about 3-4 minutes
+```shell
+k apply -f deployment/cloud/k8/data-services/postgres/ha/postgres-db-ha.yaml -n accounting-dc2
+```
