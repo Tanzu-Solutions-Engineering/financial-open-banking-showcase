@@ -16,6 +16,8 @@ spring:
   cloud:
     function.definition: bankAccountConsumer
     stream:
+      binder:
+        connection-name-prefix: ${spring.application.name}
       bindings:
         bankAccountConsumer-in-0:
           destination: banking-account

@@ -20,8 +20,13 @@ public class BankAccountConsumer implements Consumer<BankAccount> {
     @Override
     public void accept(BankAccount bankAccount) {
 
-        log.info("save {} ",bankAccount);
-        accountService.saveAccount(bankAccount);
-
+        try {
+            log.info("save {} ", bankAccount);
+            accountService.saveAccount(bankAccount);
+        }
+        catch (RuntimeException e)
+        {
+            log.error("Cannot save account:"+bankAccount,e);
+        }
     }
 }

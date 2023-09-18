@@ -117,3 +117,10 @@ curl -X 'POST' \
 }'
 ```
 
+Scale RabbitNodes
+
+```shell
+rabbitmq-streams add_replica  banking-account.bank-account-redis-sink rabbit@rabbitmq-server-1.rabbitmq-nodes.accounting
+rabbitmq-streams add_replica  banking-account.bank-account-redis-sink rabbit@rabbitmq-server-2.rabbitmq-nodes.accounting
+```
+
