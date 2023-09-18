@@ -117,10 +117,25 @@ curl -X 'POST' \
 }'
 ```
 
-Scale RabbitNodes
+*Scale Rabbit to 3 Nodes*
 
 ```shell
 rabbitmq-streams add_replica  banking-account.bank-account-redis-sink rabbit@rabbitmq-server-1.rabbitmq-nodes.accounting
 rabbitmq-streams add_replica  banking-account.bank-account-redis-sink rabbit@rabbitmq-server-2.rabbitmq-nodes.accounting
 ```
+
+
+- Delete RabbitMQ node
+- Publish from source
+- Get from Service
+
+*Delete GemFire Redis Server*
+
+- Get from Service (missing)
+- Restart sink (replay)
+- Get from Service (found)
+
+*Scale GemFire Redis to 2 Nodes*
+- Delete GemFire Redis Server
+- Get from Service (found)
 

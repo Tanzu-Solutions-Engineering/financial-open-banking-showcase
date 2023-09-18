@@ -34,6 +34,8 @@ spec:
                 key: password
           - name: spring.data.redis.cluster.nodes
             value: gf-redis-server-0:6379
+          - name: rabbitmq.streaming.replay
+            value: "true"
           - name: spring.profiles.active
             value: redis
           image: cloudnativedata/bank-account-sink:0.0.1-SNAPSHOT
