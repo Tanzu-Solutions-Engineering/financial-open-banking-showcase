@@ -8,6 +8,7 @@ using Steeltoe.Connector.PostgreSql.EFCore;
 using Steeltoe.Connector.RabbitMQ;
 using Steeltoe.Management.Endpoint;
 using Showcase.SteelToe.Data.Repository;
+using Showcase.SteelToe.Data.Solutions.Consumer.Mapping; 
 
 namespace Showcase.SteelToe.Data.Solutions.Consumer
 {
@@ -27,6 +28,7 @@ namespace Showcase.SteelToe.Data.Solutions.Consumer
             services.AddRabbitMQConnection(Configuration);
             services.AddScoped<IAccountRepository,AccountDataRepository>();
             services.AddAllActuators(Configuration);
+            services.AddSingleton<IAccountMapper>();
             services.ActivateActuatorEndpoints();
             services.AddControllers();
 

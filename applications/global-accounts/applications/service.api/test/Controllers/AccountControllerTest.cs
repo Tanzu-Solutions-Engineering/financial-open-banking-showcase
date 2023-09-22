@@ -21,7 +21,7 @@ namespace Showcase.SteelToe.Data.Solutions.Test.Controllers
             repository = new Mock<IAccountRepository>();
             subject = new AccountController(repository.Object);
             testData = new Account();
-            testData.Id = 1;
+            testData.Id = "1";
         }
         
         [TestMethod]
@@ -35,7 +35,7 @@ namespace Showcase.SteelToe.Data.Solutions.Test.Controllers
         [TestMethod]
         public void FindData()
         {
-            repository.Setup( r => r.FindById(1)).Returns(testData);
+            repository.Setup( r => r.FindById("1")).Returns(testData);
             Assert.AreEqual(testData,subject.FindById(testData.Id));
             
         }
@@ -57,9 +57,9 @@ namespace Showcase.SteelToe.Data.Solutions.Test.Controllers
           [TestMethod]
         public void DeleteById()
         {
-            subject.DeleteById(1);
+            subject.DeleteById("1");
 
-            repository.Verify( repository => repository.DeleteById(It.IsAny<int>()));
+            repository.Verify( repository => repository.DeleteById(It.IsAny<string>()));
             
         }
     }

@@ -41,7 +41,7 @@ namespace Showcase.SteelToe.Data.test.Repository
         public void UpdateData()
         {
             var testDataUpdate = new Account();
-            testData.Id = 2;
+            testData.Id = "2";
             testData.Data = "test update";
 
             subject.Save(testData);
@@ -54,7 +54,7 @@ namespace Showcase.SteelToe.Data.test.Repository
         {
 
             var testDataUpdate = new Account();
-            testData.Id = 3;
+            testData.Id = "3";
             testData.Data = "test update";
 
             subject.Save(testData);
@@ -73,7 +73,7 @@ namespace Showcase.SteelToe.Data.test.Repository
         {
 
             var testDataUpdate = new Account();
-            testData.Id = 4;
+            testData.Id = "4";
             testData.Data = "test update";
 
             subject.Save(testData);

@@ -24,7 +24,7 @@ namespace Showcase.SteelToe.Data.Solutions.Controllers
 
         [HttpGet]
           [Route("{id}")] 
-        public Account FindById(int id)
+        public Account FindById(string id)
         {
             
             return this.repository.FindById(id);
@@ -38,7 +38,7 @@ namespace Showcase.SteelToe.Data.Solutions.Controllers
 
         [HttpDelete]
          [Route("{id}")] 
-        public void DeleteById(int id)
+        public void DeleteById(string id)
         {
             this.repository.DeleteById(id);
         }

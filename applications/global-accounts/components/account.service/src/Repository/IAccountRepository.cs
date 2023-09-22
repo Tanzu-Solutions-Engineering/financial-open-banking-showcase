@@ -9,9 +9,9 @@ namespace Showcase.SteelToe.Data.Repository
 
         List<Account> FindAll();
 
-        Account FindById(int id);
+        Account FindById(string id);
         
 
-         void DeleteById(int id);
+         void DeleteById(string id);
     }
 }

@@ -27,12 +27,12 @@ namespace Showcase.SteelToe.Data.Repository
             dbContext.SaveChanges();
         }
 
-        public Account FindById(int id)
+        public Account FindById(string id)
         {
             return dbContext.Find<Account>(id);
         }
 
-        public void DeleteById(int keyId)
+        public void DeleteById(string keyId)
         {
             var deleteRecord = FindById(keyId);
             if(deleteRecord == null)
