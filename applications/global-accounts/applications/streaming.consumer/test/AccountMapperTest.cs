@@ -13,9 +13,48 @@ namespace Showcase.SteelToe.Data.Solutions.Test
     [TestClass]
     public class AccountMapperTest
     {
-         private string accountJson = @"
+         private string expectedJson = @"
         {
             ""id"": ""001"",
+            ""bank_id"" :  ""FLT"",
+            ""user_id"": ""imani"",
+            ""label"": ""imani-001"",
+            ""product_code"": ""CHECKING"",
+            ""balance"": {
+                ""amount"": 25000,
+                ""currency"": ""US""
+            },
+            ""account_routings"": [
+                {
+                ""address"": ""1 Straight Street Newark, NJ"",
+                ""scheme"": ""direct""
+                }
+            ],
+            ""branch_id"": ""BRANCH-BROOK""
+            }";
+
+        private string missingBankIdJson = @"
+        {
+            ""id"": ""001"",
+            ""user_id"": ""imani"",
+            ""label"": ""imani-001"",
+            ""product_code"": ""CHECKING"",
+            ""balance"": {
+                ""amount"": 25000,
+                ""currency"": ""US""
+            },
+            ""account_routings"": [
+                {
+                ""address"": ""1 Straight Street Newark, NJ"",
+                ""scheme"": ""direct""
+                }
+            ],
+            ""branch_id"": ""BRANCH-BROOK""
+            }";
+
+             private string missingIdJson = @"
+        {
+           
             ""bank_id"" :  ""FLT"",
             ""user_id"": ""imani"",
             ""label"": ""imani-001"",
@@ -47,9 +86,34 @@ namespace Showcase.SteelToe.Data.Solutions.Test
         {
             var expected = new Account();
             expected.Id = "FLT|001";
-            expected.Data = accountJson;
+            expected.Data = expectedJson;
 
-            Assert.AreEqual(expected,subject.ToAccount(accountJson));
+            var actual = subject.ToAccount(expectedJson);
+
+            Assert.AreEqual(expected.Id,actual.Id);
+            Assert.AreEqual(expectedJson,actual.Data);
+        }
+
+        [TestMethod]
+        public void GivenMissingId_ThenThrowException()
+        {
+            Assert.ThrowsException<ArgumentException>(
+              () => {
+                subject.ToAccount(missingIdJson);
+              }  
+            );            
+            
+        }
+
+        [TestMethod]
+        public void GivenMissingBankId_ThenThrowException()
+        {
+            Assert.ThrowsException<ArgumentException>(
+              () => {
+                subject.ToAccount(missingBankIdJson);
+              }  
+            );            
+            
         }
     }
 }

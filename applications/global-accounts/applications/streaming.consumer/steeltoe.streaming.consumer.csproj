@@ -14,6 +14,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Steeltoe.Stream.Binder.RabbitMQ" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Steeltoe.Stream.StreamBase" Version="$(SteeltoeVersion)" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.*" />
