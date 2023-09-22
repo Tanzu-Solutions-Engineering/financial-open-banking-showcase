@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<style>
+    .dataTable {
+      font-family: Arial, Helvetica, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    .dataTable td, .dataTable th {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+    
+    .dataTable tr:nth-child(even){background-color: #f2f2f2;}
+    
+    .dataTable tr:hover {background-color: #ddd;}
+    
+    .dataTable th {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      text-align: left;
+      background-color: #04AA6D;
+      color: white;
+    }
+    </style>
+<script>
+$(document).ready(function(){
+  $("button").click(function(){
+    $.get("Account", function(accounts, status){
+
+        var tableHTML = "<table class='dataTable'><tr><th>Id</th><th>data</th></tr>";
+        for (let x in accounts) {
+            account = accounts[x];
+
+            tableHTML +="<tr>"+"<td>"+account.id+"</td>"+"<td>"+account.data+"</td>"+"</tr>";
+         }
+         tableHTML +="</table>";
+
+        $("#accountsPanel").html(tableHTML);
+    });
+  });
+});
+</script>
+</head>
+<body>
+
+    <h1>Accounts</h1>
+    <hr/>
+    <button>List Accounts</button> <a href="swagger/index.html">Swagger</a>
+    <p id="accountsPanel">
+
+    </p>
+
+</body>
+</html>

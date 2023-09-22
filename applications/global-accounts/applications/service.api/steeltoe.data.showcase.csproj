@@ -1,0 +1,58 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Description>service.api</Description>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <ContainerRepository>account.service</ContainerRepository>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <SteeltoeVersion>3.2.0</SteeltoeVersion>
+    <!-- <EFCoreVersion>6.0.*</EFCoreVersion>   -->
+    <EFCoreVersion>7.0.4</EFCoreVersion>  
+  </PropertyGroup>
+
+  <PropertyGroup>
+      <GenerateProgramFile>false</GenerateProgramFile>
+      <RootNamespace>Showcase.SteelToe.Data.Solutions</RootNamespace>
+      <StartupObject>Showcase.SteelToe.Data.Solutions.Program</StartupObject>
+      <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+      <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>    
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'service.api' " />
+  <ItemGroup>
+    <ProjectReference Include="../../components/account.domain/account.domain.csproj" />
+    <ProjectReference Include="../../components/account.service/account.service.csproj" />
+    <PackageReference Include="Imani.Solutions.Core" Version="0.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.10">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.10" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.7.1" />
+    <PackageReference Include="Moq" Version="4.20.69" />
+    <PackageReference Include="MSTest.TestAdapter" Version="3.1.1" />
+    <PackageReference Include="MSTest.TestFramework" Version="3.1.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="3.1.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="$(EFCoreVersion)" />
+    
+    <PackageReference Include="Steeltoe.Common.Hosting" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Connector.CloudFoundry" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Connector.ConnectorCore" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Connector.EFCore" Version="$(SteeltoeVersion)" />
+     <PackageReference Include="Steeltoe.Extensions.Configuration.PlaceholderCore" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Extensions.Configuration.CloudFoundryCore" Version="$(SteeltoeVersion)" />
+    <PackageReference Include="Steeltoe.Extensions.Configuration.Kubernetes.ServiceBinding" Version="3.2.2" />
+    <PackageReference Include="Steeltoe.Management.EndpointCore" Version="$(SteeltoeVersion)" />
+  </ItemGroup>
+
+</Project>
