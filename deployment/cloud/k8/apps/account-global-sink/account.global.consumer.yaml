@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run:  account.global.consumer
+  name:  account.global.consumer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name:  account.global.consumer
+  template:
+    metadata:
+      labels:
+        name:  account.global.consumer
+    spec:
+      containers:
+        - env:
+          - name: spring_rabbitmq_host
+            value: "rabbitmq"
+          - name: spring_rabbitmq_username
+            valueFrom:
+              secretKeyRef:
+                name: rabbitmq-default-user
+                key: username
+          - name: spring_rabbitmq_password
+            valueFrom:
+              secretKeyRef:
+                name: rabbitmq-default-user
+                key: password
+          - name: spring_rabbitmq_virtualHost
+            value: streaming
+          image: cloudnativedata/account.global.consumer:1.0.0
+          name: account.global.consumer
+          imagePullPolicy: IfNotPresent
+#          imagePullPolicy: Always

@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <Description>steeltoe.streaming.consumer project</Description>
+    <Description>account.global.consumer</Description>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
-     <ContainerRepository>account.consumer</ContainerRepository>
+     <ContainerRepository>account.global.consumer</ContainerRepository>
   </PropertyGroup>
 
   <PropertyGroup>

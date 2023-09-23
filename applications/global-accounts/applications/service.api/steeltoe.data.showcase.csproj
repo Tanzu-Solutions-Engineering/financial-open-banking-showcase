@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Description>service.api</Description>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
-    <ContainerRepository>account.service</ContainerRepository>
+    <ContainerRepository>account.global.service</ContainerRepository>
   </PropertyGroup>
 
   <PropertyGroup>
