@@ -145,3 +145,8 @@ k apply -f deployment/cloud/k8/data-services/rabbitmq/rabbitmq.yaml -n accountin
 ```shell
 k apply -f deployment/cloud/k8/apps/account-global-sink/account.global.consumer.yaml -n accounting-dc2
 ```
+
+
+```shell
+k port-forward service/rabbitmq 55672:15672 -n accounting-dc2
+```
