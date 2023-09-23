@@ -13,7 +13,7 @@ namespace Showcase.SteelToe.Data.Repository
         private ISettings settings = new ConfigSettings();
         private string connectionString;
         private const string TESTING_EXE_NAME = "testhost.dll";
-        private const string defaultSchemaName = "Sample";
+        private const string defaultSchemaName = "Account";
 
         private readonly string schemaName;
 
@@ -50,11 +50,7 @@ namespace Showcase.SteelToe.Data.Repository
             builder.HasDefaultSchema(schemaName);    //To all the tables.
 
             builder.Entity<Account>()
-            .HasKey(b => b.Id).HasName("data_id");
-
-            builder.Entity<Account>().Property(b => b.Id)
-            .UseIdentityColumn();
-
+            .HasKey(b => b.Id).HasName("data_id"); //primary key
 
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }

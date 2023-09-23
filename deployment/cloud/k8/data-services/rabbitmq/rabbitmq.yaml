@@ -9,10 +9,10 @@ spec:
   image: rabbitmq:3.12.4-management
   resources:
     requests:
-      cpu: 1000m
+      cpu: 300m
       memory: 1Gi
     limits:
-      cpu: 1000m
+      cpu: 300m
       memory: 1Gi
   persistence:
     storage: 3Gi

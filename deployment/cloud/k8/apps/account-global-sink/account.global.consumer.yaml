@@ -2,17 +2,17 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    run:  account.global.consumer
-  name:  account.global.consumer
+    run:  account-global-consumer
+  name:  account-global-consumer
 spec:
   replicas: 1
   selector:
     matchLabels:
-      name:  account.global.consumer
+      name:  account-global-consumer
   template:
     metadata:
       labels:
-        name:  account.global.consumer
+        name:  account-global-consumer
     spec:
       containers:
         - env:
@@ -30,7 +30,26 @@ spec:
                 key: password
           - name: spring_rabbitmq_virtualHost
             value: streaming
+          - name: POSTGRES_DB_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: postgres-db-app-user-db-secret
+                key: username
+          - name: POSTGRES_DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: postgres-db-app-user-db-secret
+                key: password
+          - name: POSTGRES_DB
+            valueFrom:
+              secretKeyRef:
+                name: postgres-db-app-user-db-secret
+                key: database
+          - name: ConnectionString
+            value: Host=postgres-db;Database=$(POSTGRES_DB);Username=$(POSTGRES_DB_USERNAME);Password=$(POSTGRES_DB_PASSWORD)
+          - name: ASPNETCORE_hostBuilder__reloadConfigOnChange
+            value: "false"
           image: cloudnativedata/account.global.consumer:1.0.0
-          name: account.global.consumer
-          imagePullPolicy: IfNotPresent
-#          imagePullPolicy: Always
+          name: account-global-consumer
+#          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always

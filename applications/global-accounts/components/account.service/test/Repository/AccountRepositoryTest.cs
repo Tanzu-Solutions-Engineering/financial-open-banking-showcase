@@ -2,6 +2,7 @@ using Showcase.SteelToe.Data.Solutions.Domain;
 using Showcase.SteelToe.Data.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Imani.Solutions.Core.API.Util;
 
 namespace Showcase.SteelToe.Data.test.Repository
 {
@@ -13,6 +14,7 @@ namespace Showcase.SteelToe.Data.test.Repository
         // private Moq.EntityFrameworkCore.<SampleContext> dbContext;
         private DbContextOptions options;
         private Account testData;
+        private Text text = new Text();
 
         [TestInitialize]
         public void InitializeTestDataEfcRepositoryTest()
@@ -26,6 +28,7 @@ namespace Showcase.SteelToe.Data.test.Repository
             subject = new AccountDataRepository(dbContext);
 
             testData = new Account();
+            testData.Id = text.GenerateText(3,"id");
         }
 
         [TestMethod]

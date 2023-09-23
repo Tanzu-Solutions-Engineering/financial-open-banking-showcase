@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Showcase.SteelToe.Data.Solutions.Domain;
 using Showcase.SteelToe.Data.Solutions.Consumer.Mapping;
 
-namespace Showcase.SteelToe.Data.Solutions.Test
+namespace Showcase.SteelToe.Data.Solutions.Test.Mapping
 {
     [TestClass]
     public class AccountMapperTest

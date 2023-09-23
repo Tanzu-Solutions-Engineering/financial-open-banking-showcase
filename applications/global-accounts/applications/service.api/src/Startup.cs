@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Steeltoe.Connector.PostgreSql.EFCore;
 using Steeltoe.Extensions.Configuration.Placeholder;
+using Showcase.SteelToe.Data.Solutions.Consumer.Mapping;
 
 namespace Showcase.SteelToe.Data.Solutions
 {
@@ -26,6 +27,7 @@ namespace Showcase.SteelToe.Data.Solutions
             services.AddDbContext<AccountDbContext>(options => options.UseNpgsql(Configuration));
             services.AddScoped<IAccountRepository,AccountDataRepository>();
             services.AddControllers();
+            services.AddSingleton<IAccountMapper>(new AccountMapper());
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "steeltoe.data.showcase", Version = "v1" });

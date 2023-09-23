@@ -135,3 +135,13 @@ Takes about 3-4 minutes
 ```shell
 k apply -f deployment/cloud/k8/data-services/postgres/ha/postgres-db-ha.yaml -n accounting-dc2
 ```
+
+```shell
+k apply -f deployment/cloud/k8/data-services/rabbitmq/rabbitmq.yaml -n accounting-dc2
+```
+
+
+
+```shell
+k apply -f deployment/cloud/k8/apps/account-global-sink/account.global.consumer.yaml -n accounting-dc2
+```
