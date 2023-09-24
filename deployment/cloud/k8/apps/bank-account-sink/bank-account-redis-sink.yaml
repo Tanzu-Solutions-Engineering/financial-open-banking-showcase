@@ -32,6 +32,8 @@ spec:
               secretKeyRef:
                 name: rabbitmq-default-user
                 key: password
+          - name: rabbitmq.streaming.replay
+            value: "false"
           - name: spring.data.redis.cluster.nodes
             value: gf-redis-server-0:6379
           - name: rabbitmq.streaming.replay

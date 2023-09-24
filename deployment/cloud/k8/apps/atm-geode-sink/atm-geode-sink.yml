@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run:  atm-geode-sink
+  name:  atm-geode-sink
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name:  atm-geode-sink
+  template:
+    metadata:
+      labels:
+        name:  atm-geode-sink
+    spec:
+      containers:
+        - env:
+          - name: spring.rabbitmq.host
+            value: "rabbitmq"
+          - name: spring.rabbitmq.stream.host
+            value: "rabbitmq"
+          - name: spring_rabbitmq_username
+            value: "cdc"
+          - name: spring.cloud.stream.bindings.atmConsumer-in-0.consumer.declareExchange
+            value: "false"
+          - name: spring.rabbitmq.password
+            value: "cdc"
+          - name: spring.data.gemfire.pool.locators
+            valueFrom:
+              configMapKeyRef:
+                name: gemfire1-config
+                key: locators
+          image: cloudnativedata/atm-geode-sink:0.0.1-SNAPSHOT
+          name: atm-geode-sink
+          imagePullPolicy: Always

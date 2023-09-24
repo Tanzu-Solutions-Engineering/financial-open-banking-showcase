@@ -1,48 +1,11 @@
 # Prerequisite
 
+Run
 
 ```shell
-kubectl create namespace accounting
-kubectl config set-context --current --namespace=accounting
+./deployment/cloud/k8/scripts/resilency-install.sh
 ```
 
-- GemFire Operator
-```shell
-./deployment/cloud/k8/data-services/gemfire/gf-k8-setup.sh
-```
-
-- RabbitMQ Operator
-
-GemFire
-```shell
-kubectl apply -f deployment/cloud/k8/data-services/gemfire/redis/gf-multi-site-redis.yaml
-```
-
-RabbitMQ
-
-```shell
-kubectl apply -f deployment/cloud/k8/data-services/rabbitmq/rabbitmq.yaml
-```
-
-
-Source applications
-```shell
-kubectl apply -f deployment/cloud/k8/apps/http-amqp-source/http-amqp-source.yaml
-```
-
-
-Sink application
-
-```shell
-kubectl apply -f deployment/cloud/k8/apps/bank-account-sink/bank-account-redis-sink.yaml
-```
-
-
-Rest service
-
-```shell
-kubectl apply -f deployment/cloud/k8/apps/account-rest-service/account-rest-redis-service.yaml
-```
 -------------------
 ```shell
 kubectl create namespace accounting-dc2
@@ -83,7 +46,7 @@ Post though source
 
 ```shell
 curl -X 'POST' \
-  'http://localhost:8095/amqp/?exchange=banking-acount' \
+  'http://localhost:8095/amqp/?exchange=banking-account' \
   -H 'accept: application/hal+json' \
   -H 'rabbitContentType: application/json' \
   -H 'Content-Type: application/json' \
@@ -144,6 +107,10 @@ k apply -f deployment/cloud/k8/data-services/rabbitmq/rabbitmq.yaml -n accountin
 
 ```shell
 k apply -f deployment/cloud/k8/apps/account-global-sink/account.global.consumer.yaml -n accounting-dc2
+```
+
+```shell
+k apply -f deployment/cloud/k8/apps/account-global-service/account-global-service.yaml
 ```
 
 
