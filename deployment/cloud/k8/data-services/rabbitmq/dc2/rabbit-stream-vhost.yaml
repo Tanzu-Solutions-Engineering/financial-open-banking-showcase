@@ -1,0 +1,9 @@
+apiVersion: rabbitmq.com/v1beta1
+kind: Vhost
+metadata:
+  name: rabbit-streaming-vhost
+spec:
+  name: streaming
+  defaultQueueType: stream
+  rabbitmqClusterReference:
+    name: rabbitmq

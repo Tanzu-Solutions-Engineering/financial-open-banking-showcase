@@ -23,8 +23,8 @@ sleep 5s
 # Install the GemFire Operator
 helm registry login -u $HARBOR_USER -p $HARBOR_PASSWORD registry.tanzu.vmware.com
 
-helm install gemfire-crd oci://registry.tanzu.vmware.com/tanzu-gemfire-for-kubernetes/gemfire-crd --version 2.2.0 --namespace gemfire-system --set operatorReleaseName=gemfire-operator
-helm install gemfire-operator oci://registry.tanzu.vmware.com/tanzu-gemfire-for-kubernetes/gemfire-operator --version 2.2.0 --namespace gemfire-system
+helm install gemfire-crd oci://registry.tanzu.vmware.com/tanzu-gemfire-for-kubernetes/gemfire-crd --version 2.3.0 --namespace gemfire-system --set operatorReleaseName=gemfire-operator
+helm install gemfire-operator oci://registry.tanzu.vmware.com/tanzu-gemfire-for-kubernetes/gemfire-operator --version 2.3.0 --namespace gemfire-system
 
 
 kubectl wait pod -l=app.kubernetes.io/component=gemfire-controller-manager --for=condition=Ready --timeout=160s --namespace=gemfire-system

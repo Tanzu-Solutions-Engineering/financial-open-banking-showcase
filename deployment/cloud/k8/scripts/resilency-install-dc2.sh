@@ -2,10 +2,10 @@
 
 export PROJECT_DIR=`pwd`
 
-kubectl create namespace accounting
-kubectl config set-context --current --namespace=accounting
+kubectl create namespace accounting-dc2
+kubectl config set-context --current --namespace=accounting-dc2
 
-kubectl create secret docker-registry image-pull-secret --docker-server=registry.tanzu.vmware.com --docker-username=$HARBOR_USER --docker-password=$HARBOR_PASSWORD --namespace=accounting
+kubectl create secret docker-registry image-pull-secret --docker-server=registry.tanzu.vmware.com --docker-username=$HARBOR_USER --docker-password=$HARBOR_PASSWORD --namespace=accounting-dc2
 
 STR=`pwd`
 if [[ "$STR" == *"cloud"* ]]; then
@@ -48,9 +48,6 @@ fi
 
 set -x #echo on
 
-# Install GemFire
-./deployment/cloud/k8/data-services/gemfire/gf-k8-setup.sh
-
 # Install RabbitMQ
 
 cd /Users/Projects/VMware/Tanzu/TanzuData/TanzuRabbitMQ/dev/tanzu-rabbitmq-event-streaming-showcase/deployment/cloud/k8/data-services/rabbitmq/install_commericial/
@@ -59,31 +56,40 @@ cd /Users/Projects/VMware/Tanzu/TanzuData/TanzuRabbitMQ/dev/tanzu-rabbitmq-event
 
 cd $PROJECT_DIR
 
-#-----------------------------------------
+#install postgres operator
+./deployment/cloud/k8/data-services/postgres/postgres-setup.sh
 
-#Install GemFire Cluster
-kubectl apply -f deployment/cloud/k8/data-services/gemfire/redis/gf-multi-site-redis.yaml
+
+#-----------------------------------------
+#install postgres database
+kubectl apply -f ./deployment/cloud/k8/data-services/postgres/ha/postgres-db-ha.yaml
+
 
 #Install RabbitMQ
 kubectl apply -f deployment/cloud/k8/data-services/rabbitmq/rabbitmq.yaml
 
-sleep 30
+sleep 10
 
 #wait for rabbit
-kubectl wait pod -l=app.kubernetes.io/component=rabbitmq --for=condition=Ready --timeout=160s --namespace=accounting
-# create rabbitmq users
-kubectl apply -f deployment/cloud/k8/data-services/rabbitmq/secret/users/rabbitmq_account_user.yaml
+kubectl wait pod -l=app.kubernetes.io/component=rabbitmq --for=condition=Ready --timeout=160s --namespace=accounting-dc2
 
-#wait for gemfire
-kubectl wait pod -l=app.kubernetes.io/component=gemfire-locator --for=condition=Ready --timeout=160s --namespace=accounting
-sleep 20
-kubectl wait pod -l=app.kubernetes.io/component=gemfire-server --for=condition=Ready --timeout=160s --namespace=accounting
+#wait for postgres
+kubectl wait pod -l=postgres-instance=postgres-db --for=condition=Ready --timeout=160s --namespace=accounting-dc2
+
+
+# create streaming vhost
+kubectl apply -f deployment/cloud/k8/data-services/rabbitmq/dc2/rabbit-stream-vhost.yaml
+
+# create rabbitmq users
+kubectl apply -f deployment/cloud/k8/data-services/rabbitmq/secret/users/rabbitmq_account_user_dc2.yaml
+
+
 
 # Rest service
-kubectl apply -f deployment/cloud/k8/apps/account-rest-service/account-rest-redis-service.yaml
+kubectl apply -f deployment/cloud/k8/apps/account-global-service/account-global-service.yaml
 
 # Sink application
-kubectl apply -f deployment/cloud/k8/apps/bank-account-sink/bank-account-redis-sink.yaml
+kubectl apply -f deployment/cloud/k8/apps/account-global-sink/account.global.consumer.yaml
 
 
 #Source applications
@@ -91,5 +97,5 @@ kubectl apply -f deployment/cloud/k8/apps/http-amqp-source/http-amqp-source.yaml
 
 
 # Get SOURCE APP HOSTNAME
-kubectl wait pod -l=name=http-amqp-source --for=condition=Ready --timeout=160s --namespace=accounting
-export SOURCE_APP_HOST=`kubectl get services --namespace accounting  http-amqp-source-service --output jsonpath='{.status.loadBalancer.ingress[0].ip}'`
+kubectl wait pod -l=name=http-amqp-source --for=condition=Ready --timeout=160s --namespace=accounting-dc2
+export SOURCE_APP_HOST=`kubectl get services --namespace accounting-dc2  http-amqp-source-service --output jsonpath='{.status.loadBalancer.ingress[0].ip}'`

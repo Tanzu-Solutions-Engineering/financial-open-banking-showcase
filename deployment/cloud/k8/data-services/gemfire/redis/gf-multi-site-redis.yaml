@@ -43,7 +43,12 @@ spec:
     replicas: 1
     resources:
       requests:
-        memory: 1Gi
+        memory: 2Gi
+    persistentVolumeClaim:
+      resources:
+        requests:
+          storage: 10Gi
+#      deleteOnShutdown: "true"
     libraries:
       - name: gemfire-for-redis-apps
         container:
@@ -53,3 +58,12 @@ spec:
             name: image-pull-secret
     overrides:
       jvmOptions: ["-Dgemfire-for-redis-enabled=true","-Dgemfire-for-redis-region-name=GF_REDIS_WAN"]
+      gemFireProperties:
+        - name: archive-disk-space-limit
+          value: "1"
+        - name: archive-file-size-limit
+          value: "1"
+        - name: log-disk-space-limit
+          value: "5"
+        - name: log-file-size-limit
+          value: "5"

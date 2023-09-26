@@ -45,8 +45,12 @@ k port-forward pod/gf-redis-server-0 6379:6379 -n accounting
 Post though source
 
 ```shell
+export SOURCE_APP_HOST=`kubectl get services --namespace accounting  http-amqp-source-service --output jsonpath='{.status.loadBalancer.ingress[0].ip}'`
+```
+
+```shell
 curl -X 'POST' \
-  'http://localhost:8095/amqp/?exchange=banking-account' \
+  "http://$SOURCE_APP_HOST/amqp/?exchange=banking-account" \
   -H 'accept: application/hal+json' \
   -H 'rabbitContentType: application/json' \
   -H 'Content-Type: application/json' \
@@ -70,8 +74,18 @@ curl -X 'POST' \
 }'
 ```
 
+
+Testing
+
+- Delete RabbitMQ
+- Source GEt Internal server error
+- REst old data
+
 *Scale Rabbit to 3 Nodes*
 
+```shell
+kubectl edit RabbitMQCluster
+```
 ```shell
 rabbitmq-streams add_replica  banking-account.bank-account-redis-sink rabbit@rabbitmq-server-1.rabbitmq-nodes.accounting
 rabbitmq-streams add_replica  banking-account.bank-account-redis-sink rabbit@rabbitmq-server-2.rabbitmq-nodes.accounting
@@ -91,6 +105,13 @@ rabbitmq-streams add_replica  banking-account.bank-account-redis-sink rabbit@rab
 *Scale GemFire Redis to 2 Nodes*
 - Delete GemFire Redis Server
 - Get from Service (found)
+
+
+----------------
+
+```shell
+kubectl edit GemFireCluster
+```
 
 ------------
 
