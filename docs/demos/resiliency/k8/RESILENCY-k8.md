@@ -1,16 +1,17 @@
 # Prerequisite
 
-Run
+Run in DC2
 
 ```shell
 ./deployment/cloud/k8/scripts/resilency-install.sh
 ```
 
--------------------
+Run in DC2
+
 ```shell
-kubectl create namespace accounting-dc2
-kubectl config set-context --current --namespace=accounting-dc2
+./deployment/cloud/k8/scripts/resilency-install-dc2.sh
 ```
+-------------------
 - Postgres
 
 ```shell

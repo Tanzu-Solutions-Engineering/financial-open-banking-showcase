@@ -28,8 +28,8 @@ spec:
               secretKeyRef:
                 name: rabbitmq-default-user
                 key: password
-#          - name: spring_rabbitmq_virtualHost
-#            value: streaming
+          - name: spring_rabbitmq_virtualHost
+            value: streaming
           - name: POSTGRES_DB_USERNAME
             valueFrom:
               secretKeyRef:

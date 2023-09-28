@@ -43,7 +43,7 @@ fi
 if [ -z $HARBOR_PASSWORD ]
 then
   echo "Please set the your username and password used to login into registry.pivotal.io in .profile on on the shell. Example: export \$HARBOR_USER=MYUSER; export=\$HARBOR_PASSWORD==MYPASSWORD "
-  k get p
+  exit
 fi
 
 set -x #echo on
@@ -64,7 +64,7 @@ cd $PROJECT_DIR
 #install postgres database
 kubectl apply -f ./deployment/cloud/k8/data-services/postgres/ha/postgres-db-ha.yaml
 
-
+sleep 10
 #Install RabbitMQ
 kubectl apply -f deployment/cloud/k8/data-services/rabbitmq/rabbitmq.yaml
 
@@ -91,11 +91,9 @@ kubectl apply -f deployment/cloud/k8/apps/account-global-service/account-global-
 # Sink application
 kubectl apply -f deployment/cloud/k8/apps/account-global-sink/account.global.consumer.yaml
 
+#Create shovel
+kubectl apply -f deployment/cloud/k8/data-services/rabbitmq/secret/shovel/dc1-to-dc2-accounts.yml
 
-#Source applications
-kubectl apply -f deployment/cloud/k8/apps/http-amqp-source/http-amqp-source.yaml
+kubectl describe shovel dc1-dc2-account-shovel
 
-
-# Get SOURCE APP HOSTNAME
-kubectl wait pod -l=name=http-amqp-source --for=condition=Ready --timeout=160s --namespace=accounting-dc2
-export SOURCE_APP_HOST=`kubectl get services --namespace accounting-dc2  http-amqp-source-service --output jsonpath='{.status.loadBalancer.ingress[0].ip}'`
+kubectl logs rabbitmq-server-0

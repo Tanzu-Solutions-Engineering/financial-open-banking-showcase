@@ -11,7 +11,7 @@ spec:
   resources:
     data:
       requests:
-        cpu: 1000m
+        cpu: 350m
         memory: 800Mi
   # readOnlyServiceType: ClusterIP
   highAvailability:

@@ -41,11 +41,8 @@ public class RabbitConfig {
         return (cont, dest, group) -> {
             StreamListenerContainer container = (StreamListenerContainer) cont;
             container.setConsumerCustomizer((name, builder) -> {
-                builder.noTrackingStrategy();
-                builder.offset(OffsetSpecification.offset(0));
                 builder.subscriptionListener(context ->{
-
-                    context.offsetSpecification(OffsetSpecification.offset(0));
+                    context.offsetSpecification(OffsetSpecification.first());
                     log.info("***************REPLAY********************");
                 });
             });
