@@ -40,7 +40,7 @@ spec:
       requests:
         memory: 1Gi
   servers:
-    replicas: 1
+    replicas: 3
     resources:
       requests:
         memory: 2Gi

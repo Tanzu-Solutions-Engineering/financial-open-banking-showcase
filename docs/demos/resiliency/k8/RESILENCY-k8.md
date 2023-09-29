@@ -25,24 +25,6 @@ kubectl apply -f deployment/cloud/k8/data-services/postgres/ha/postgres-db.yaml
 
 ------------------
 
-Port forwards
-
-```shell
-k port-forward service/bank-account-rest-service 8090:80 -n accounting
-```
-
-```shell
-k port-forward service/http-amqp-source-service 8095:80 -n accounting
-```
-
-```shell
-k port-forward service/rabbitmq 35672:15672 -n accounting
-```
-
-```shell
-k port-forward pod/gf-redis-server-0 6379:6379 -n accounting
-```
-
 Post though source
 
 ```shell
@@ -76,21 +58,11 @@ curl -X 'POST' \
 ```
 
 
-Testing
 
 - Delete RabbitMQ
 - Source GEt Internal server error
 - REst old data
 
-*Scale Rabbit to 3 Nodes*
-
-```shell
-kubectl edit RabbitMQCluster
-```
-```shell
-rabbitmq-streams add_replica  banking-account.bank-account-redis-sink rabbit@rabbitmq-server-1.rabbitmq-nodes.accounting
-rabbitmq-streams add_replica  banking-account.bank-account-redis-sink rabbit@rabbitmq-server-2.rabbitmq-nodes.accounting
-```
 
 
 - Delete RabbitMQ node
@@ -103,7 +75,7 @@ rabbitmq-streams add_replica  banking-account.bank-account-redis-sink rabbit@rab
 - Restart sink (replay)
 - Get from Service (found)
 
-*Scale GemFire Redis to 2 Nodes*
+*Scale GemFire Redis to 3 Nodes*
 - Delete GemFire Redis Server
 - Get from Service (found)
 

@@ -54,7 +54,8 @@ set -x #echo on
 # Install RabbitMQ
 
 cd /Users/Projects/VMware/Tanzu/TanzuData/TanzuRabbitMQ/dev/tanzu-rabbitmq-event-streaming-showcase/deployment/cloud/k8/data-services/rabbitmq/install_commericial/
-./rabbitmq-commericial.sh
+#./rabbitmq-commericial.sh
+./rabbitmq-commericial-only-operator.sh
 
 
 cd $PROJECT_DIR
@@ -93,3 +94,4 @@ kubectl apply -f deployment/cloud/k8/apps/http-amqp-source/http-amqp-source.yaml
 # Get SOURCE APP HOSTNAME
 kubectl wait pod -l=name=http-amqp-source --for=condition=Ready --timeout=160s --namespace=accounting
 export SOURCE_APP_HOST=`kubectl get services --namespace accounting  http-amqp-source-service --output jsonpath='{.status.loadBalancer.ingress[0].ip}'`
+export RABBIT_HOST_DC1=`kubectl get services --namespace accounting  rabbitmq --output jsonpath='{.status.loadBalancer.ingress[0].ip}'`

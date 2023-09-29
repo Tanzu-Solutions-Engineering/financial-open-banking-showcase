@@ -51,8 +51,8 @@ set -x #echo on
 # Install RabbitMQ
 
 cd /Users/Projects/VMware/Tanzu/TanzuData/TanzuRabbitMQ/dev/tanzu-rabbitmq-event-streaming-showcase/deployment/cloud/k8/data-services/rabbitmq/install_commericial/
-./rabbitmq-commericial.sh
-
+#./rabbitmq-commericial.sh
+./rabbitmq-commericial-only-operator.sh
 
 cd $PROJECT_DIR
 
@@ -92,6 +92,7 @@ kubectl apply -f deployment/cloud/k8/apps/account-global-service/account-global-
 kubectl apply -f deployment/cloud/k8/apps/account-global-sink/account.global.consumer.yaml
 
 #Create shovel
+./deployment/cloud/k8/data-services/rabbitmq/secret/shovel/create-dc1-dc2-shovel-secret.sh
 kubectl apply -f deployment/cloud/k8/data-services/rabbitmq/secret/shovel/dc1-to-dc2-accounts.yml
 
 kubectl describe shovel dc1-dc2-account-shovel

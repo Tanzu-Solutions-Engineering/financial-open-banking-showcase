@@ -5,11 +5,11 @@ metadata:
 spec:
   service:
     type: LoadBalancer
-  replicas: 1
+  replicas: 3
   image: rabbitmq:3.12.4-management
   resources:
     requests:
-      cpu: 500m
+      cpu: 900m
       memory: 1Gi
   persistence:
     storage: 3Gi
