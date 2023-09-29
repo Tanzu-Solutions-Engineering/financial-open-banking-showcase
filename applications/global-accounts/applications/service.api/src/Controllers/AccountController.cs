@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Showcase.SteelToe.Data.Solutions.Domain;
 using Showcase.SteelToe.Data.Repository;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace Showcase.SteelToe.Data.Solutions.Controllers
 {
@@ -33,7 +34,11 @@ namespace Showcase.SteelToe.Data.Solutions.Controllers
        [HttpGet]
         public List<Account> FindAll()
         {
-            return this.repository.FindAll();
+            var accounts = this.repository.FindAll();
+
+            Console.WriteLine($" returning: {accounts}");
+
+            return accounts;
         }
 
         [HttpDelete]

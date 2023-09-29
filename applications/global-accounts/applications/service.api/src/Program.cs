@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Steeltoe.Extensions.Configuration.Placeholder;
+using System;
 
 namespace Showcase.SteelToe.Data.Solutions
 
@@ -19,6 +20,7 @@ namespace Showcase.SteelToe.Data.Solutions
             {
                 var db = scope.ServiceProvider.GetRequiredService<AccountDbContext>();
                 
+                Console.WriteLine("Building the latest migration");
                  AccountDbContext.Migrate(db.Database);
             }
 

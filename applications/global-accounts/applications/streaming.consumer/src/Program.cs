@@ -1,3 +1,4 @@
+using System.Security.AccessControl;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -7,6 +8,7 @@ using Steeltoe.Common.Hosting;
 using Steeltoe.Extensions.Configuration.Placeholder;
 using Steeltoe.Extensions.Logging;
 using Steeltoe.Stream.Extensions;
+using System;
 
 namespace Showcase.SteelToe.Data.Solutions.Consumer
 {
@@ -16,12 +18,14 @@ namespace Showcase.SteelToe.Data.Solutions.Consumer
         {
             var host = CreateHostBuilder(args).Build();
 
-                  //Run migration
+           Console.WriteLine("Runnning migration");
+
             using (var scope = host.Services.CreateScope())
             {
                 var db = scope.ServiceProvider.GetRequiredService<AccountDbContext>();
                 
                  AccountDbContext.Migrate(db.Database);
+                 Console.WriteLine("Migrated data");
             }
 
             host.Run();

@@ -11,11 +11,11 @@ namespace account.service.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
-                name: "Sample");
+                name: "Account");
 
             migrationBuilder.CreateTable(
                 name: "Account",
-                schema: "Sample",
+                schema: "Account",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
@@ -32,7 +32,7 @@ namespace account.service.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Account",
-                schema: "Sample");
+                schema: "Account");
         }
     }
 }

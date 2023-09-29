@@ -19,7 +19,7 @@ namespace account.service.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("Sample")
+                .HasDefaultSchema("Account")
                 .HasAnnotation("ProductVersion", "7.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
@@ -36,7 +36,7 @@ namespace account.service.Migrations
                     b.HasKey("Id")
                         .HasName("data_id");
 
-                    b.ToTable("Account", "Sample");
+                    b.ToTable("Account", "Account");
                 });
 #pragma warning restore 612, 618
         }
