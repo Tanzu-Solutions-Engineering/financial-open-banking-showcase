@@ -18,9 +18,9 @@ namespace Showcase.SteelToe.Data.Solutions.Controllers
         }
 
         [HttpPost]
-        public void PostData(Account testData)
+        public void SaveAccount(Account account)
         {
-            this.repository.Save(testData);
+            this.repository.Save(account);
         }
 
         [HttpGet]
@@ -36,7 +36,10 @@ namespace Showcase.SteelToe.Data.Solutions.Controllers
         {
             var accounts = this.repository.FindAll();
 
-            Console.WriteLine($" returning: {accounts}");
+            if(accounts == null)
+                return null;
+
+            Console.WriteLine($" Account count: {accounts.Count} ");
 
             return accounts;
         }

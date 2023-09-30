@@ -27,7 +27,7 @@ namespace Showcase.SteelToe.Data.Solutions.Test.Controllers
         [TestMethod]
         public void SaveData()
         {
-            subject.PostData(testData);
+            subject.SaveAccount(testData);
 
             repository.Verify( repository => repository.Save(It.IsAny<Account>()));
         }
@@ -51,6 +51,17 @@ namespace Showcase.SteelToe.Data.Solutions.Test.Controllers
 
             Assert.AreEqual(expected,subject.FindAll());
             
+        }
+
+
+        [TestMethod]
+        public void FindAll_Empty()
+        {
+            
+            List<Account> expected  = null;
+            repository.Setup( r => r.FindAll()).Returns(expected);
+
+            Assert.IsNull(subject.FindAll());
         }
 
 

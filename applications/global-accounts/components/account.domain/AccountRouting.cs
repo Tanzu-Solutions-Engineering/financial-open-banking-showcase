@@ -9,5 +9,6 @@ namespace Showcase.SteelToe.Data.Solutions.Domain
     {
         public string? address { get; set; } = "";
         public string? scheme { get; set; } = "";
+
     }
 }

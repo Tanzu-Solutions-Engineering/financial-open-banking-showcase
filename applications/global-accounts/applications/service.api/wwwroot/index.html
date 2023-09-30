@@ -26,17 +26,43 @@
       color: white;
     }
     </style>
+    <script>
+      function decorateString(text)
+      {
+        if(text == undefined)
+          return "&nbsp;";
+        else 
+          return new String(text);
+      }
+    </script>
 <script>
 $(document).ready(function(){
   $("button").click(function(){
     $.get("Account", function(accounts, status){
 
-        var tableHTML = "<table class='dataTable'><tr><th>Id</th><th>data</th></tr>";
+        var tableHTML = "<table class='dataTable'><tr><th>Organization</th><th>Id</th><th>User</th><th>Type</th><th>Address</th></tr>";
         for (let x in accounts) {
-            account = accounts[x];
+            var accountObj = accounts[x];
 
-            tableHTML +="<tr>"+"<td>"+account.id+"</td>"+"<td>"+account.data+"</td>"+"</tr>";
+            const account = JSON.parse(accountObj.data);
+
+            tableHTML +="<tr>"
+              +"<td>"+decorateString(account.bank_id)+"</td>"
+              +"<td>"+decorateString(account.id)+"</td>"
+              +"<td>"+decorateString(account.user_id)+"</td>"
+              +"<td>"+decorateString(account.product_code)+"</td>";
+
+              if(account.account_routings != null && account.account_routings.length > 0)
+              {
+                tableHTML +="<td>"+decorateString(account.account_routings[0].address)+"</td>";
+              }
+              else{
+                tableHTML +="<td>&nbsp;</td>";
+              }
+
+              tableHTML +="</tr>";
          }
+
          tableHTML +="</table>";
 
         $("#accountsPanel").html(tableHTML);
