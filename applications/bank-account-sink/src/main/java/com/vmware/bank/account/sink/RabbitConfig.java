@@ -42,8 +42,8 @@ public class RabbitConfig {
             StreamListenerContainer container = (StreamListenerContainer) cont;
             container.setConsumerCustomizer((name, builder) -> {
                 builder.subscriptionListener(context ->{
+                    log.info("Replaying from the first record in the stream");
                     context.offsetSpecification(OffsetSpecification.first());
-                    log.info("***************REPLAY********************");
                 });
             });
         };

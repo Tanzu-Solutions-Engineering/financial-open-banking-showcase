@@ -1,3 +1,86 @@
-<ul>
-    <li><a href="/swagger-ui.html">Swagger-UI</a></li>
-</ul>
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <style>
+        .dataTable {
+          font-family: Arial, Helvetica, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+        }
+
+        .dataTable td, .dataTable th {
+          border: 1px solid #ddd;
+          padding: 8px;
+        }
+
+        .dataTable tr:nth-child(even){background-color: #f2f2f2;}
+
+        .dataTable tr:hover {background-color: #ddd;}
+
+        .dataTable th {
+          padding-top: 12px;
+          padding-bottom: 12px;
+          text-align: left;
+          background-color: #04AA6D;
+          color: white;
+        }
+    </style>
+    <script>
+        function decorateString(text)
+        {
+          if(text == undefined)
+            return "&nbsp;";
+          else
+            return new String(text);
+        }
+    </script>
+    <script>
+        $(document).ready(function(){
+     $("button").click(function(){
+       //http://localhost:4001/obp/v4.0.0/banks/BankA/accounts/001/account
+       var bankId = $('#bankId').val();
+       var accountId = $('#accountId').val();
+       var bankAccountUrl = "obp/v4.0.0/banks/"+bankId+"/accounts/"+accountId+"/account"
+       $.get(bankAccountUrl, function(account, status){
+
+           var tableHTML = "<table class='dataTable'><tr><th>Organization</th><th>Id</th><th>User</th><th>Type</th><th>Address</th></tr>";
+
+               tableHTML +="<tr>"
+                 +"<td>"+decorateString(account.bank_id)+"</td>"
+                 +"<td>"+decorateString(account.id)+"</td>"
+                 +"<td>"+decorateString(account.user_id)+"</td>"
+                 +"<td>"+decorateString(account.product_code)+"</td>";
+
+                 if(account.account_routings != null && account.account_routings.length > 0)
+                 {
+                   tableHTML +="<td>"+decorateString(account.account_routings[0].address)+"</td>";
+                 }
+                 else{
+                   tableHTML +="<td>&nbsp;</td>";
+                 }
+
+                 tableHTML +="</tr>";
+
+            tableHTML +="</table>";
+
+           $("#accountsPanel").html(tableHTML);
+       });
+     });
+   });
+    </script>
+</head>
+<body>
+
+<h1>Accounts</h1>
+
+<label for="bankId">Bank</label> <input id="bankId" name="bankId">
+<label for="accountId">Account Id</label> <input id="accountId" name="accountId">
+<button>Find Account</button> <a href="swagger-ui/index.html">Swagger</a>
+<hr/>
+<p id="accountsPanel">
+
+</p>
+
+</body>
+</html>
