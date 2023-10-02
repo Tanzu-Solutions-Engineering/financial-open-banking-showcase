@@ -44,6 +44,7 @@ interface AccountService {
     fun toAccount(bankId: String, accountDto: BankAccountCreateDto): BankAccount {
         return BankAccount(
             id = accountDto.account_id,
+            number = accountDto.account_id,
             label = accountDto.label,
             product_code = accountDto.product_code,
             balance = accountDto.balance,

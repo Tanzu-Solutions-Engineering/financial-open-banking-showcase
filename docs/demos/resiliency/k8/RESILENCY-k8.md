@@ -30,6 +30,7 @@ Post though source
 ```shell
 export SOURCE_APP_HOST=`kubectl get services --namespace accounting  http-amqp-source-service --output jsonpath='{.status.loadBalancer.ingress[0].ip}'`
 ```
+banking-account
 
 ```shell
 curl -X 'POST' \
@@ -39,6 +40,7 @@ curl -X 'POST' \
   -H 'Content-Type: application/json' \
   -d '{
   "id": "001",
+  "number" : "9343L",
   "bank_id" :  "BankA",
   "user_id": "imani",
   "label": "imani-001",

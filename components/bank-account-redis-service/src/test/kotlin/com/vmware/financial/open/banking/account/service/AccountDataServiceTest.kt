@@ -58,6 +58,7 @@ internal class AccountDataServiceTest {
         var bankId = "myBank"
         var actual = subject.toAccount(bankId,accountDto)
         assertEquals(accountDto.account_id,actual.id)
+        assertEquals(accountDto.account_id,actual.number)
         assertEquals(accountDto.account_routings,actual.account_routings)
         assertEquals(accountDto.balance,actual.balance)
         assertEquals(accountDto.label,actual.label)

@@ -82,6 +82,12 @@
                            $('#labelValue').html(account.label);
                            $('#productCodeValue').html(account.product_code);
 
+                           if(account.balance != undefined)
+                           {
+                                $('#balanceAmountValue').html(account.balance.amount);
+                                $('#balanceCurrencyValue').html(account.balance.currency);
+                            }
+
                            //for loop
                             var tableHTML = "<table class='dataTable'><tr><th>Address</th><th>Scheme</th></tr>";
 
@@ -112,7 +118,7 @@
 <img src="img/vds-ico.jpg" style=" width: 100px;"/>
 <h1 style="position: fixed;top: 10px;left: 120px;">VMware Data Solutions</h1>
 <div class="title">Demo</div>
-<h2>Accounts</h2>
+<h2>Bank Accounts</h2>
 
 <label for="bankId">Bank</label> <input id="bankId" name="bankId"/>
 <label for="accountId">Account Id</label> <input id="accountId" name="accountId"/>
@@ -138,6 +144,17 @@
             <td class="fieldLabel">Product Code</td> <td id="productCodeValue"></td>
         </tr>
       </table>
+    </div>
+    <div>
+        <h3>Balance</h3>
+        <table class="labelTable">
+            <tr>
+                <td class="fieldLabel">Amount</td> <td id="balanceAmountValue"></td>
+            </tr>
+            <tr>
+                <td class="fieldLabel">Currency</td> <td id="balanceCurrencyValue"></td>
+            </tr>
+        </table>
     </div>
     <h3>Routing</h3>
     <p id="account_routingsPanel">

@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.vmware</groupId>
     <artifactId>bank-account-rest-service</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.3-SNAPSHOT</version>
     <name>bank-account-rest-service</name>
     <description>bank-account-rest-service</description>
     <properties>
