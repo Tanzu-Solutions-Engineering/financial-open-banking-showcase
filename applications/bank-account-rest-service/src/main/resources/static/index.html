@@ -3,10 +3,34 @@
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <style>
+
+        .labelTable {
+          font-family: Arial, Helvetica, sans-serif;
+          border-collapse: collapse;
+        }
+
+        .title
+        {
+            font-weight: bold;
+        }
+
+         .labelTable td {
+          border: 1px solid #ddd;
+          padding: 8px;
+          width: 200px;
+        }
+
+        .fieldLabel {
+          padding-top: 12px;
+          padding-bottom: 12px;
+          text-align: left;
+          background-color: #659EC7;
+          color: white;
+        }
+
         .dataTable {
           font-family: Arial, Helvetica, sans-serif;
           border-collapse: collapse;
-          width: 100%;
         }
 
         .dataTable td, .dataTable th {
@@ -22,7 +46,7 @@
           padding-top: 12px;
           padding-bottom: 12px;
           text-align: left;
-          background-color: #04AA6D;
+          background-color: #364874;
           color: white;
         }
     </style>
@@ -45,49 +69,50 @@
        //http://localhost:4001/obp/v4.0.0/banks/BankA/accounts/001/account
        var bankId = $('#bankId').val();
        var accountId = $('#accountId').val();
-       var bankAccountUrl = "obp/v4.0.0/banks/"+bankId+"/accounts/"+accountId+"/account"
-       $.get(bankAccountUrl, function(account, status){
+       var bankAccountUrl = "obp/v4.0.0/banks/"+bankId+"/accounts/"+accountId+"/account";
 
-            if( "success" != status)
-            {
-                alert(status);
-                return -1;
-            }
+       $.ajax({url: bankAccountUrl,
+               type: "GET",
+                success: function(account)
+                        {
+                            $("#accountsPanel").css("display","block");
+                           $('#bankIdValue').html(account.bank_id);
+                           $('#accountIdValue').html(account.id);
+                           $('#accountNumberValue').html(account.number);
+                           $('#labelValue').html(account.label);
+                           $('#productCodeValue').html(account.product_code);
 
-           $("#accountsPanel").css("display","block");
+                           //for loop
+                            var tableHTML = "<table class='dataTable'><tr><th>Address</th><th>Scheme</th></tr>";
 
-           $('#bankIdValue').html(account.bank_id);
-           $('#accountIdValue').html(account.id);
-           $('#accountNumberValue').html(account.number);
-           $('#labelValue').html(account.label);
-           $('#productCodeValue').html(account.product_code);
+                            for (let x in account.account_routings) {
+                                var account_routing = account.account_routings[x];
 
-           //for loop
-            var tableHTML = "<table class='dataTable'><tr><th>Address</th><th>Scheme</th></tr>";
+                                tableHTML +="<tr>"
+                                  +"<td>"+decorateString(account_routing.address)+"</td>"
+                                  +"<td>"+decorateString(account_routing.scheme)+"</td>";
 
-            for (let x in account.account_routings) {
-                var account_routing = account.account_routings[x];
+                                  tableHTML +="</tr>";
+                             }
 
-                tableHTML +="<tr>"
-                  +"<td>"+decorateString(account_routing.address)+"</td>"
-                  +"<td>"+decorateString(account_routing.scheme)+"</td>";
+                             tableHTML +="</table>";
 
-                  tableHTML +="</tr>";
-             }
-
-             tableHTML +="</table>";
-
-            $("#account_routingsPanel").html(tableHTML);
-
-
-       });
+                            $("#account_routingsPanel").html(tableHTML);
+                       },
+                error: function(xhr)
+                        {
+                            alert("Not Found bank:"+bankId+" accountId:"+accountId);
+                        }
+                });
      });
    });
     </script>
 </head>
-<body>
-
-<h1>Accounts</h1>
+<body style="font-family: system-ui;">
+<img src="img/vds-ico.jpg" style=" width: 100px;"/>
+<h1 style="position: fixed;top: 10px;left: 120px;">VMware Data Solutions</h1>
+<div class="title">Demo</div>
+<h2>Accounts</h2>
 
 <label for="bankId">Bank</label> <input id="bankId" name="bankId"/>
 <label for="accountId">Account Id</label> <input id="accountId" name="accountId"/>
@@ -95,25 +120,26 @@
 <hr/>
 <div id="accountsPanel" style="display:none">
   <div>
-      <table>
+      <h2>Bank Account</h2>
+      <table class="labelTable">
         <tr>
-            <td>Bank</td> <td id="bankIdValue"></td>
+            <td class="fieldLabel">Bank</td> <td id="bankIdValue"></td>
         </tr>
         <tr>
-            <td>Account Id</td> <td id="accountIdValue"></td>
+            <td class="fieldLabel">Account Id</td> <td id="accountIdValue"></td>
         </tr>
         <tr>
-            <td>Account Number</td> <td id="accountNumberValue"></td>
+            <td class="fieldLabel">Account Number</td> <td id="accountNumberValue"></td>
         </tr>
         <tr>
-            <td>Label</td> <td id="labelValue"></td>
+            <td class="fieldLabel">Label</td> <td id="labelValue"></td>
         </tr>
         <tr>
-            <td>Product Code</td> <td id="productCodeValue"></td>
+            <td class="fieldLabel">Product Code</td> <td id="productCodeValue"></td>
         </tr>
       </table>
     </div>
-    <h2>Routing</h2>
+    <h3>Routing</h3>
     <p id="account_routingsPanel">
     </p>
 </div>
