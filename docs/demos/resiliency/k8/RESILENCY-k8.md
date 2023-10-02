@@ -1,6 +1,6 @@
 # Prerequisite
 
-Run in DC2
+Run in DC1
 
 ```shell
 ./deployment/cloud/k8/scripts/resilency-install.sh
@@ -39,7 +39,7 @@ curl -X 'POST' \
   -H 'Content-Type: application/json' \
   -d '{
   "id": "001",
-  "bank_id" :  "FLT",
+  "bank_id" :  "BankA",
   "user_id": "imani",
   "label": "imani-001",
   "product_code": "CHECKING",
@@ -57,7 +57,16 @@ curl -X 'POST' \
 }'
 ```
 
+Connect dc1
+```shell
+kubectl config set-context --current --namespace=accounting
+k9s  --kubeconfig ~/.kube/config.gke.dc1
+```
 
+Connect dc2
+```shell
+k9s  --kubeconfig ~/.kube/config.gke.dc2
+```
 
 - Delete RabbitMQ
 - Source GEt Internal server error

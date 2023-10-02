@@ -2,6 +2,8 @@
 
 set -x #echo on
 
+rm -rf /tmp/vmware-sql-postgres-operator
+
 # Set GemFire Pre-Requisite
 
 kubectl create namespace cert-manager
