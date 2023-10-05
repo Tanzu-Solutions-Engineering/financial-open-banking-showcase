@@ -67,6 +67,7 @@ k9s  --kubeconfig ~/.kube/config.gke.dc1
 
 Connect dc2
 ```shell
+kubectl config set-context --current --namespace=accounting-dc2
 k9s  --kubeconfig ~/.kube/config.gke.dc2
 ```
 

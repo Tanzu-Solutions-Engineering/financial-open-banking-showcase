@@ -1,4 +1,13 @@
 
+```json
+
+{
+  "Id": "Bank|001",
+  "Data": "{\"id\": \"01\", \"account_routings\" : [{\"address\" : \"1 st\"},{\"address\" : \"2 st\"}]}"
+}
+```
+
+
 ## Docker
 
 ```shell

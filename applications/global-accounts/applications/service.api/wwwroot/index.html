@@ -79,7 +79,15 @@ $(document).ready(function(){
 
               if(account.account_routings != null && account.account_routings.length > 0)
               {
-                tableHTML +="<td>"+decorateString(account.account_routings[0].address)+"</td>";
+                var addressText = "<td><table class='dataTable'>";
+                for (let i in account.account_routings) {
+                    addressText +="<tr><td>"+decorateString(account.account_routings[i].address)+"</td></tr>";
+                }
+
+                addressText += "</table></td>";
+
+                tableHTML += addressText;
+
               }
               else{
                 tableHTML +="<td>&nbsp;</td>";
