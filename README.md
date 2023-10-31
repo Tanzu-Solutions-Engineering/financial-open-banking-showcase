@@ -43,3 +43,12 @@ relational database (such as Postgres)
 using [RabbitMQ](https://tanzu.vmware.com/rabbitmq), a data cache [GemFire](https://tanzu.vmware.com/gemfire)
 and [Spring Cloud Stream](https://spring.io/projects/spring-cloud-stream).
 
+# Applications
+
+See [bank-account-rest-service](applications/bank-account-rest-service)
+
+![bank-account.png](docs/img/bank-account.png)
+
+See [Global Accounts](applications/global-accounts/applications/service.api)
+
+![docs/img/global-accounts.png](docs/img/global-accounts.png)
