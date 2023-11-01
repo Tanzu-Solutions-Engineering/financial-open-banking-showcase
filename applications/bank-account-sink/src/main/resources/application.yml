@@ -1,3 +1,5 @@
+server:
+  port: 0
 spring:
   data:
       redis:
@@ -21,6 +23,7 @@ spring:
       bindings:
         bankAccountConsumer-in-0:
           destination: banking-account
+          connection-name-prefix: ${spring.application.name}
           group: ${spring.application.name}
           contentType: application/json
           consumer:

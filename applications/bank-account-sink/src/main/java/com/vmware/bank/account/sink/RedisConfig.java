@@ -6,13 +6,11 @@ import com.vmware.financial.open.banking.account.service.redis.AccountDataServic
 import com.vmware.financial.open.banking.domain.account.BankAccount;
 import nyla.solutions.core.util.Text;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisClusterConfiguration;
-import org.springframework.data.redis.connection.RedisClusterNode;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -39,6 +37,9 @@ public class RedisConfig {
         RedisClusterConfiguration config = new RedisClusterConfiguration(nodes);
         return new JedisConnectionFactory(config);
     }
+
+
+
 
     @Bean
     RedisTemplate<String, BankAccount> template(RedisConnectionFactory factory,
