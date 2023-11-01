@@ -32,9 +32,9 @@ kubectl wait pod -l=app.kubernetes.io/component=gemfire-controller-manager --for
 
  k get pods --namespace gemfire-system
 
-kubectl apply -f cloud/k8/data-services/geode/gemfire.yml
-
-kubectl wait pod -l=app=gemfire1-server --for=condition=Ready --timeout=160s
+#kubectl apply -f deployment/cloud/k8/data-services/gemfire/gemfire.yml
+#kubectl wait pod -l=app=gemfire1-locator-0 --for=condition=Ready --timeout=160s
+#kubectl wait pod -l=app=gemfire1-server --for=condition=Ready --timeout=160s
 
 
 # Install Gateway
