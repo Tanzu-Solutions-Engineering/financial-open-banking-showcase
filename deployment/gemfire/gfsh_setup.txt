@@ -1,2 +1,3 @@
 create region --name=CdcRecord --type=PARTITION
 create region --name=Atm --type=PARTITION
+create region --name=BankAccount --type=PARTITION

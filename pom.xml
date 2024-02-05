@@ -30,6 +30,7 @@
         <module>applications/database-sor-migration</module>
         <module>applications/spring-gf-locator</module>
         <module>applications/spring-gf-redis-server</module>
+        <module>applications/config-server</module>
     </modules>
     <build>
         <pluginManagement>

@@ -2,7 +2,7 @@ package com.vmware.bank.account.sink;
 
 
 import com.vmware.financial.open.banking.account.repository.AccountRepository;
-import com.vmware.financial.open.banking.account.service.redis.AccountDataService;
+import com.vmware.financial.open.banking.account.redis.service.AccountDataService;
 import com.vmware.financial.open.banking.domain.account.BankAccount;
 import nyla.solutions.core.util.Text;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +10,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.redis.connection.RedisClusterConfiguration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
@@ -22,6 +23,7 @@ import java.util.Calendar;
 import java.util.List;
 
 @Configuration
+@Profile("redis")
 @ComponentScan(basePackageClasses = AccountDataService.class)
 @EnableRedisRepositories(basePackageClasses = AccountRepository.class)
 public class RedisConfig {

@@ -1,6 +1,7 @@
 package com.vmware.financial.open.banking.account.controller
 
 import com.vmware.financial.open.banking.account.service.AccountService
+import com.vmware.financial.open.banking.account.service.controller.AccountController
 import com.vmware.financial.open.banking.domain.account.BankAccount
 import com.vmware.financial.open.banking.domain.account.BankAccountCreateDto
 import nyla.solutions.core.patterns.creational.generator.JavaBeanGeneratorCreator

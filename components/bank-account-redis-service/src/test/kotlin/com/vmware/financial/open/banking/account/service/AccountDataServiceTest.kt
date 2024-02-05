@@ -1,6 +1,6 @@
 package com.vmware.financial.open.banking.account.service
 
-import com.vmware.financial.open.banking.account.service.redis.AccountDataService
+import com.vmware.financial.open.banking.account.redis.service.AccountDataService
 import com.vmware.financial.open.banking.domain.account.BankAccount
 import com.vmware.financial.open.banking.domain.account.BankAccountCreateDto
 import nyla.solutions.core.patterns.creational.generator.JavaBeanGeneratorCreator

@@ -15,9 +15,22 @@
 	<description>bank-account-sink</description>
 	<properties>
 		<java.version>17</java.version>
+		<springBootForGemFire.version>1.0.0</springBootForGemFire.version>
 		<spring-cloud.version>2022.0.4</spring-cloud.version>
+		<springDataForGemFire.version>1.0.0</springDataForGemFire.version>
+		<vmwareGemFire.version>10.0.0</vmwareGemFire.version>
 	</properties>
 	<dependencies>
+		<dependency>
+			<groupId>com.vmware.gemfire</groupId>
+			<artifactId>spring-boot-3.0-gemfire-10.0</artifactId>
+			<version>${springBootForGemFire.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.vmware.gemfire</groupId>
+			<artifactId>gemfire-core</artifactId>
+			<version>${vmwareGemFire.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>redis.clients</groupId>
 			<artifactId>jedis</artifactId>
@@ -91,7 +104,13 @@
 			<artifactId>bank-account-redis-service</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-<!--		<dependency>-->
+		<dependency>
+			<groupId>com.vmware</groupId>
+			<artifactId>bank-account-gemfire-service</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
+		<!--		<dependency>-->
 <!--			<groupId>com.vmware.gemfire</groupId>-->
 <!--			<artifactId>gemfire-core</artifactId>-->
 <!--			<version>10.0.1</version>-->
@@ -126,5 +145,13 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<repositories>
+		<repository>
+			<id>gemfire-release-repo</id>
+			<name>Pivotal GemFire Release Repository</name>
+			<url>https://commercial-repo.pivotal.io/data3/gemfire-release-repo/gemfire</url>
+		</repository>
+	</repositories>
 
 </project>
