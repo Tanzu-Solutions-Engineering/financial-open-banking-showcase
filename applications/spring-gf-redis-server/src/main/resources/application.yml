@@ -1,8 +1,0 @@
-server:
-  port: 0
-spring:
-  application:
-    name: "spring-gf-redis-server"
-  data:
-    gemfire:
-      locators: "localhost[10334]"

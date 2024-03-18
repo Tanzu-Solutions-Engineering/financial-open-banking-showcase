@@ -65,13 +65,18 @@ cd $PROJECT_DIR
 #Install GemFire Cluster
 kubectl apply -f deployment/cloud/k8/data-services/gemfire/redis/gf-multi-site-redis.yaml
 
+
+
 #Install RabbitMQ
+
+# Wait for rabbit operator
+sleep 5
+kubectl wait pod -l=app.kubernetes.io/name=rabbitmq-cluster-operator --for=condition=Ready --timeout=160s --namespace=rabbitmq-system
 kubectl apply -f deployment/cloud/k8/data-services/rabbitmq/rabbitmq.yaml
 
 sleep 30
 
 #wait for rabbit
-kubectl wait pod -l=app.kubernetes.io/component=rabbitmq --for=condition=Ready --timeout=160s --namespace=accounting
 # create rabbitmq users
 kubectl apply -f deployment/cloud/k8/data-services/rabbitmq/secret/users/rabbitmq_account_user.yaml
 
@@ -95,3 +100,6 @@ kubectl apply -f deployment/cloud/k8/apps/http-amqp-source/http-amqp-source.yaml
 kubectl wait pod -l=name=http-amqp-source --for=condition=Ready --timeout=160s --namespace=accounting
 export SOURCE_APP_HOST=`kubectl get services --namespace accounting  http-amqp-source-service --output jsonpath='{.status.loadBalancer.ingress[0].ip}'`
 export RABBIT_HOST_DC1=`kubectl get services --namespace accounting  rabbitmq --output jsonpath='{.status.loadBalancer.ingress[0].ip}'`
+
+
+echo open http://$SOURCE_APP_HOST

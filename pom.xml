@@ -28,9 +28,8 @@
         <module>applications/bank-account-rest-service</module>
         <module>applications/bank-account-sink</module>
         <module>applications/database-sor-migration</module>
-        <module>applications/spring-gf-locator</module>
-        <module>applications/spring-gf-redis-server</module>
         <module>applications/config-server</module>
+        <module>applications/opening-banking-source-app</module>
     </modules>
     <build>
         <pluginManagement>

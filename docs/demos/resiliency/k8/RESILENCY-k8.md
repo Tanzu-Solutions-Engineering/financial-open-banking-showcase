@@ -26,7 +26,10 @@ Run in DC1
 ./deployment/cloud/k8/scripts/resilency-install.sh
 ```
 
-Run in DC2
+Run in DC2 
+
+*Use the SAME Shell*
+
 
 ```shell
 ./deployment/cloud/k8/scripts/resilency-install-dc2.sh
