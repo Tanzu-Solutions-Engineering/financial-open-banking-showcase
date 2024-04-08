@@ -6,6 +6,12 @@
 ![](docs/img/ob-arch.jpg)
 
 
+**Publications**
+
+- [Anywhere Any Data Resilience with VMware Data Services](https://tanzu.vmware.com/content/videos/anywhere-any-data-resilience-with-vmware-data-services)
+
+
+
 Example application on open banking and how the Tanzu portfolio helps. 
 
 ![img.png](docs/img/img.png)
