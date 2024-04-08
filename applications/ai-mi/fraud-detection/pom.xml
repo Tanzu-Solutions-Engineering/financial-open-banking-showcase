@@ -56,7 +56,13 @@
 			<artifactId>spring-cloud-stream-test-binder</artifactId>
 			<scope>test</scope>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>com.github.nyla-solutions</groupId>
+            <artifactId>nyla.solutions.core</artifactId>
+            <version>2.2.0</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
