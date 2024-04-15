@@ -48,6 +48,7 @@ public class AiConfig {
                 }
                 catch(RuntimeException e)
                 {
+                    e.printStackTrace();
                     log.error("EXCEPTION: {}",e);
                 }
             }

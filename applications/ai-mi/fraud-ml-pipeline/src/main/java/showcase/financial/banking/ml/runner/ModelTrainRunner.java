@@ -13,6 +13,7 @@ import org.tribuo.anomaly.Event;
 import org.tribuo.anomaly.libsvm.LibSVMAnomalyTrainer;
 import org.tribuo.anomaly.libsvm.SVMAnomalyType;
 import org.tribuo.common.libsvm.KernelType;
+import org.tribuo.common.libsvm.LibSVMModel;
 import org.tribuo.common.libsvm.SVMParameters;
 import org.tribuo.impl.ArrayExample;
 import showcase.financial.banking.ml.dataSource.TransactionDataSource;
@@ -81,7 +82,7 @@ public class ModelTrainRunner implements ApplicationRunner {
         var trainer = new LibSVMAnomalyTrainer(params);
 
         //Training is the same as other Tribuo prediction tasks, just call train and pass the training data.
-        var model = trainer.train(dataSet);
+        LibSVMModel<Event> model = trainer.train(dataSet);
 
         byte[] serializerModel = IO.serializeToBytes(model);
 

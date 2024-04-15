@@ -45,19 +45,18 @@ public class RabbitMQConfig {
     }
 
 
-    @Bean
     @ConditionalOnProperty(name = "rabbitmq.streaming.replay",havingValue = "true")
-    RabbitListenerContainerFactory<StreamListenerContainer> nativeFactory(Environment env) {
-
-        log.info("***Replaying, setting offset to first the record for streams");
-        var factory = new StreamRabbitListenerContainerFactory(env);
-        factory.setNativeListener(true);
-
-        factory.setConsumerCustomizer((id, builder) -> {
-            log.info("**** Setting offset to FIRST");
-            builder.offset(OffsetSpecification.first());
-        });
-
-        return factory;
+    @Bean
+    ListenerContainerCustomizer<MessageListenerContainer> customizer() {
+        return (cont, dest, group) -> {
+            StreamListenerContainer container = (StreamListenerContainer) cont;
+            container.setConsumerCustomizer((name, builder) -> {
+                builder.subscriptionListener(context -> {
+                    log.info("Replaying from the first record in the stream");
+                    context.offsetSpecification(OffsetSpecification.first());
+                });
+            });
+        };
     }
+
 }
