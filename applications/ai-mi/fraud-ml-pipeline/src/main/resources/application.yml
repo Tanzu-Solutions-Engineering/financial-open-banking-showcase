@@ -2,20 +2,20 @@ rabbitmq:
   streaming:
     replay: true
 server:
-  port: 5080
+  port: 0
 spring:
+  config:
+    import: optional:configserver:http://localhost:8888/
   application:
-    name: fraud-detection
+    name: fraud-ml-pipeline
   cloud:
     function:
-      definition: detectFraudFunction;modelConsumer
-      http:
-        POST: detectFraudFunction
+      definition: modelSupplier
     stream:
       binder:
         connection-name-prefix: ${spring.application.name}
       bindings:
-        modelConsumer-in-0:
+        modelSupplier-out-0:
           destination: fraud-model
           connection-name-prefix: ${spring.application.name}
           group: ${spring.application.name}
@@ -26,9 +26,14 @@ spring:
             maxAttempts: 2147483647
       rabbit:
         bindings:
-          modelConsumer-in-0:
+          modelSupplier-out-0:
             consumer:
               container-type: stream
   rabbitmq:
     listener:
       type: stream
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info, health

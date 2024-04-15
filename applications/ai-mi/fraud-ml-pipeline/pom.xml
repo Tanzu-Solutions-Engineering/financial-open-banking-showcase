@@ -9,31 +9,36 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.vmware</groupId>
-	<artifactId>fraud-detection</artifactId>
+	<artifactId>fraud-ml-pipeline</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>fraud-detection</name>
-	<description>fraud-detection</description>
+	<name>fraud-ml-pipeline</name>
+	<description>fraud-detection-train</description>
 	<properties>
 		<java.version>17</java.version>
 		<spring-cloud.version>2023.0.1</spring-cloud.version>
 		<spring-ai.version>0.8.1</spring-ai.version>
+		<spring-cloud.version>2023.0.1</spring-cloud.version>
 	</properties>
 	<dependencies>
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.ai</groupId>-->
+<!--			<artifactId>spring-ai-transformers-spring-boot-starter</artifactId>-->
+<!--		</dependency>-->
 		<dependency>
-			<groupId>org.springdoc</groupId>
-			<artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
-			<version>2.4.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springdoc</groupId>
-			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-			<version>2.4.0</version>
+			<groupId>com.vmware</groupId>
+			<artifactId>bank-transaction-domain</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.tribuo</groupId>
 			<artifactId>tribuo-all</artifactId>
 			<version>4.3.1</version>
 			<type>pom</type>
+		</dependency>
+		<dependency>
+			<groupId>com.github.nyla-solutions</groupId>
+			<artifactId>nyla.solutions.core</artifactId>
+			<version>2.2.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -52,18 +57,13 @@
 			<artifactId>spring-cloud-stream-binder-rabbit</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.ai</groupId>
-			<artifactId>spring-ai-transformers-spring-boot-starter</artifactId>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.amqp</groupId>
-			<artifactId>spring-rabbit-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -71,36 +71,7 @@
 			<artifactId>spring-cloud-stream-test-binder</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-function-web</artifactId>
-		</dependency>
-        <dependency>
-            <groupId>com.github.nyla-solutions</groupId>
-            <artifactId>nyla.solutions.core</artifactId>
-            <version>2.2.1-SNAPSHOT</version>
-        </dependency>
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.ai</groupId>
-			<artifactId>spring-ai-retry</artifactId>
-		</dependency>
-
-        <dependency>
-            <groupId>com.vmware</groupId>
-            <artifactId>bank-transaction-domain</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-    </dependencies>
+	</dependencies>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -147,6 +118,5 @@
 			</snapshots>
 		</repository>
 	</repositories>
-
 
 </project>

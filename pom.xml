@@ -32,6 +32,7 @@
         <module>applications/config-server</module>
         <module>applications/opening-banking-source-app</module>
         <module>applications/ai-mi/fraud-detection</module>
+        <module>applications/ai-mi/fraud-ml-pipeline</module>
     </modules>
     <build>
         <pluginManagement>

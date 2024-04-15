@@ -13,6 +13,7 @@ import org.tribuo.impl.ArrayExample;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 import static org.tribuo.anomaly.AnomalyFactory.EXPECTED_EVENT;
 
@@ -20,7 +21,7 @@ import static org.tribuo.anomaly.AnomalyFactory.EXPECTED_EVENT;
 @RequiredArgsConstructor
 public class TribuoModelClient implements ModelClient<FeaturesRequest,PredictionResponse> {
 
-    private final LibSVMModel <Event> model;
+    private final Supplier<LibSVMModel <Event>> modelSupplier;
 
     @Override
     public PredictionResponse call(FeaturesRequest request) {
@@ -32,7 +33,7 @@ public class TribuoModelClient implements ModelClient<FeaturesRequest,Prediction
         }
 
         var event = new ArrayExample<>(EXPECTED_EVENT,features); //TODO this may always be expected
-        var out = model.predict(event);
+        var out = modelSupplier.get().predict(event);
 
         if(out == null)
             return null;

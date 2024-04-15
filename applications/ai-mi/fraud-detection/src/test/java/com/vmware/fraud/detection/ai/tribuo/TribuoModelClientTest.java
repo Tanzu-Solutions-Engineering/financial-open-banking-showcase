@@ -7,12 +7,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.tribuo.Example;
-import org.tribuo.Output;
 import org.tribuo.Prediction;
 import org.tribuo.anomaly.Event;
 import org.tribuo.common.libsvm.LibSVMModel;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.function.Supplier;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -28,6 +29,8 @@ class TribuoModelClientTest {
     private LibSVMModel<Event> model;
 
     @Mock
+    private Supplier<LibSVMModel<Event>> modelSupplier;
+    @Mock
     private Prediction<Event> response;
 
 
@@ -40,13 +43,14 @@ class TribuoModelClientTest {
 
     @BeforeEach
     void setUp() {
-        subject = new TribuoModelClient(model);
+        subject = new TribuoModelClient(modelSupplier);
     }
 
 
     @Test
     void prediction() {
 
+        when(modelSupplier.get()).thenReturn(model);
         when(model.predict((Example<Event>) any(Example.class))).thenReturn(response);
 
         when(response.getOutput()).thenReturn(output);

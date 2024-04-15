@@ -12,7 +12,7 @@ import org.tribuo.common.libsvm.KernelType;
 import org.tribuo.common.libsvm.SVMParameters;
 import org.tribuo.util.Util;
 
-@Component
+//@Component
 public class ExampleRunner implements ApplicationRunner {
 
     @Override
