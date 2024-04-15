@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: fraud-detection
+  cloud:
+    function:
+      definition: detectFraudFunction
+      http:
+        POST: detectFraudFunction

@@ -105,8 +105,6 @@ class TransactionDataSourceTestV2 {
         for(Example<Event> event: testDataSet)
         {
             var prediction = model.predict(event);
-
-//            System.out.println("prediction:"+prediction+ "\n event:"+event);
         }
 
         List<Feature> features = new ArrayList<>();
@@ -131,12 +129,8 @@ class TransactionDataSourceTestV2 {
         for (int i = 0; i < numSamples; i++) {
             double draw = rng.nextDouble();
             if (draw < fractionAnomalous) {
-//                List<Feature> featureList = generateFeatures(rng, featureNames, anomalousMeans, anomalousVariances);
-//                examples.add(new ArrayExample<Event>(ANOMALOUS_EVENT,featureList));
                 examples.add(generateFraud());
             } else {
-//                List<Feature> featureList = generateFeatures(rng, featureNames, expectedMeans, expectedVariances);
-//                examples.add(new ArrayExample<Event>(EXPECTED_EVENT,featureList));
                 examples.add(generateExpected());
             }
         }

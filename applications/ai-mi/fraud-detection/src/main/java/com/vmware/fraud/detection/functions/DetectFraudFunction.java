@@ -6,6 +6,7 @@ import com.vmware.fraud.detection.ai.tribuo.PredictionResponse;
 import lombok.RequiredArgsConstructor;
 import nyla.solutions.core.patterns.conversion.Converter;
 import org.springframework.ai.model.ModelClient;
+import org.springframework.stereotype.Component;
 import showcase.financial.banking.transactions.domain.Transaction;
 
 import java.util.function.Function;
@@ -14,7 +15,8 @@ import java.util.function.Function;
  * @author gregory green
  */
 @RequiredArgsConstructor
-public class DetectionFraudFunction implements Function<Transaction,PredictionScore> {
+@Component
+public class DetectFraudFunction implements Function<Transaction,PredictionScore> {
 
     private final ModelClient<FeaturesRequest, PredictionResponse> modelClient;
 

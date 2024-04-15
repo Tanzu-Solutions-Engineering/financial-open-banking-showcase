@@ -27,9 +27,9 @@ class TransactionToFeaturesRequestConverterTest {
         var instructions = out.getInstructions();
         assertThat(instructions).isNotNull().isNotEmpty();
 
-        assertThat(transaction.amount()).isEqualTo(instructions.get(TransactionToFeaturesRequestConverter.AMOUNT_INDEX));
-        assertThat(Integer.valueOf(transaction.device()).doubleValue()).isEqualTo(instructions.get(TransactionToFeaturesRequestConverter.DEVICE_INDEX));
-        assertThat(Integer.valueOf(transaction.location()).doubleValue()).isEqualTo(instructions.get(TransactionToFeaturesRequestConverter.LOCATION_INDEX));
-        assertThat(Integer.valueOf(transaction.merchant()).doubleValue()).isEqualTo(instructions.get(TransactionToFeaturesRequestConverter.MERCHANT_INDEX));
+        assertThat(transaction.amount()).isEqualTo(instructions.get(TransactionToFeaturesRequestConverter.AMOUNT_KEY));
+        assertThat(Integer.valueOf(transaction.device()).doubleValue()).isEqualTo(instructions.get(TransactionToFeaturesRequestConverter.DEVICE_KEY));
+        assertThat(Integer.valueOf(transaction.location()).doubleValue()).isEqualTo(instructions.get(TransactionToFeaturesRequestConverter.LOCATION_KEY));
+        assertThat(Integer.valueOf(transaction.merchant()).doubleValue()).isEqualTo(instructions.get(TransactionToFeaturesRequestConverter.MERCHANT_KEY));
     }
 }

@@ -4,11 +4,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class FeaturesRequestTest {
-    private List<Double> expectedInstructions = List.of(Double.MIN_VALUE,Double.MAX_VALUE);
+    private Map<String,Double> expectedInstructions = Map.of(
+            "min",Double.MIN_VALUE,
+            "max",Double.MAX_VALUE);
+
     private FeaturesRequest subject;
 
     @BeforeEach

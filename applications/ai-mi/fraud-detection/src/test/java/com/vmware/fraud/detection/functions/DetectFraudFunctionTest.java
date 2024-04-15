@@ -20,9 +20,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class DetectionFraudFunctionTest {
+class DetectFraudFunctionTest {
 
-    private DetectionFraudFunction subject;
+    private DetectFraudFunction subject;
 
     @Mock
     private ModelClient<FeaturesRequest, PredictionResponse> modelClient;
@@ -43,7 +43,7 @@ class DetectionFraudFunctionTest {
 
     @BeforeEach
     void setUp() {
-        subject = new DetectionFraudFunction(modelClient,converter);
+        subject = new DetectFraudFunction(modelClient,converter);
     }
 
     @Test
