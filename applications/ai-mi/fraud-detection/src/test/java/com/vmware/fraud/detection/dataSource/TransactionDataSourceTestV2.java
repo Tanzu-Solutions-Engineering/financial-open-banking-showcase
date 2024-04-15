@@ -22,7 +22,7 @@ import java.util.Random;
 import static org.tribuo.anomaly.AnomalyFactory.ANOMALOUS_EVENT;
 import static org.tribuo.anomaly.AnomalyFactory.EXPECTED_EVENT;
 
-class TransactionDattatusaSourceTestV2 {
+class TransactionDataSourceTestV2 {
 
 //    private int numSamples = 2000;
     private long seed = Trainer.DEFAULT_SEED;
@@ -36,7 +36,7 @@ class TransactionDattatusaSourceTestV2 {
     private double[] anomalousVariances = new double[]{1.0, 0.5, 0.25, 1.0, 0.1};
 
     private static final String[] allFeatureNames = new String[]{
-            "amount","timestamp", "device", "merchant", "location"
+            "amount", "device", "merchant", "location"
     };
     private String[] featureNames = allFeatureNames;
     private double amountExpectedMean = 100;
@@ -111,7 +111,6 @@ class TransactionDattatusaSourceTestV2 {
 
         List<Feature> features = new ArrayList<>();
         features.add(new Feature("amount", 999.0));
-        features.add(new Feature("timestamp", 2.0));
         features.add(new Feature("device", -2.0));
         features.add(new Feature("merchant", 1.0));
         features.add(new Feature("location", -10.0));
@@ -151,7 +150,6 @@ class TransactionDattatusaSourceTestV2 {
 
         // "amount","timestamp", "device", "merchant", "location"
         features.add(new Feature("amount", generateValue(amountExpectedMean,amountExpectedVariances)));
-        features.add(new Feature("timestamp", generateValue(timestampExpectedMean,timeExpectedVariances)));
         features.add(new Feature("device", generateValue(deviceExpectedMean,deviceExpectedVariances)));
         features.add(new Feature("merchant", generateValue(merchantExpectedMean,merchantExpectedVariances)));
         features.add(new Feature("location", generateValue(locationExpectedMean,locationExpectedVariances)));
@@ -166,7 +164,6 @@ class TransactionDattatusaSourceTestV2 {
         double currentTime = System.currentTimeMillis();
         List<Feature> features = new ArrayList<>();
         features.add(new Feature("amount", generateValue(amountFraudMean, amountFraudVariances)));
-        features.add(new Feature("timestamp", generateValue(timestampFraudMean, timeFraudVariances)));
         features.add(new Feature("device", generateValue(deviceFraudMean, deviceFraudVariances)));
         features.add(new Feature("merchant", generateValue(merchantVarianceMean,merchantVarianceVariances)));
         features.add(new Feature("location", generateValue(locationVarianceMean,locationVarianceVariances)));

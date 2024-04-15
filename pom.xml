@@ -14,6 +14,7 @@
         <module>components/atm-domain</module>
         <module>components/atm-service</module>
         <module>applications/atm-sink</module>
+        <module>components/bank-transaction-domain</module>
         <module>applications/atm-rest-service</module>
 
         <module>components/bank-domain</module>
