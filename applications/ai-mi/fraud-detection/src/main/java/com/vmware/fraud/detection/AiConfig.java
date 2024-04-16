@@ -4,6 +4,7 @@ import com.vmware.fraud.detection.ai.FeaturesRequest;
 import com.vmware.fraud.detection.ai.TransactionToFeaturesRequestConverter;
 import com.vmware.fraud.detection.ai.tribuo.PredictionResponse;
 import com.vmware.fraud.detection.ai.tribuo.TribuoModelClient;
+import com.vmware.fraud.detection.functions.DetectFraudFunction;
 import lombok.extern.slf4j.Slf4j;
 import nyla.solutions.core.data.collections.QueueSupplier;
 import nyla.solutions.core.io.IO;
@@ -15,6 +16,7 @@ import org.tribuo.anomaly.Event;
 import org.tribuo.common.libsvm.LibSVMModel;
 import showcase.financial.banking.transactions.domain.Transaction;
 
+import java.util.Queue;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -28,14 +30,9 @@ public class AiConfig {
         return new TransactionToFeaturesRequestConverter();
     }
 
-    @Bean
-    QueueSupplier<LibSVMModel<Event>> queueSupplier()
-    {
-        return  new QueueSupplier<>();
-    }
 
     @Bean
-    Consumer<byte[]> modelConsumer(QueueSupplier<LibSVMModel<Event>> queueSupplier)
+    Consumer<byte[]> modelConsumer(TribuoModelClient modelClient)
     {
         return new Consumer<byte[]>() {
             @Override
@@ -44,7 +41,7 @@ public class AiConfig {
                 try{
                     LibSVMModel<Event> model = IO.deserialize(bytes);
                     log.info("Received Model: {}",model);
-                    queueSupplier.add(model);
+                    modelClient.setModel(model);
                 }
                 catch(RuntimeException e)
                 {
@@ -56,8 +53,8 @@ public class AiConfig {
     }
 
     @Bean
-    ModelClient<FeaturesRequest, PredictionResponse> modelClient(QueueSupplier<LibSVMModel<Event>> modelSupplier)
+    ModelClient<FeaturesRequest, PredictionResponse> modelClient()
     {
-        return new TribuoModelClient(modelSupplier);
+        return new TribuoModelClient();
     }
 }

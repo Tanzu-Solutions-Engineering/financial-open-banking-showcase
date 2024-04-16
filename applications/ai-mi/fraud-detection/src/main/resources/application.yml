@@ -15,6 +15,16 @@ spring:
       binder:
         connection-name-prefix: ${spring.application.name}
       bindings:
+        detectFraudFunction-in-0:
+          destination: fraud-model-in
+          connection-name-prefix: ${spring.application.name}
+          group: ${spring.application.name}
+          contentType: application/json
+        detectFraudFunction-out-0:
+          destination: fraud-model-out
+          connection-name-prefix: ${spring.application.name}
+          group: ${spring.application.name}
+          contentType: application/json
         modelConsumer-in-0:
           destination: fraud-model
           connection-name-prefix: ${spring.application.name}
@@ -27,6 +37,12 @@ spring:
       rabbit:
         bindings:
           modelConsumer-in-0:
+            consumer:
+              container-type: stream
+          detectFraudFunction-in-0:
+            consumer:
+              container-type: stream
+          detectFraudFunction-out-0:
             consumer:
               container-type: stream
   rabbitmq:

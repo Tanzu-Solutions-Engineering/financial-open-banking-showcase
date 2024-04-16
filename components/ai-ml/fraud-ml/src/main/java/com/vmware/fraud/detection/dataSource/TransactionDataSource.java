@@ -1,6 +1,5 @@
-package showcase.financial.banking.ml.dataSource;
+package com.vmware.fraud.detection.dataSource;
 
-import org.jetbrains.annotations.NotNull;
 import org.tribuo.ConfigurableDataSource;
 import org.tribuo.Example;
 import org.tribuo.OutputFactory;
@@ -30,8 +29,6 @@ public class TransactionDataSource  implements ConfigurableDataSource<Event> {
         return new TransactionDataSourceProvenance(this);
     }
 
-
-    @NotNull
     @Override
     public Iterator<Example<Event>> iterator() {
         return examples.iterator();

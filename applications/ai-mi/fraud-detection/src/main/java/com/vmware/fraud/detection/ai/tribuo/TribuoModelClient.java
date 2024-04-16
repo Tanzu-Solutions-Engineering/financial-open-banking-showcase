@@ -1,9 +1,9 @@
 package com.vmware.fraud.detection.ai.tribuo;
 
-import com.google.protobuf.MapEntry;
 import com.vmware.fraud.detection.ai.FeaturesRequest;
 import com.vmware.fraud.detection.ai.PredictionScore;
-import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.model.ModelClient;
 import org.tribuo.Feature;
 import org.tribuo.anomaly.Event;
@@ -13,18 +13,21 @@ import org.tribuo.impl.ArrayExample;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
 
 import static org.tribuo.anomaly.AnomalyFactory.EXPECTED_EVENT;
 
 
-@RequiredArgsConstructor
+@Setter
+@Slf4j
 public class TribuoModelClient implements ModelClient<FeaturesRequest,PredictionResponse> {
 
-    private final Supplier<LibSVMModel <Event>> modelSupplier;
+    private LibSVMModel <Event> model;
 
     @Override
     public PredictionResponse call(FeaturesRequest request) {
+
+        if(model == null)
+            return null;
 
         List<Feature> features = new ArrayList<>();
         for (Map.Entry<String,Double> entry : request.getInstructions().entrySet())
@@ -33,11 +36,10 @@ public class TribuoModelClient implements ModelClient<FeaturesRequest,Prediction
         }
 
         var event = new ArrayExample<>(EXPECTED_EVENT,features); //TODO this may always be expected
-        var out = modelSupplier.get().predict(event);
 
-        if(out == null)
-            return null;
+        var prediction = model.predict(event);
+        log.info("prediction:  {}",prediction);
 
-        return new PredictionResponse(new PredictionScore(out.getOutput().getScore()));
+        return new PredictionResponse(new PredictionScore(prediction.getOutput().getScore()));
     }
 }

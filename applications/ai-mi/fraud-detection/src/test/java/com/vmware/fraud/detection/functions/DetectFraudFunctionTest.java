@@ -56,4 +56,11 @@ class DetectFraudFunctionTest {
         assertThat(actual).isNotNull();
         assertThat(actual.getOutput()).isEqualTo(expectedScore.getOutput());
     }
+
+    @Test
+    void isFraud_when_null() {
+
+        var actual = subject.apply(transaction);
+        assertThat(actual).isNull();
+    }
 }
