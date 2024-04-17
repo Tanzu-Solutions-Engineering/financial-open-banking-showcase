@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.vmware</groupId>
     <artifactId>bank-account-rest-service</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
+    <version>0.0.4-SNAPSHOT</version>
     <name>bank-account-rest-service</name>
     <description>bank-account-rest-service</description>
     <properties>
@@ -24,6 +24,10 @@
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

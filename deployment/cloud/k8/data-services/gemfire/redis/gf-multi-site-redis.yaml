@@ -22,7 +22,7 @@ spec:
 apiVersion: gemfire.vmware.com/v1
 kind: GemFireCluster
 metadata:
-  name: gf-redis
+  name: gemfire
 spec:
   ingress:
     gatewayName: gf-gateway

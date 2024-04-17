@@ -16,25 +16,42 @@ Register Applications
 Click Add applications -> Import ... from a properties files
 
 ```properties
-source.http-amqp-source=docker:cloudnativedata/http-amqp-source:0.0.5-SNAPSHOT
+app.bank-account-app=docker:cloudnativedata/bank-account-rest-service:0.0.4-SNAPSHOT
+source.bank-account-http-source=docker:cloudnativedata/http-amqp-source:0.0.5-SNAPSHOT
 sink.bank-account-sink=docker:cloudnativedata/bank-account-sink:0.0.2-SNAPSHOT
 ```
 
 
-Create Stream
+
+
+## Create Stream
 
 ```shell
-bank-accounts=http-amqp-source | bank-account-sink
+bank-accounts=bank-account-http-source | bank-account-gemfire-sink: bank-account-sink
+bank-account-app=bank-account-app
 ```
 
-Deploy Properties
+## Deploy Properties
 
+
+Deploy bank-account-app properties
 ```properties
-deployer.http-amqp-source.kubernetes.createLoadBalancer=true
-deployer.bank-account-sink.kubernetes.environmentVariables=spring.profiles.active=redis,spring.data.redis.cluster.nodes=gf-redis-server-0:6379,rabbitmq.streaming.replay=true,spring.application.name=bank-account-sink,spring.cloud.stream.rabbit.bindings.input.consumer.container-type=stream,spring.cloud.stream.binder.connection-name-prefix=bank-account-sink,spring.rabbitmq.stream.host=rabbitmq,spring.data.gemfire.pool.default.locators=gf-redis-locator-0.gf-redis-locator.accounting.svc.cluster.local[10334]
-deployer.bank-account-sink.kubernetes.imagePullPolicy=IfNotPresent
+deployer.bank-account-app.kubernetes.createLoadBalancer=true
+deployer.bank-account-app.kubernetes.environmentVariables=server.port=8080,spring.profiles.active=redis,spring.data.redis.cluster.nodes=gemfire-server-0:6379,spring.data.redis.client-type=JEDIS,spring.application.name=bank-account-app,spring.data.gemfire.pool.default.locators=gemfire-locator-0.gemfire-locator.accounting.svc.cluster.local[10334]
+deployer.bank-account-app.bootVersion=3
+```
+
+
+Deploy bank-accounts properties
+```properties
+deployer.bank-account-http-source.kubernetes.createLoadBalancer=true
+deployer.bank-account-gemfire-sink.kubernetes.environmentVariables=spring.profiles.active=redis,spring.data.redis.cluster.nodes=gemfire-server-0:6379,rabbitmq.streaming.replay=true,spring.application.name=bank-account-gemfire-sink,spring.cloud.stream.rabbit.bindings.input.consumer.container-type=stream,spring.cloud.stream.binder.connection-name-prefix=bank-account-gemfire-sink,spring.rabbitmq.stream.host=rabbitmq,spring.data.gemfire.pool.default.locators=gemfire-locator-0.gemfire-locator.accounting.svc.cluster.local[10334]
+deployer.bank-account-gemfire-sink.kubernetes.imagePullPolicy=IfNotPresent
+deployer.bank-account-gemfire-sink.bootVersion=3
+deployer.bank-account-http-source.bootVersion=3
 #deployer.bank-account-sink.kubernetes.imagePullPolicy=Always
 ```
+
 
 
 ------------
@@ -45,7 +62,7 @@ Run in DC2
 
 
 ```shell
-./deployment/cloud/k8/scripts/resilency-install-dc2.sh
+./deployment/cloud/k8/scripts/resilency-install-scdf-dc2.sh
 ```
 ------------------
 
@@ -112,6 +129,7 @@ k9s  --kubeconfig ~/.kube/config.gke.dc2
 - Get from Service (found)
 
 *Scale GemFire Redis to 3 Nodes*
+
 - Delete GemFire Redis Server
 - Get from Service (found)
 
