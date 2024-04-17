@@ -24,7 +24,6 @@ public class GemFireConfig {
         System.out.printf("created");
     }
 
-    //create region --name=BankAccount --type=PARTITION
     @Bean
     ClientRegionFactoryBean<String, BankAccount> bankAccount(GemFireCache gemFireCache)
     {

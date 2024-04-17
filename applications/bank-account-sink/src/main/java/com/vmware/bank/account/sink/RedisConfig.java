@@ -31,7 +31,7 @@ public class RedisConfig {
     @Value("${spring.application.name}")
     private String applicationName;
 
-    @Value("${spring.data.redis.cluster.nodes}")
+    @Value("${spring.data.redis.cluster.nodes:localhost:6379}")
     private List<String> nodes;
 
     @Bean

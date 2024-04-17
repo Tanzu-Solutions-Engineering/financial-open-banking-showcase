@@ -91,7 +91,6 @@ kubectl apply -f deployment/cloud/k8/apps/account-rest-service/account-rest-redi
 # Sink application
 kubectl apply -f deployment/cloud/k8/apps/bank-account-sink/bank-account-redis-sink.yaml
 
-
 #Source applications
 kubectl apply -f deployment/cloud/k8/apps/http-amqp-source/http-amqp-source.yaml
 
