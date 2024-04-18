@@ -15,6 +15,17 @@ deployment/cloud/k8/scripts/install-scdf-k8.sh
 Register Applications
 Click Add applications -> Import ... from a properties files
 
+
+Site A
+```shell
+kubectl config set-context --current --namespace=accounting
+```
+
+Site B
+```shell
+kubectl config set-context --current --namespace=accounting-dc2
+```
+
 ```properties
 app.bank-account-app=docker:cloudnativedata/bank-account-rest-service:0.0.4-SNAPSHOT
 source.bank-account-http-source=docker:cloudnativedata/http-amqp-source:0.0.5-SNAPSHOT
