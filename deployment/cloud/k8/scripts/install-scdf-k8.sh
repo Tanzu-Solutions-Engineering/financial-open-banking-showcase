@@ -9,7 +9,9 @@ export ACCT_USER_PWD=`kubectl get secrets/rabbit-accounting-credentials-secrete 
 
 helm install scdf oci://registry-1.docker.io/bitnamicharts/spring-cloud-dataflow --set externalRabbitmq.enabled=true --set rabbitmq.enabled=false --set externalRabbitmq.host=rabbitmq --set externalRabbitmq.username=account --set externalRabbitmq.password=$ACCT_USER_PWD --set server.service.type=LoadBalancer --set server.service.ports.http=9393
 
+#Switch to DC2
 
+#helm install scdf oci://registry-1.docker.io/bitnamicharts/spring-cloud-dataflow --set externalRabbitmq.enabled=true --set rabbitmq.enabled=false --set externalRabbitmq.host=rabbitmq --set externalRabbitmq.username=account --set externalRabbitmq.password=$ACCT_USER_PWD --set server.service.type=LoadBalancer --set server.service.ports.http=9393
 
 
 # ----

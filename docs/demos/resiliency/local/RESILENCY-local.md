@@ -1,32 +1,26 @@
 # Prerequisite
 
-
 - RabbitMQ
 - Postgres
+- GemFire
 
-- GemFire for Redis
-
-```shell
-export JAVA_ARGS="--add-exports  java.management/com.sun.jmx.remote.security=ALL-UNNAMED  --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED --add-exports  java.base/sun.nio.ch=ALL-UNNAMED"
-export PROJECT_DIR=`pwd`
-cd $PROJECT_DIR/deployment/local/runtime/gf1
-java -jar $PROJECT_DIR/applications/spring-gf-locator/target/spring-gf-locator-0.1.1-SNAPSHOT.jar --spring.profiles.active=site1
-```
 
 -----------------------
 
-Spring GemFure
+
+# Start GemFire
+
+
+Download and install GemFire 10 and higher
+
+Set Env Variable $GEMFIRE_HOME to where GemFire is installed
 
 ```shell
-k apply -f deployment/cloud/k8/data-services/gemfire/redis/spring-redis/spring-gf-locator.yaml
+export GEMFIRE_HOME=/Users/devtools/repositories/IMDG/gemfire/vmware-gemfire-10.1.0
 ```
 
-----------------------
+Use wrapper script to start GemFire locally. It will also setup regions and PDX
 
 ```shell
-kubectl apply -f deployment/cloud/k8/data-services/rabbitmq/rabbitmq.yaml
-```
-
-```shell
-kubectl apply -f deployment/cloud/k8/apps/http-amqp-source/http-amqp-source.yaml
+./deployment/local/gemfire/start.sh
 ```

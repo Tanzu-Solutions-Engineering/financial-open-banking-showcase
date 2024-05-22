@@ -26,8 +26,16 @@ Site B
 kubectl config set-context --current --namespace=accounting-dc2
 ```
 
+-----------------------------
+
+# Demo 
+
+Register SCDF Applications
+
+
 ```properties
 app.bank-account-app=docker:cloudnativedata/bank-account-rest-service:0.0.4-SNAPSHOT
+app.bank-account-http-source=docker:cloudnativedata/http-amqp-source:0.0.5-SNAPSHOT
 source.bank-account-http-source=docker:cloudnativedata/http-amqp-source:0.0.5-SNAPSHOT
 sink.bank-account-sink=docker:cloudnativedata/bank-account-sink:0.0.2-SNAPSHOT
 ```
@@ -75,6 +83,25 @@ Run in DC2
 ```shell
 ./deployment/cloud/k8/scripts/resilency-install-scdf-dc2.sh
 ```
+
+
+```properties
+app.account-global-service=docker:cloudnativedata/account.global.service:1.0.0
+app.account-global-consumer=docker:cloudnativedata/account.global.consumer:1.0.0
+```
+
+Stream
+
+```shell
+global-accounts=account-global-consumer || account-global-service
+```
+
+
+```shell
+deployer.account-global-service.kubernetes.secretKeyRefs=[{envVarName: 'POSTGRES_DB', secretName: 'postgres-db-app-user-db-secret', dataKey: 'database'}]
+deployer.account-global-service.kubernetes.environmentVariables=spring.profiles.active=redis,spring.data.redis.cluster.nodes=gemfire-server-0:6379,rabbitmq.streaming.replay=true,spring.application.name=bank-account-gemfire-sink,spring.cloud.stream.rabbit.bindings.input.consumer.container-type=stream,spring.cloud.stream.binder.connection-name-prefix=bank-account-gemfire-sink,spring.rabbitmq.stream.host=rabbitmq,spring.data.gemfire.pool.default.locators=gemfire-locator-0.gemfire-locator.accounting.svc.cluster.local[10334]
+```
+
 ------------------
 
 Post though source
@@ -82,7 +109,7 @@ Post though source
 ```shell
 export SOURCE_APP_HOST=`kubectl get services --namespace accounting  http-amqp-source-service --output jsonpath='{.status.loadBalancer.ingress[0].ip}'`
 ```
-banking-account
+bank-accounts.bank-account-http-source
 
 ```shell
 curl -X 'POST' \
