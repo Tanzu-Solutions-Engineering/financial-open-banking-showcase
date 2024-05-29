@@ -27,13 +27,14 @@
         <module>components/bank-account-service</module>
         <module>components/bank-account-gemfire-service</module>
         <module>components/bank-account-redis-service</module>
-        <module>applications/bank-account-rest-service</module>
+<!--        <module>applications/bank-account-rest-service</module>-->
         <module>applications/bank-account-sink</module>
         <module>applications/database-sor-migration</module>
         <module>applications/config-server</module>
         <module>applications/opening-banking-source-app</module>
         <module>applications/ai-mi/fraud-detection</module>
         <module>applications/ai-mi/fraud-ml-pipeline</module>
+        <module>applications/bank-account-api-service</module>
     </modules>
     <build>
         <pluginManagement>
