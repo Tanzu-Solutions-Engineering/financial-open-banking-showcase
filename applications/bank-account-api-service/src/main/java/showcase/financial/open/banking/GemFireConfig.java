@@ -15,6 +15,7 @@ import org.springframework.data.gemfire.client.ClientRegionFactoryBean;
 import org.springframework.data.gemfire.config.annotation.ClientCacheApplication;
 import org.springframework.data.gemfire.config.annotation.EnableContinuousQueries;
 import org.springframework.data.gemfire.config.annotation.EnablePdx;
+import org.springframework.data.gemfire.config.annotation.EnableSecurity;
 import org.springframework.data.gemfire.repository.config.EnableGemfireRepositories;
 
 @Profile("gemfire")
@@ -22,6 +23,7 @@ import org.springframework.data.gemfire.repository.config.EnableGemfireRepositor
 @EnableContinuousQueries
 @EnableGemfireRepositories(basePackageClasses = {AccountRepository.class})
 @ClientCacheApplication(subscriptionEnabled = true)
+@EnableSecurity
 @EnablePdx
 public class GemFireConfig {
 
