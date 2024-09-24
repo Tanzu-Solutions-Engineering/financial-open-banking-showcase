@@ -11,6 +11,7 @@
     <name>financial-open-banking-showcase-parent</name>
 
     <modules>
+        <module>components/transaction-domain</module>
         <module>components/atm-domain</module>
         <module>components/atm-service</module>
         <module>components/ai-ml/fraud-ml</module>
@@ -35,6 +36,7 @@
         <module>applications/ai-mi/fraud-detection</module>
         <module>applications/ai-mi/fraud-ml-pipeline</module>
         <module>applications/bank-account-api-service</module>
+        <module>applications/transaction-supplier</module>
     </modules>
     <build>
         <pluginManagement>

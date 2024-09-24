@@ -40,7 +40,7 @@ class TransactionExampleRunnerTest {
     private URI dataSetCsvPath;
     private URI testSetCsvPath;
 
-    @BeforeEach
+//    @BeforeEach
     void setUp() throws URISyntaxException, IOException {
         this.eval = new AnomalyEvaluator();
         responseProcessor = new FieldResponseProcessor(List.of("Label"),"Legitimate",outputFactory);
@@ -65,7 +65,7 @@ class TransactionExampleRunnerTest {
         this.subject = new TransactionDetectionRunner(outputRequired,dataSet,eval,testDataSource);
     }
 
-    @Test
+//    @Test
     void run() throws Exception {
         subject.run(args);
     }

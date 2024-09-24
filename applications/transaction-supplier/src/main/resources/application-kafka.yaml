@@ -1,0 +1,27 @@
+spring:
+  cloud:
+    function:
+      definition: bankTransactions
+    stream:
+      function:
+        bindings:
+          bankTransactions-in-0: input
+          bankTransactions-out-0: output
+      binder:
+        connection-name-prefix: ${spring.application.name}
+      bindings:
+#        input:
+#          binder: kafka
+#          destination: test
+#          content-type: text/plain
+#          group: bank-transactions
+        output:
+          binder: kafka
+          destination: bank-transactions
+          group: transaction-supplier
+          content-type: application/json
+      default-binder: kafka
+      kafka:
+        binder:
+          brokers:
+            - localhost:9092
