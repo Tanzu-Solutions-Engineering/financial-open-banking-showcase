@@ -6,6 +6,7 @@ import nyla.solutions.core.patterns.creational.generator.FullNameCreator;
 import nyla.solutions.core.patterns.creational.generator.JavaBeanGeneratorCreator;
 import nyla.solutions.core.patterns.creational.generator.PickRandomTextCreator;
 import nyla.solutions.core.util.Digits;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.function.context.config.JsonMessageConverter;
 import org.springframework.cloud.function.json.JsonMapper;
 import org.springframework.context.annotation.Bean;
@@ -13,12 +14,18 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.converter.MessageConverter;
 import showcase.financial.open.banking.transactions.Transaction;
 
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 
 @Configuration
 @Slf4j
 public class AppConfig {
 
+
+    private AtomicInteger count  = new AtomicInteger(0);
+
+    @Value("${transaction.supplier.max.count}")
+    private int maxCount;
 
     @Bean
     MessageConverter messageConverter(JsonMapper jsonMapper)
@@ -44,6 +51,7 @@ public class AppConfig {
                 .generateNestedAll()
                 .randomizeAll()
                 .creatorForProperty("name_on_card", new FullNameCreator())
+                .creatorForProperty("currency", ()-> "US")
                 .creatorForProperty("expiry_year",  () -> digits.generateShort(minYear,maxYear))
                 .creatorForProperty("expiry_month",  () -> digits.generateShort(minMonth,maxMonth))
                 .creatorForProperty("brand",  PickRandomTextCreator.options("Amex",
@@ -59,8 +67,13 @@ public class AppConfig {
     Supplier<Transaction> bankTransactions(Creator<Transaction> creator){
 
         return () -> {
+
+            if(count.get() >= maxCount)
+                return null;
+
             var transaction = creator.create();
-            log.info("Created transaction: {}",transaction);
+            log.info("Count: {}, Created transaction: {}",count.addAndGet(1),transaction);
+
             return transaction;
         };
     }
